@@ -287,7 +287,14 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      xiaowujian_0: -2028454596478375479
+      xiaowujian_1: -3327123615650617690
+      xiaowujian_2: -5170838215966993992
+      xiaowujian_3: 5754200994754791264
+      xiaowujian_4: 2059357961893153713
+      xiaowujian_5: 3061199736455390964
+      xiaowujian_6: 3220934789286536281
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

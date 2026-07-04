@@ -143,7 +143,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SnowDeco3_0: 2700880609106695019
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -143,7 +143,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      LargeYellowGrass_0: 470580517470345031
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

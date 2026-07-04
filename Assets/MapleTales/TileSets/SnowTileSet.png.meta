@@ -215,7 +215,11 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SnowTileSet_0: -1155309275048101842
+      SnowTileSet_1: -4611971636564103612
+      SnowTileSet_2: -2686035217925898736
+      SnowTileSet_3: -7700717854317373700
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

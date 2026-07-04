@@ -143,7 +143,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Asset_Decoration_Tall_Shelf_Alt1_0: 5777752114570019556
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

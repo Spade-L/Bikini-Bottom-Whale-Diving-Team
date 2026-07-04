@@ -215,7 +215,11 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      yizhi_0: -3754904163963365647
+      yizhi_1: 7228063584384028034
+      yizhi_2: 8599442240536539551
+      yizhi_3: 437364457729908508
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -143,7 +143,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Asset_Building_Wall_Alt2_0: -4776109548258870496
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
