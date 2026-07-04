@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68ba6c6c36e65794f9525ef4559b9b75, type: 3}
+  m_Name: Clue_roof_reflection
+  m_EditorClassIdentifier: 
+  clueId: roof_reflection
+  title: "\u73BB\u7483\u95E8\u4E0A\u7684\u5012\u5F71"
+  description: "\u5915\u9633\u7167\u5728\u810F\u73BB\u7483\u95E8\u4E0A\uFF0C\u53D8\u6210\u4E00\u9762\u955C\u5B50\u3002"
+  icon: {fileID: 0}
+  surfaceMeaning: "\u5012\u5F71\u91CC\u7684\u81EA\u5DF1\u2026\u2026\u5728\u5FAE\u7B11\u3002"
+  trueMeaning: "\u5012\u5F71\u91CC\u5FAE\u7B11\u7684\u4EBA\uFF0C\u5C31\u662F\u4F60\u8981\u627E\u7684\u4EBA\u3002"

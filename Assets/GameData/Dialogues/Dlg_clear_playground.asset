@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461e0625d8c4d5944a6365731ccf612b, type: 3}
+  m_Name: Dlg_clear_playground
+  m_EditorClassIdentifier: 
+  lines:
+  - character: {fileID: 0}
+    expression: 
+    speakerName: 
+    text: "\uFF08\u4F60\u671D\u51FA\u53E3\u8D70\u53BB\u3002\u8EAB\u540E\uFF0C\u65CB\u8F6C\u6728\u9A6C\u4E0A\u51FA\u73B0\u4E86\u4E00\u4E2A\u5750\u7740\u7684\u5F71\u5B50\u3002\uFF09"
+  - character: {fileID: 0}
+    expression: 
+    speakerName: 
+    text: "\uFF08\u5F71\u5B50\u671D\u4F60\u6325\u4E86\u6325\u624B\u3002\uFF09"
+  - character: {fileID: 0}
+    expression: 
+    speakerName: 
+    text: "\uFF08\u4F46\u4F60\u6CA1\u6709\u56DE\u5934\u3002\uFF09"
+  countsAsInvestigation: 0
+  setFlagsOnComplete: []
+  advanceTimeOnComplete: 0
+  grantCluesOnComplete: []

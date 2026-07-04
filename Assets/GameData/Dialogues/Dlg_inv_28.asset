@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461e0625d8c4d5944a6365731ccf612b, type: 3}
+  m_Name: Dlg_inv_28
+  m_EditorClassIdentifier: 
+  lines:
+  - character: {fileID: 0}
+    expression: 
+    speakerName: 
+    text: "\uFF08\u8EAB\u540E\u4F20\u6765\u4EC0\u4E48\u4E1C\u897F\u5408\u4E0A\u7684\u58F0\u97F3\u3002\u56DE\u53BB\u7684\u8DEF\uFF0C\u597D\u50CF\u5DF2\u7ECF\u4E0D\u5728\u4E86\u3002\uFF09"
+  - character: {fileID: 0}
+    expression: 
+    speakerName: "\u6211"
+    text: "\u2026\u2026\u53EA\u80FD\u5F80\u524D\u8D70\u4E86\u3002"
+  countsAsInvestigation: 0
+  setFlagsOnComplete: []
+  advanceTimeOnComplete: 0
+  grantCluesOnComplete: []

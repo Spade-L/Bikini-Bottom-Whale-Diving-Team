@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461e0625d8c4d5944a6365731ccf612b, type: 3}
+  m_Name: Dlg_school_board
+  m_EditorClassIdentifier: 
+  lines:
+  - character: {fileID: 0}
+    expression: 
+    speakerName: 
+    text: "\uFF08\u9ED1\u677F\u53F3\u4E0B\u89D2\uFF0C\u6709\u4E00\u884C\u6CA1\u5199\u5B8C\u7684\u7C89\u7B14\u5B57\u3002\u65E5\u5149\u706F\u5728\u5934\u9876\u95EA\u4E86\u4E00\u4E0B\u3002\uFF09"
+  - character: {fileID: 0}
+    expression: 
+    speakerName: "\u6211"
+    text: "\u8FD9\u7C89\u7B14\u5B57\u2026\u2026\u662F\u6211\u5199\u7684\u3002\u6211\u8BB0\u5F97\u8FD9\u7B14\u8FF9\u3002\u4F46\u6211\u4EC0\u4E48\u65F6\u5019\u5199\u7684\uFF1F"
+  countsAsInvestigation: 0
+  setFlagsOnComplete: []
+  advanceTimeOnComplete: 0
+  grantCluesOnComplete:
+  - {fileID: 11400000, guid: 9ba80ed6ecbc98f42a4b7f89b70358d7, type: 2}

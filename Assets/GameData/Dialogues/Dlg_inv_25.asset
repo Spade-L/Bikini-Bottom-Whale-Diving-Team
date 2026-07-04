@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461e0625d8c4d5944a6365731ccf612b, type: 3}
+  m_Name: Dlg_inv_25
+  m_EditorClassIdentifier: 
+  lines:
+  - character: {fileID: 0}
+    expression: 
+    speakerName: 
+    text: "\uFF08\u8FD9\u6B21\u66F4\u6E05\u6670\u4E86\u3002\u201C{sibling}\u201D\u7AD9\u5728\u4E00\u9762\u955C\u5B50\u524D\u3002\uFF09"
+  - character: {fileID: 0}
+    expression: 
+    speakerName: 
+    text: "\uFF08\u955C\u5B50\u91CC\u53CD\u5C04\u51FA\u6765\u7684\u8138\u2014\u2014\u662F\u4F60\u81EA\u5DF1\u7684\u8138\u3002\uFF09"
+  - character: {fileID: 0}
+    expression: 
+    speakerName: "\u6211"
+    text: "\u2026\u2026\u2026\u2026\u4E0D\u5BF9\u3002\u4E0D\u5BF9\u4E0D\u5BF9\u4E0D\u5BF9\u3002"
+  countsAsInvestigation: 0
+  setFlagsOnComplete: []
+  advanceTimeOnComplete: 0
+  grantCluesOnComplete: []

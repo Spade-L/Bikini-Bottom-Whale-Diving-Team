@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461e0625d8c4d5944a6365731ccf612b, type: 3}
+  m_Name: Dlg_alley_graffiti
+  m_EditorClassIdentifier: 
+  lines:
+  - character: {fileID: 0}
+    expression: 
+    speakerName: 
+    text: "\uFF08\u5DE6\u4FA7\u5899\u9762\u4E0A\u6709\u4E00\u884C\u9ED1\u8272\u9A6C\u514B\u7B14\u5B57\uFF1A\u201Cx\u2026\u5BF9\u4E0D\u8D77\u201D\u3002\u524D\u9762\u7684\u5B57\u6BCD\u88AB\u4EBA\u7528\u529B\u522E\u6389\u4E86\u3002\uFF09"
+  - character: {fileID: 0}
+    expression: 
+    speakerName: "\u6211"
+    text: "\u4EC0\u4E48\u2026\u2026\u5BF9\u4E0D\u8D77\uFF1F\u524D\u9762\u88AB\u522E\u6389\u4E86\u2026\u2026"
+  countsAsInvestigation: 0
+  setFlagsOnComplete: []
+  advanceTimeOnComplete: 0
+  grantCluesOnComplete:
+  - {fileID: 11400000, guid: d4454252bc21d21459758485c5a42ca2, type: 2}

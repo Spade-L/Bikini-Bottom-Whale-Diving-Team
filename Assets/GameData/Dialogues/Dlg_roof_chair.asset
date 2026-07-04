@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461e0625d8c4d5944a6365731ccf612b, type: 3}
+  m_Name: Dlg_roof_chair
+  m_EditorClassIdentifier: 
+  lines:
+  - character: {fileID: 0}
+    expression: 
+    speakerName: 
+    text: "\uFF08\u5929\u53F0\u6B63\u4E2D\u592E\u653E\u7740\u4E00\u628A\u65E7\u6728\u6905\uFF0C\u6905\u9762\u78E8\u5F97\u53D1\u4EAE\u3002\u98CE\u5F88\u5927\u3002\uFF09"
+  - character: {fileID: 0}
+    expression: 
+    speakerName: "\u6211"
+    text: "\u8FD9\u628A\u6905\u5B50\u653E\u5728\u8FD9\u91CC\u591A\u4E45\u4E86\uFF1F\u2026\u2026\u50CF\u662F\u6709\u4EBA\u5E38\u5E74\u5750\u5728\u8FD9\u91CC\u3002"
+  countsAsInvestigation: 0
+  setFlagsOnComplete: []
+  advanceTimeOnComplete: 0
+  grantCluesOnComplete:
+  - {fileID: 11400000, guid: 4e2f89812949d664a91471d464d8129b, type: 2}

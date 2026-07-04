@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461e0625d8c4d5944a6365731ccf612b, type: 3}
+  m_Name: Dlg_home_marks
+  m_EditorClassIdentifier: 
+  lines:
+  - character: {fileID: 0}
+    expression: 
+    speakerName: 
+    text: "\uFF08\u95E8\u6846\u4FA7\u9762\u6709\u5341\u51E0\u6761\u523B\u75D5\uFF0C\u4ECE\u4F4E\u5230\u9AD8\u3002\u6700\u9AD8\u7684\u4E00\u6761\u65C1\u8FB9\u5199\u7740\u2014\u201418\u5C81\u3002\uFF09"
+  - character: {fileID: 0}
+    expression: 
+    speakerName: "\u6211"
+    text: "\u8FD9\u4E9B\u523B\u75D5\u2026\u2026\u6700\u9AD8\u7684\u90A3\u6761\u6807\u774018\u5C81\u3002{sibling}\u8D70\u7684\u65F6\u5019\u5C31\u662F18\u5C81\u3002"
+  countsAsInvestigation: 0
+  setFlagsOnComplete: []
+  advanceTimeOnComplete: 0
+  grantCluesOnComplete:
+  - {fileID: 11400000, guid: f781c75bbbc39d24fa58e9e5cf3e8b90, type: 2}
