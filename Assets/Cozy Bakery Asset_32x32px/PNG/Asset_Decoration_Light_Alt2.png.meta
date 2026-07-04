@@ -191,10 +191,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      Asset_Decoration_Light_Alt2_0: -8248072422618471825
-      Asset_Decoration_Light_Alt2_1: -2335232271563056429
-      Asset_Decoration_Light_Alt2_2: 4984437126176690900
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -70,7 +70,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -407,19 +407,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      "oc \u50CF\u7D20\u5C0F\u4EBA\u900F\u660E\u5E95_0": 8780054948924725811
-      "oc \u50CF\u7D20\u5C0F\u4EBA\u900F\u660E\u5E95_1": -3188479007519895904
-      "oc \u50CF\u7D20\u5C0F\u4EBA\u900F\u660E\u5E95_10": 1685729871079090873
-      "oc \u50CF\u7D20\u5C0F\u4EBA\u900F\u660E\u5E95_11": 2585304783161325791
-      "oc \u50CF\u7D20\u5C0F\u4EBA\u900F\u660E\u5E95_2": -7542175737752339544
-      "oc \u50CF\u7D20\u5C0F\u4EBA\u900F\u660E\u5E95_3": -7040541160985232754
-      "oc \u50CF\u7D20\u5C0F\u4EBA\u900F\u660E\u5E95_4": 6812849112986518149
-      "oc \u50CF\u7D20\u5C0F\u4EBA\u900F\u660E\u5E95_5": -380765319325559221
-      "oc \u50CF\u7D20\u5C0F\u4EBA\u900F\u660E\u5E95_6": -971215777488300823
-      "oc \u50CF\u7D20\u5C0F\u4EBA\u900F\u660E\u5E95_7": -5287853521424204019
-      "oc \u50CF\u7D20\u5C0F\u4EBA\u900F\u660E\u5E95_8": -5812719251193638399
-      "oc \u50CF\u7D20\u5C0F\u4EBA\u900F\u660E\u5E95_9": 8923713389948166005
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

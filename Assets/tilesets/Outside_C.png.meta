@@ -623,28 +623,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      Outside_C_0: 5455720012935621085
-      Outside_C_1: -547236924215566790
-      Outside_C_10: 5026277444285018299
-      Outside_C_11: -8096645244853532460
-      Outside_C_12: -5417710107584873204
-      Outside_C_13: -5472407605877548318
-      Outside_C_14: 5960669117792338571
-      Outside_C_15: 7126032673847890894
-      Outside_C_16: -3219070972002385432
-      Outside_C_17: -6659800573414185730
-      Outside_C_18: -8417192991868629870
-      Outside_C_19: -6985168304851523127
-      Outside_C_2: -532268329017824590
-      Outside_C_20: -7921603228185325714
-      Outside_C_3: 7216565721227024462
-      Outside_C_4: 1742881677599065029
-      Outside_C_5: -5722603841159082037
-      Outside_C_6: 4709267977261697025
-      Outside_C_7: 3745595631903048519
-      Outside_C_8: 4926512100107233019
-      Outside_C_9: -7603566406865843512
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

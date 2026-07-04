@@ -263,13 +263,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      Character-Sheet_0: 541688391007120566
-      Character-Sheet_1: -3719565660891659556
-      Character-Sheet_2: 1305277653177561927
-      Character-Sheet_3: 2804660254698535036
-      Character-Sheet_4: -1615809118287028321
-      Character-Sheet_5: -8563559262465127334
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

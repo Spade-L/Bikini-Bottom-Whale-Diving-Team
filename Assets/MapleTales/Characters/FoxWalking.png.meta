@@ -311,15 +311,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      FoxWalking_0: 312271201367361344
-      FoxWalking_1: -8317085010438645744
-      FoxWalking_2: 4073523564446323133
-      FoxWalking_3: -8203750807136934316
-      FoxWalking_4: 4159176056912367732
-      FoxWalking_5: -7499183627177608364
-      FoxWalking_6: -1357393963112539285
-      FoxWalking_7: -6793155868158843249
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -263,32 +263,9 @@ Locked By Flag=`lock_home_items`，Locked Dialogue=`Dlg_home_locked`
 | `Locked Dialogue` | "门锁着……好像还缺少什么线索。"（不勾计数） |
 | `Enter Dialogue` | 进门前的过场独白（可空，播完才切场景） |
 
-### 16. PlayerMovement2D.cs（根目录）— 玩家移动 + 四向动画
-**配置**：玩家物体挂 Rigidbody2D（脚本自动设零重力）+ SpriteRenderer + Animator + 本脚本 + Tag 设 `Player`。
-`Move Speed` 移速；`Allow Diagonal Movement` 是否允许斜走。
-
-**四向动画（Player 预制体已配好）**：
-- `Animator`：可留空，自动取同物体上的 Animator（控制器用 `Image/前进.controller`）
-- `Walk Down/Up/Left/Right State`：四个行走动画在控制器里的状态名，默认 `前进`/`背身`/`左走`/`右走`
-- `Idle Down/Up/Left/Right`：停下时按最后朝向显示的静止帧，已配：
-  下=`oc 像素小人透明底_2`、上=`_10`、左=`_4`、右=`_7`
-
-**机制**：移动时脚本直接 `Animator.Play(方向状态)`，不依赖控制器里的过渡连线（连线可以留着不管）；
-停下时关闭 Animator 并把 Sprite 换成对应朝向的静止帧。斜走时水平方向优先。
-
-### 17. SceneMusic.cs（Scene/）— 场景背景音乐配置
-**作用**：声明本场景播放哪些 BGM。进入场景时交给 MusicManager 随机循环播放。
-
-**配置**（每个场景放一个空物体 `SceneMusic` 挂上）：
-| 字段 | 说明 |
-|---|---|
-| `Music Clips` | 本场景 BGM 列表，多首时随机播放（不会连续重复同一首） |
-| `Volume` | 音量（默认 0.8） |
-| `Fade Duration` | 切换音乐的淡入淡出秒数（默认 1） |
-| `Silence` | 勾选 = 本场景静音（淡出上个场景的音乐） |
-
-**机制**：相邻两个场景配置**相同的列表**时，过门音乐不中断、无缝延续；
-列表不同才做「旧淡出 → 新淡入」。没放 SceneMusic 的场景会延续上个场景的音乐。
+### 16. PlayerMovement2D.cs（根目录）— 玩家移动（原有，未改）
+**配置**：玩家物体挂 Rigidbody2D（脚本自动设零重力）+ 本脚本 + Tag 设 `Player`。
+`Move Speed` 移速；`Allow Diagonal Movement` 是否允许斜走；`Animator` 可空（有走路动画再接）。
 
 ---
 
@@ -329,12 +306,6 @@ Locked By Flag=`lock_home_items`，Locked Dialogue=`Dlg_home_locked`
 - 渐变期间玩家移动锁定、UI 点击被拦截；SceneIntro 会等渐亮结束才播开场白
 代码调用：`ScreenFader.Instance.FadeOutThen(回调)`（渐黑后做事）、
 `FadeOutIn(回调)`（黑一下，全黑时做事）。默认时长 0.5 秒。
-
-### MusicManager.cs（Core/）— 全局背景音乐管理器（自动创建，不挂物体）
-游戏启动时自动生成常驻的音乐播放器，**无需任何场景配置**——场景里只放 SceneMusic（见第 17 节）即可：
-- 列表内随机选曲，一首播完自动随机下一首（不会连续重复同一首）
-- 切换列表时旧音乐淡出、新音乐淡入；相同列表跨场景无缝延续
-代码调用：`MusicManager.Instance.PlayPlaylist(clips, 音量, 淡变秒数)`、`StopMusic(淡变秒数)`。
 
 ### ContentGenerator.cs（Editor/）— 内容资产生成器（编辑器专用）
 菜单栏 **Trace Me > 生成全部内容资产**：按策划案一键生成/更新全部线索（24 条）、
