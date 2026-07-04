@@ -143,7 +143,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      jiaoshi_0: 5041582821372257235
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

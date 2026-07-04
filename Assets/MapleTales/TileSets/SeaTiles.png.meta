@@ -143,7 +143,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SeaTiles_0: 4523496039598811276
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

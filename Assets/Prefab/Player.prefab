@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 63540543274932492}
   - component: {fileID: 7335158809392967031}
   - component: {fileID: 7634458805362219870}
+  - component: {fileID: 6644556677889900112}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -176,4 +177,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 4
   allowDiagonalMovement: 0
-  animator: {fileID: 0}
+  animator: {fileID: 6644556677889900112}
+  walkDownState: "前进"
+  walkUpState: "背身"
+  walkLeftState: "左走"
+  walkRightState: "右走"
+  idleDown: {fileID: -7542175737752339544, guid: 9c024130f129d674a8afa430205e0dc0, type: 3}
+  idleUp: {fileID: 1685729871079090873, guid: 9c024130f129d674a8afa430205e0dc0, type: 3}
+  idleLeft: {fileID: 6812849112986518149, guid: 9c024130f129d674a8afa430205e0dc0, type: 3}
+  idleRight: {fileID: -5287853521424204019, guid: 9c024130f129d674a8afa430205e0dc0, type: 3}
+--- !u!95 &6644556677889900112
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887272988175805244}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 957651c7b5a264c4ab4601e861ffb56e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage:
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

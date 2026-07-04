@@ -143,7 +143,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Dungeon_A2_0: -8283144533005008430
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
