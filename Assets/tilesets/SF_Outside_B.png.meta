@@ -1,0 +1,1855 @@
+fileFormatVersion: 2
+guid: 0ffe8bc0273710d4b8e7a665a6dd3b9b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1823365434983342086
+    second: SF_Outside_B_0
+  - first:
+      213: 9092455744534271436
+    second: SF_Outside_B_1
+  - first:
+      213: -2993723976589693272
+    second: SF_Outside_B_2
+  - first:
+      213: -451539149362367148
+    second: SF_Outside_B_3
+  - first:
+      213: -735893530876992331
+    second: SF_Outside_B_4
+  - first:
+      213: -4115245959211790070
+    second: SF_Outside_B_5
+  - first:
+      213: 3602155535021646782
+    second: SF_Outside_B_6
+  - first:
+      213: -3409947358993074563
+    second: SF_Outside_B_7
+  - first:
+      213: -7811412049774510096
+    second: SF_Outside_B_8
+  - first:
+      213: 6890169015389710848
+    second: SF_Outside_B_9
+  - first:
+      213: -6496932843835222044
+    second: SF_Outside_B_10
+  - first:
+      213: -2220612180825103450
+    second: SF_Outside_B_11
+  - first:
+      213: 4173854224562343623
+    second: SF_Outside_B_12
+  - first:
+      213: -5732787670603819619
+    second: SF_Outside_B_13
+  - first:
+      213: -3108957868007273720
+    second: SF_Outside_B_14
+  - first:
+      213: -2450513856930476041
+    second: SF_Outside_B_15
+  - first:
+      213: -1370202050760627200
+    second: SF_Outside_B_16
+  - first:
+      213: -5452031007043616999
+    second: SF_Outside_B_17
+  - first:
+      213: -9182609207052761010
+    second: SF_Outside_B_18
+  - first:
+      213: -55254404191887266
+    second: SF_Outside_B_19
+  - first:
+      213: -1753947355750554738
+    second: SF_Outside_B_20
+  - first:
+      213: 8352228295994360615
+    second: SF_Outside_B_21
+  - first:
+      213: -3609172703901370285
+    second: SF_Outside_B_22
+  - first:
+      213: 6301541810543382410
+    second: SF_Outside_B_23
+  - first:
+      213: -2713656702094016684
+    second: SF_Outside_B_24
+  - first:
+      213: -2371043982527004780
+    second: SF_Outside_B_25
+  - first:
+      213: 7049843388438551262
+    second: SF_Outside_B_26
+  - first:
+      213: -8673389775887694339
+    second: SF_Outside_B_27
+  - first:
+      213: 4416669771703127335
+    second: SF_Outside_B_28
+  - first:
+      213: 5320352870611099855
+    second: SF_Outside_B_29
+  - first:
+      213: 5576698790011678683
+    second: SF_Outside_B_30
+  - first:
+      213: 3764948525938215587
+    second: SF_Outside_B_31
+  - first:
+      213: 9208160877422921319
+    second: SF_Outside_B_32
+  - first:
+      213: -5385991575810793365
+    second: SF_Outside_B_33
+  - first:
+      213: 6400105984663655092
+    second: SF_Outside_B_34
+  - first:
+      213: -2907327145953212067
+    second: SF_Outside_B_35
+  - first:
+      213: -4107858193327841880
+    second: SF_Outside_B_36
+  - first:
+      213: -6036098235216162970
+    second: SF_Outside_B_37
+  - first:
+      213: -1738340585849448269
+    second: SF_Outside_B_38
+  - first:
+      213: 4958395174056871175
+    second: SF_Outside_B_39
+  - first:
+      213: -7528379993083225089
+    second: SF_Outside_B_40
+  - first:
+      213: -5244850475554110950
+    second: SF_Outside_B_41
+  - first:
+      213: 3997616709652184116
+    second: SF_Outside_B_42
+  - first:
+      213: 8461198179417998091
+    second: SF_Outside_B_43
+  - first:
+      213: -1758392086136321773
+    second: SF_Outside_B_44
+  - first:
+      213: -6721374057573255565
+    second: SF_Outside_B_45
+  - first:
+      213: -5220368160085756704
+    second: SF_Outside_B_46
+  - first:
+      213: 2114975613294101111
+    second: SF_Outside_B_47
+  - first:
+      213: -8823743419071945702
+    second: SF_Outside_B_48
+  - first:
+      213: 2276392522736303505
+    second: SF_Outside_B_49
+  - first:
+      213: 7410966531965045636
+    second: SF_Outside_B_50
+  - first:
+      213: -4164055404107364304
+    second: SF_Outside_B_51
+  - first:
+      213: -1606062034538736644
+    second: SF_Outside_B_52
+  - first:
+      213: -5244930062403467164
+    second: SF_Outside_B_53
+  - first:
+      213: 587882007479494964
+    second: SF_Outside_B_54
+  - first:
+      213: -479422753014795197
+    second: SF_Outside_B_55
+  - first:
+      213: 5658446861285425419
+    second: SF_Outside_B_56
+  - first:
+      213: 5154269911607558736
+    second: SF_Outside_B_57
+  - first:
+      213: 4091791777339974443
+    second: SF_Outside_B_58
+  - first:
+      213: 2808673713151232112
+    second: SF_Outside_B_59
+  - first:
+      213: -7299627039455913532
+    second: SF_Outside_B_60
+  - first:
+      213: 677771601469147250
+    second: SF_Outside_B_61
+  - first:
+      213: -7011460740527350530
+    second: SF_Outside_B_62
+  - first:
+      213: 3846048651524882327
+    second: SF_Outside_B_63
+  - first:
+      213: -3383929495171296255
+    second: SF_Outside_B_64
+  - first:
+      213: -3313955433981838441
+    second: SF_Outside_B_65
+  - first:
+      213: 7886037492442688767
+    second: SF_Outside_B_66
+  - first:
+      213: -7160872731654634177
+    second: SF_Outside_B_67
+  - first:
+      213: 1582403329305716634
+    second: SF_Outside_B_68
+  - first:
+      213: 353147468744615537
+    second: SF_Outside_B_69
+  - first:
+      213: 2267043284577020018
+    second: SF_Outside_B_70
+  - first:
+      213: 5099778176705474191
+    second: SF_Outside_B_71
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: SF_Outside_B_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 674
+        width: 48
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aff97182cca12b6e0800000000000000
+      internalID: -1823365434983342086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_1
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 528
+        width: 626
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc5dce46354ee2e70800000000000000
+      internalID: 9092455744534271436
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_2
+      rect:
+        serializedVersion: 2
+        x: 671
+        y: 623
+        width: 97
+        height: 145
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ae2dcb97e72476d0800000000000000
+      internalID: -2993723976589693272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 527
+        width: 385
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 455f218398fcbb9f0800000000000000
+      internalID: -451539149362367148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_4
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 527
+        width: 33
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b4a19b8bb499c5f0800000000000000
+      internalID: -735893530876992331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_5
+      rect:
+        serializedVersion: 2
+        x: 436
+        y: 527
+        width: 40
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a01d1d58a95b3e6c0800000000000000
+      internalID: -4115245959211790070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_6
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 527
+        width: 48
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb32ca2cf5d6df130800000000000000
+      internalID: 3602155535021646782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_7
+      rect:
+        serializedVersion: 2
+        x: 683
+        y: 575
+        width: 29
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d76bf6491fe6da0d0800000000000000
+      internalID: -3409947358993074563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_8
+      rect:
+        serializedVersion: 2
+        x: 727
+        y: 575
+        width: 36
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0fffbfa902a489390800000000000000
+      internalID: -7811412049774510096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_9
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 431
+        width: 47
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00ae4bcb63cce9f50800000000000000
+      internalID: 6890169015389710848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_10
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 431
+        width: 38
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e712a1300246d5a0800000000000000
+      internalID: -6496932843835222044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_11
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 479
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a3a302acfcce21e0800000000000000
+      internalID: -2220612180825103450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_12
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 479
+        width: 16
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ce4d4f9d428ce930800000000000000
+      internalID: 4173854224562343623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_13
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 479
+        width: 16
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d959be8bcfb0170b0800000000000000
+      internalID: -5732787670603819619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_14
+      rect:
+        serializedVersion: 2
+        x: 275
+        y: 467
+        width: 74
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80b45cf7a43cad4d0800000000000000
+      internalID: -3108957868007273720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_15
+      rect:
+        serializedVersion: 2
+        x: 481
+        y: 479
+        width: 94
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ff8c7861a60efdd0800000000000000
+      internalID: -2450513856930476041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_16
+      rect:
+        serializedVersion: 2
+        x: 671
+        y: 527
+        width: 97
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00ca6e59e701cfce0800000000000000
+      internalID: -1370202050760627200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_17
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 497
+        width: 49
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91fffb86fae7654b0800000000000000
+      internalID: -5452031007043616999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_18
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 484
+        width: 98
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e488366e391d09080800000000000000
+      internalID: -9182609207052761010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_19
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 431
+        width: 50
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e50edd18962bb3ff0800000000000000
+      internalID: -55254404191887266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_20
+      rect:
+        serializedVersion: 2
+        x: 626
+        y: 440
+        width: 45
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e83a0c93c2ab8a7e0800000000000000
+      internalID: -1753947355750554738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_21
+      rect:
+        serializedVersion: 2
+        x: 674
+        y: 437
+        width: 45
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 723c5b9126319e370800000000000000
+      internalID: 8352228295994360615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_22
+      rect:
+        serializedVersion: 2
+        x: 719
+        y: 435
+        width: 49
+        height: 91
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3583cea4c84a9edc0800000000000000
+      internalID: -3609172703901370285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_23
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 431
+        width: 49
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8fc5b2c3e2937750800000000000000
+      internalID: 6301541810543382410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_24
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 431
+        width: 98
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 45ff3556b97275ad0800000000000000
+      internalID: -2713656702094016684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_25
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 383
+        width: 146
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49f76aa6f0c581fd0800000000000000
+      internalID: -2371043982527004780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_26
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 437
+        width: 32
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eda140ac53316d160800000000000000
+      internalID: 7049843388438551262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_27
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 393
+        width: 43
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df585b1d3fde1a780800000000000000
+      internalID: -8673389775887694339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_28
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 385
+        width: 26
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 72d0290c1c92b4d30800000000000000
+      internalID: 4416669771703127335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_29
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 390
+        width: 38
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc021845fb0b5d940800000000000000
+      internalID: 5320352870611099855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_30
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 389
+        width: 30
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bdf2ffdb00a646d40800000000000000
+      internalID: 5576698790011678683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_31
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 386
+        width: 50
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3aa8d2e9cb8cf3430800000000000000
+      internalID: 3764948525938215587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_32
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 388
+        width: 42
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7664175f785f9cf70800000000000000
+      internalID: 9208160877422921319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_33
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 393
+        width: 42
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b602d80b23d1145b0800000000000000
+      internalID: -5385991575810793365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_34
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 383
+        width: 31
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b29abcdb7eb1d850800000000000000
+      internalID: 6400105984663655092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_35
+      rect:
+        serializedVersion: 2
+        x: 528
+        y: 383
+        width: 97
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d59cb9b4d5917a7d0800000000000000
+      internalID: -2907327145953212067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_36
+      rect:
+        serializedVersion: 2
+        x: 624
+        y: 384
+        width: 144
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ad140fccb4fdf6c0800000000000000
+      internalID: -4107858193327841880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_37
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 317
+        width: 47
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66f049cb2a87b3ca0800000000000000
+      internalID: -6036098235216162970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_38
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 311
+        width: 26
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b89cc1827c20e7e0800000000000000
+      internalID: -1738340585849448269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_39
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 315
+        width: 44
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 705cbadd322cfc440800000000000000
+      internalID: 4958395174056871175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_40
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 315
+        width: 41
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ffbdd1a8842d58790800000000000000
+      internalID: -7528379993083225089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_41
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 308
+        width: 98
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a120f88e74c8637b0800000000000000
+      internalID: -5244850475554110950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_42
+      rect:
+        serializedVersion: 2
+        x: 290
+        y: 317
+        width: 45
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43cfbf697336a7730800000000000000
+      internalID: 3997616709652184116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_43
+      rect:
+        serializedVersion: 2
+        x: 343
+        y: 307
+        width: 35
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0344623ae63c6570800000000000000
+      internalID: 8461198179417998091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_44
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 288
+        width: 98
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3198cf9c6bfe897e0800000000000000
+      internalID: -1758392086136321773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_45
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 287
+        width: 92
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 376f1dfe7e1e8b2a0800000000000000
+      internalID: -6721374057573255565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_46
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 287
+        width: 39
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e4345d21d68d87b0800000000000000
+      internalID: -5220368160085756704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_47
+      rect:
+        serializedVersion: 2
+        x: 624
+        y: 336
+        width: 144
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 772420b5d17e95d10800000000000000
+      internalID: 2114975613294101111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_48
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 157
+        width: 36
+        height: 132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a14a60d4c14cb8580800000000000000
+      internalID: -8823743419071945702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_49
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 157
+        width: 38
+        height: 132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19d7d0740fe579f10800000000000000
+      internalID: 2276392522736303505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_50
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 157
+        width: 38
+        height: 132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48bc51cbbca09d660800000000000000
+      internalID: 7410966531965045636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_51
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 66
+        width: 193
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 038822d0cad4636c0800000000000000
+      internalID: -4164055404107364304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_52
+      rect:
+        serializedVersion: 2
+        x: 635
+        y: 289
+        width: 78
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf3d310c61f16b9e0800000000000000
+      internalID: -1606062034538736644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_53
+      rect:
+        serializedVersion: 2
+        x: 719
+        y: 289
+        width: 49
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4688ca6a5e34637b0800000000000000
+      internalID: -5244930062403467164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_54
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 0
+        width: 338
+        height: 281
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 439a8a13293982800800000000000000
+      internalID: 587882007479494964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_55
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 151
+        width: 129
+        height: 136
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3443055db8fb859f0800000000000000
+      internalID: -479422753014795197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_56
+      rect:
+        serializedVersion: 2
+        x: 537
+        y: 239
+        width: 32
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b01875bc077d68e40800000000000000
+      internalID: 5658446861285425419
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_57
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 196
+        width: 20
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0524ad51d25a78740800000000000000
+      internalID: 5154269911607558736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_58
+      rect:
+        serializedVersion: 2
+        x: 549
+        y: 191
+        width: 25
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b23a63731f6f8c830800000000000000
+      internalID: 4091791777339974443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_59
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 95
+        width: 37
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0784b527cd96af620800000000000000
+      internalID: 2808673713151232112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_60
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 11
+        width: 145
+        height: 133
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c9d468f1e382ba90800000000000000
+      internalID: -7299627039455913532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_61
+      rect:
+        serializedVersion: 2
+        x: 528
+        y: 143
+        width: 48
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2788a683eade76900800000000000000
+      internalID: 677771601469147250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_62
+      rect:
+        serializedVersion: 2
+        x: 533
+        y: 95
+        width: 42
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: efc1544da9942be90800000000000000
+      internalID: -7011460740527350530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_63
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 55
+        width: 23
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79fb20f0fd8ef5530800000000000000
+      internalID: 3846048651524882327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_64
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 56
+        width: 22
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 104195f8d0ed901d0800000000000000
+      internalID: -3383929495171296255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_65
+      rect:
+        serializedVersion: 2
+        x: 532
+        y: 47
+        width: 42
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79b790447177202d0800000000000000
+      internalID: -3313955433981838441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_66
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 0
+        width: 40
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ffc657e3155d07d60800000000000000
+      internalID: 7886037492442688767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_67
+      rect:
+        serializedVersion: 2
+        x: 532
+        y: 0
+        width: 42
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f35c1f3c0387f9c90800000000000000
+      internalID: -7160872731654634177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_68
+      rect:
+        serializedVersion: 2
+        x: 578
+        y: 1
+        width: 44
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a97a9aea173d5f510800000000000000
+      internalID: 1582403329305716634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_69
+      rect:
+        serializedVersion: 2
+        x: 626
+        y: 1
+        width: 44
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 176e9d370c1a6e400800000000000000
+      internalID: 353147468744615537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_70
+      rect:
+        serializedVersion: 2
+        x: 674
+        y: 1
+        width: 44
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 278e5a32bd7267f10800000000000000
+      internalID: 2267043284577020018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SF_Outside_B_71
+      rect:
+        serializedVersion: 2
+        x: 722
+        y: 1
+        width: 44
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8ea1df5b3d06c640800000000000000
+      internalID: 5099778176705474191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

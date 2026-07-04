@@ -76,10 +76,18 @@ public class SceneDoor : MonoBehaviour
         if (string.IsNullOrEmpty(targetSceneName))
         {
             Debug.LogWarning($"[SceneDoor] {name} 未设置目标场景名");
+            isTransitioning = false;
             return;
         }
 
-        SceneManager.LoadScene(targetSceneName);
+        if (ScreenFader.Instance != null)
+        {
+            ScreenFader.Instance.FadeOutThen(() => SceneManager.LoadScene(targetSceneName));
+        }
+        else
+        {
+            SceneManager.LoadScene(targetSceneName);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

@@ -20,6 +20,14 @@ public class DialogueUIManager : MonoBehaviour
     [Header("立绘（对话框左侧）")]
     [SerializeField] private UnityEngine.UI.Image portraitImage;
 
+    [Header("主角立绘（说话人为「我」时自动使用）")]
+    [Tooltip("男主角（哥哥线）立绘资产")]
+    [SerializeField] private CharacterData protagonistMale;
+    [Tooltip("女主角（姐姐线）立绘资产，未设置 gender_female flag 时用男主角")]
+    [SerializeField] private CharacterData protagonistFemale;
+    [Tooltip("触发主角立绘的说话人名字")]
+    [SerializeField] private string protagonistSpeakerName = "我";
+
     [Header("打字机")]
     [SerializeField] private float charsPerSecond = 30f;
 
@@ -108,8 +116,9 @@ public class DialogueUIManager : MonoBehaviour
 
         if (portraitImage != null)
         {
-            Sprite portrait = line.character != null
-                ? line.character.GetPortrait(line.expression)
+            CharacterData character = ResolveCharacter(line);
+            Sprite portrait = character != null
+                ? character.GetPortrait(line.expression)
                 : null;
             portraitImage.sprite = portrait;
             portraitImage.gameObject.SetActive(portrait != null);
@@ -126,6 +135,27 @@ public class DialogueUIManager : MonoBehaviour
         }
 
         typingCoroutine = StartCoroutine(TypeLine(TextTokens.Resolve(line.text)));
+    }
+
+    /// <summary>
+    /// 决定本行用哪个立绘：行里直接指定的优先；
+    /// 否则说话人叫「我」时自动用主角立绘（按 gender_female flag 选男/女版）。
+    /// </summary>
+    private CharacterData ResolveCharacter(DialogueData.Line line)
+    {
+        if (line.character != null)
+        {
+            return line.character;
+        }
+
+        if (line.speakerName == protagonistSpeakerName)
+        {
+            bool female = GameManager.Instance != null
+                && GameManager.Instance.HasFlag(TextTokens.FemaleFlag);
+            return female && protagonistFemale != null ? protagonistFemale : protagonistMale;
+        }
+
+        return null;
     }
 
     private IEnumerator TypeLine(string text)

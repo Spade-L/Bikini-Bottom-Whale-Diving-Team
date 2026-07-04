@@ -20,6 +20,12 @@ public class SceneIntro : MonoBehaviour
     {
         yield return new WaitForSeconds(startDelay);
 
+        // 等入场黑幕渐亮结束，避免玩家在黑屏里错过对话开头
+        while (ScreenFader.IsFading)
+        {
+            yield return null;
+        }
+
         GameManager gm = GameManager.Instance;
         if (gm == null || introDialogue == null || gm.HasFlag(IntroFlag))
         {

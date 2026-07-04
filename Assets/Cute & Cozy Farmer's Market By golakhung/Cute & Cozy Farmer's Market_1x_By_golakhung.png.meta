@@ -1,0 +1,1495 @@
+fileFormatVersion: 2
+guid: fafa01cbdb258e549a83a356f986462f
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -597728146289486492
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_0
+  - first:
+      213: -7236071080869563450
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_1
+  - first:
+      213: 786889420306530981
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_2
+  - first:
+      213: 4056619174357043651
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_3
+  - first:
+      213: 1821001980803191439
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_4
+  - first:
+      213: 8680285259994724366
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_5
+  - first:
+      213: -215411823280654963
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_6
+  - first:
+      213: -5172012848397389381
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_7
+  - first:
+      213: -5627877124577924302
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_8
+  - first:
+      213: -9218695625817279584
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_9
+  - first:
+      213: 1947859437741821632
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_10
+  - first:
+      213: -5857767386474937794
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_11
+  - first:
+      213: 1371964047382561373
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_12
+  - first:
+      213: 811072496675855984
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_13
+  - first:
+      213: -614826696395861163
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_14
+  - first:
+      213: -853675684780922863
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_15
+  - first:
+      213: 8140756220313338524
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_16
+  - first:
+      213: 4905132509244997832
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_17
+  - first:
+      213: -6634535660002842415
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_18
+  - first:
+      213: -6129613701786473320
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_19
+  - first:
+      213: -4174896299482204943
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_20
+  - first:
+      213: -8125654076044953389
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_21
+  - first:
+      213: -558406066885734919
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_22
+  - first:
+      213: -1117296799843504668
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_23
+  - first:
+      213: 839740640645341603
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_24
+  - first:
+      213: 7349252599854006731
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_25
+  - first:
+      213: -8466363859724579162
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_26
+  - first:
+      213: -3472944181041036855
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_27
+  - first:
+      213: -9179023854278373895
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_28
+  - first:
+      213: -2788863448992172743
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_29
+  - first:
+      213: -2055157034972039799
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_30
+  - first:
+      213: -5533916389699671711
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_31
+  - first:
+      213: 6958618702016325775
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_32
+  - first:
+      213: 1792662135364879600
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_33
+  - first:
+      213: -2339112152216491724
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_34
+  - first:
+      213: -1394027391081798822
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_35
+  - first:
+      213: 6632455511405876868
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_36
+  - first:
+      213: -5483730461364450748
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_37
+  - first:
+      213: 4836962565536986687
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_38
+  - first:
+      213: -834498939038874889
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_39
+  - first:
+      213: -3598513271220096796
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_40
+  - first:
+      213: 5372204867186141372
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_41
+  - first:
+      213: 484210563993830557
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_42
+  - first:
+      213: -1203946397625255884
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_43
+  - first:
+      213: 989426124484704287
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_44
+  - first:
+      213: 828929879733286913
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_45
+  - first:
+      213: 2578574882202461902
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_46
+  - first:
+      213: -4858224033999647961
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_47
+  - first:
+      213: 4512146918596413589
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_48
+  - first:
+      213: -6452673353966328487
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_49
+  - first:
+      213: 6592164137089967823
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_50
+  - first:
+      213: -362868407324271114
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_51
+  - first:
+      213: -6363377048916964716
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_52
+  - first:
+      213: 1761082396796660620
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_53
+  - first:
+      213: 401593975075876851
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_54
+  - first:
+      213: 902179873520764413
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_55
+  - first:
+      213: -3181038324127188013
+    second: Cute & Cozy Farmer's Market_1x_By_golakhung_56
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 191
+        width: 82
+        height: 161
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4659928fa6174b7f0800000000000000
+      internalID: -597728146289486492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_1
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 225
+        width: 130
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c3fa47b0bf449b90800000000000000
+      internalID: -7236071080869563450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_2
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 287
+        width: 66
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a242e632c79bea00800000000000000
+      internalID: 786889420306530981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_3
+      rect:
+        serializedVersion: 2
+        x: 227
+        y: 319
+        width: 27
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c9079c65a10c4830800000000000000
+      internalID: 4056619174357043651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_4
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 287
+        width: 27
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f829e0947af754910800000000000000
+      internalID: 1821001980803191439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_5
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 287
+        width: 27
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e087b0f2471967870800000000000000
+      internalID: 8680285259994724366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_6
+      rect:
+        serializedVersion: 2
+        x: 292
+        y: 287
+        width: 26
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d85ffe88614b20df0800000000000000
+      internalID: -215411823280654963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_7
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 267
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb1748587b15938b0800000000000000
+      internalID: -5172012848397389381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_8
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 267
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23b6cfda293c5e1b0800000000000000
+      internalID: -5627877124577924302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_9
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 267
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a3b6bacb2d901080800000000000000
+      internalID: -9218695625817279584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_10
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 267
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ce4ef2a6df280b10800000000000000
+      internalID: 1947859437741821632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_11
+      rect:
+        serializedVersion: 2
+        x: 201
+        y: 235
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e320b48099705bea0800000000000000
+      internalID: -5857767386474937794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_12
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 235
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5248d838023a0310800000000000000
+      internalID: 1371964047382561373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_13
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 235
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07e14737322814b00800000000000000
+      internalID: 811072496675855984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_14
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 235
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 553d5ea8062b777f0800000000000000
+      internalID: -614826696395861163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_15
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 235
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 118ae37dc722724f0800000000000000
+      internalID: -853675684780922863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_16
+      rect:
+        serializedVersion: 2
+        x: 245
+        y: 235
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9204da96a6c9f070800000000000000
+      internalID: 8140756220313338524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_17
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 223
+        width: 27
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c0c4c55708821440800000000000000
+      internalID: 4905132509244997832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_18
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 169
+        width: 56
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d86edfe7f46de3a0800000000000000
+      internalID: -6634535660002842415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_19
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 159
+        width: 32
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89c66a670dc3feaa0800000000000000
+      internalID: -6129613701786473320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 127
+        width: 32
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f435476fe9cf06c0800000000000000
+      internalID: -4174896299482204943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_21
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 159
+        width: 32
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d8b2ad5ba0eb3f80800000000000000
+      internalID: -8125654076044953389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_22
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 127
+        width: 34
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fd4ad604a42048f0800000000000000
+      internalID: -558406066885734919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_23
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 127
+        width: 128
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4eda5a0fa709e70f0800000000000000
+      internalID: -1117296799843504668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_24
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 127
+        width: 32
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a1ef1dd9ab57ab00800000000000000
+      internalID: 839740640645341603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_25
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 95
+        width: 32
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc10ae23d4acdf560800000000000000
+      internalID: 7349252599854006731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_26
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 95
+        width: 32
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ae49e12dee618a80800000000000000
+      internalID: -8466363859724579162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_27
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 63
+        width: 65
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c10a44faaf9dcfc0800000000000000
+      internalID: -3472944181041036855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_28
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 104
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fd86e4ef6e8d9080800000000000000
+      internalID: -9179023854278373895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_29
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 101
+        width: 22
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93530cb1877fb49d0800000000000000
+      internalID: -2788863448992172743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_30
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 105
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 985b8dcb09d9a73e0800000000000000
+      internalID: -2055157034972039799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_31
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 106
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1692d3f0d549333b0800000000000000
+      internalID: -5533916389699671711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_32
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 95
+        width: 20
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f88a21557daf19060800000000000000
+      internalID: 6958618702016325775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_33
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 95
+        width: 20
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f487b4d6b0d0e810800000000000000
+      internalID: 1792662135364879600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_34
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 439265504edc98fd0800000000000000
+      internalID: -2339112152216491724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_35
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a53a763497b67ace0800000000000000
+      internalID: -1394027391081798822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_36
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 33
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 486dde9b5273b0c50800000000000000
+      internalID: 6632455511405876868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_37
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 0
+        width: 98
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44a026e0330e5e3b0800000000000000
+      internalID: -5483730461364450748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_38
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 63
+        width: 32
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f36b1b673d7502340800000000000000
+      internalID: 4836962565536986687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_39
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 63
+        width: 32
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f2c525e2a34b64f0800000000000000
+      internalID: -834498939038874889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_40
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 63
+        width: 22
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e0b56dde338f0ec0800000000000000
+      internalID: -3598513271220096796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_41
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 63
+        width: 32
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb821411dd7ed8a40800000000000000
+      internalID: 5372204867186141372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_42
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 63
+        width: 32
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d94085741f248b600800000000000000
+      internalID: 484210563993830557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_43
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 47
+        width: 31
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4387fe05129ba4fe0800000000000000
+      internalID: -1203946397625255884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_44
+      rect:
+        serializedVersion: 2
+        x: 249
+        y: 47
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f18f66961d52bbd00800000000000000
+      internalID: 989426124484704287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_45
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 47
+        width: 24
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 108b5317553f08b00800000000000000
+      internalID: 828929879733286913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_46
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 43
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec62c688130f8c320800000000000000
+      internalID: 2578574882202461902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_47
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 72b8f262bfe149cb0800000000000000
+      internalID: -4858224033999647961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_48
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 28
+        width: 18
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 598005157bd5e9e30800000000000000
+      internalID: 4512146918596413589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_49
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 27
+        width: 40
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9556535b5cf7376a0800000000000000
+      internalID: -6452673353966328487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_50
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 28
+        width: 14
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc6215c1b521c7b50800000000000000
+      internalID: 6592164137089967823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_51
+      rect:
+        serializedVersion: 2
+        x: 277
+        y: 28
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fd99392b15d6faf0800000000000000
+      internalID: -362868407324271114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_52
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 28
+        width: 27
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49a4e63e94eb0b7a0800000000000000
+      internalID: -6363377048916964716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_53
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 6
+        width: 18
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8b2249fb1f907810800000000000000
+      internalID: 1761082396796660620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_54
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 10
+        width: 21
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ffa554b79fb29500800000000000000
+      internalID: 401593975075876851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_55
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 10
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df546b4a0df258c00800000000000000
+      internalID: 902179873520764413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cute & Cozy Farmer's Market_1x_By_golakhung_56
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 6
+        width: 41
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3dbbe718f7eaad3d0800000000000000
+      internalID: -3181038324127188013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

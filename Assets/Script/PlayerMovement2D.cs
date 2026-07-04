@@ -32,8 +32,35 @@ public class PlayerMovement2D : MonoBehaviour
         rb.MovePosition(rb.position + moveInput * moveSpeed * Time.fixedDeltaTime);
     }
 
+    /// <summary>对话框打开、闪回演出或黑幕渐变期间禁止移动。</summary>
+    private bool IsMovementLocked()
+    {
+        if (DialogueUIManager.Instance != null && DialogueUIManager.Instance.IsDialogueOpen)
+        {
+            return true;
+        }
+
+        if (InvestigationDirector.Instance != null && InvestigationDirector.Instance.IsPlayingFlashback)
+        {
+            return true;
+        }
+
+        if (ScreenFader.IsFading)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     private void ReadMovementInput()
     {
+        if (IsMovementLocked())
+        {
+            moveInput = Vector2.zero;
+            return;
+        }
+
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 

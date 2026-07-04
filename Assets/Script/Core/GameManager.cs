@@ -10,6 +10,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    /// <summary>
+    /// 主菜单在 GameManager 诞生前记录的性别选择（true = 女性/姐姐线）。
+    /// GameManager Awake 时转正为 gender_female flag，之后随存档走。
+    /// </summary>
+    public static bool PendingFemaleSelection;
+
     [Header("线索数据库（所有 ClueData 都要登记在此）")]
     [SerializeField] private ClueDatabase clueDatabase;
 
@@ -43,6 +49,12 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        if (PendingFemaleSelection)
+        {
+            SetFlag(TextTokens.FemaleFlag);
+            PendingFemaleSelection = false;
+        }
     }
 
     // ---------- Flag ----------

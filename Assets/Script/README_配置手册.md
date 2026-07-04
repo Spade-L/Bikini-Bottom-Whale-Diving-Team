@@ -63,8 +63,12 @@
    - `ContinueIndicator`（小箭头图标，一行显示完才出现）
 3. 挂 DialogueUIManager 到 Canvas（或面板父物体），依次拖入上面引用
 4. `Chars Per Second`：打字速度（默认 30）；`Advance Key`：推进键（默认 E）
+5. **主角立绘**：`Protagonist Male` / `Protagonist Female` 拖入主角的 CharacterData 资产（男/女各一个）。
+   对话行的说话人名字是「我」（可通过 `Protagonist Speaker Name` 改）且行内没指定立绘时，
+   自动显示主角立绘；姐姐线（`gender_female` flag）自动切女版，女版没配则用男版
 
 **注意**：面板初始激活与否无所谓，Awake 会强制隐藏。名字/立绘/箭头引用都可留空（对应功能跳过）。
+**对话框打开或闪回演出期间，玩家移动自动禁用**（PlayerMovement2D 检测，无需配置）。
 
 ---
 
@@ -267,9 +271,23 @@ Locked By Flag=`lock_home_items`，Locked Dialogue=`Dlg_home_locked`
 
 ## 四、辅助/旧脚本
 
-### MainMenu.cs（Menu/）— 主菜单（原有）
-按钮 OnClick 绑 `StartGame()`（按 Build 序号加载场景）/`QuitGame()`。
-**待升级**：还没有"继续游戏"读档按钮和性别选择界面（女性 = 设置 `gender_female` flag），需要时我来加。
+### MainMenu.cs（Menu/）— 主菜单（含性别选择）
+**作用**：开始游戏 → 弹出性别选择面板 → 选「寻找哥哥/寻找姐姐」→ 进入游戏。
+选姐姐时 GameManager 会在创建时自动设置 `gender_female` flag，全部 `{sibling}` 文本变为姐姐、
+主角立绘用女版、随存档保存。
+
+**配置**（Menu 场景）：
+1. Canvas 下建 `GenderSelectPanel`（半透明底 + 标题"你要寻找的人是……" + 两个按钮 + 可选返回按钮），**默认隐藏**
+2. 挂 MainMenu 的物体上把面板拖给 `Gender Select Panel`
+3. 按钮 OnClick 绑定：
+   - 开始游戏按钮 → `MainMenu.StartGame`（现在只负责弹面板）
+   - 「寻找哥哥」→ `MainMenu.StartAsMale`
+   - 「寻找姐姐」→ `MainMenu.StartAsFemale`
+   - 返回 → `MainMenu.CancelGenderSelect`
+4. `Game Scene Index` = 1（Home 场景的 Build 序号）
+
+**不配面板也能跑**：Gender Select Panel 留空时点开始直接以哥哥线进入（向后兼容）。
+**待升级**：还没有"继续游戏"读档按钮。
 
 ### SceneIntro.cs（Scene/）— 场景开场白
 进入场景自动播一次「前提开头」独白（flag `intro_<sceneId>` 记录，只播一次）。
@@ -279,6 +297,15 @@ Locked By Flag=`lock_home_items`，Locked Dialogue=`Dlg_home_locked`
 ### TextTokens.cs（Core/）— 性别文本替换（静态类，不挂物体）
 所有对话/线索/闪回文本显示前自动把 `{sibling}`/`{ta}`/`{kin}` 替换为对应性别用词。
 无需配置；写文本时用占位符即可。
+
+### ScreenFader.cs（Core/）— 全局黑色渐变转场（自动创建，不挂物体）
+游戏启动时自动生成常驻的全屏黑色覆盖层（sortingOrder 9999），**无需任何场景配置**：
+- 每次场景加载完成自动「黑 → 渐亮」入场
+- SceneDoor 切场景自动「渐黑 → 切换」离场
+- 主菜单开始游戏/性别面板弹出关闭自动黑幕过渡
+- 渐变期间玩家移动锁定、UI 点击被拦截；SceneIntro 会等渐亮结束才播开场白
+代码调用：`ScreenFader.Instance.FadeOutThen(回调)`（渐黑后做事）、
+`FadeOutIn(回调)`（黑一下，全黑时做事）。默认时长 0.5 秒。
 
 ### ContentGenerator.cs（Editor/）— 内容资产生成器（编辑器专用）
 菜单栏 **Trace Me > 生成全部内容资产**：按策划案一键生成/更新全部线索（24 条）、
