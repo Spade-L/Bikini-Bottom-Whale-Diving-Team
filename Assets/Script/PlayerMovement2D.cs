@@ -21,8 +21,14 @@ public class PlayerMovement2D : MonoBehaviour
     [SerializeField] private Sprite idleLeft;
     [SerializeField] private Sprite idleRight;
 
+    [Header("行走脚步声（循环）")]
+    [SerializeField] private AudioClip footstepLoop;
+    [Range(0f, 1f)]
+    [SerializeField] private float footstepVolume = 0.5f;
+
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
+    private AudioSource footstepSource;
     private Vector2 moveInput;
     private Vector2 lastMoveDirection = Vector2.down;
     private string currentWalkState;
@@ -39,6 +45,13 @@ public class PlayerMovement2D : MonoBehaviour
         {
             animator = GetComponent<Animator>();
         }
+
+        footstepSource = gameObject.AddComponent<AudioSource>();
+        footstepSource.clip = footstepLoop;
+        footstepSource.loop = true;
+        footstepSource.playOnAwake = false;
+        footstepSource.spatialBlend = 0f;
+        footstepSource.volume = footstepVolume;
     }
 
     private void Start()
@@ -56,6 +69,7 @@ public class PlayerMovement2D : MonoBehaviour
     {
         ReadMovementInput();
         UpdateAnimator();
+        UpdateFootsteps();
     }
 
     private void FixedUpdate()
@@ -169,6 +183,26 @@ public class PlayerMovement2D : MonoBehaviour
         }
 
         return direction.y < 0f ? walkDownState : walkUpState;
+    }
+
+    private void UpdateFootsteps()
+    {
+        if (footstepSource == null || footstepSource.clip == null)
+        {
+            return;
+        }
+
+        bool moving = moveInput != Vector2.zero;
+
+        if (moving && !footstepSource.isPlaying)
+        {
+            footstepSource.volume = footstepVolume;
+            footstepSource.Play();
+        }
+        else if (!moving && footstepSource.isPlaying)
+        {
+            footstepSource.Stop();
+        }
     }
 
     private void ApplyIdleSprite()

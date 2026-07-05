@@ -72,12 +72,3 @@ MonoBehaviour:
       secondsPerImage: 1.2
       caption: 
     monologue: {fileID: 11400000, guid: 54c482b2ffdda3641861edfb647fdc03, type: 2}
-  - editorLabel: "\u7EC8\u95E8\u89E3\u9501"
-    threshold: 30
-    setFlags:
-    - final_door_open
-    flashback:
-      images: []
-      secondsPerImage: 1.2
-      caption: 
-    monologue: {fileID: 0}

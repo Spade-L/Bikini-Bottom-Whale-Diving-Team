@@ -10,7 +10,9 @@ using UnityEngine;
 /// 20 由 NPC 状态条件实现（requiredFlags: inv_reached_20）
 /// 25 第三次回溯（镜子）
 /// 28 封锁 Flag: lock_early_scenes
-/// 30 解锁终局大门 Flag: final_door_open
+///
+/// 结局不再由调查次数决定（原第 30 阈值 final_door_open 已移除）——
+/// 结局在天台由 EndingGate 按「前五关线索完整度」判定真/坏结局。
 ///
 /// 每个阈值达成时自动设置 "inv_reached_<次数>" flag，场景物件可直接引用。
 /// </summary>

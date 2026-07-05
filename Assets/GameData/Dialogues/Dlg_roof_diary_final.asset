@@ -22,8 +22,7 @@ MonoBehaviour:
     speakerName: 
     text: "\u201C\u4F60\u7EC8\u4E8E\u8BA4\u51FA\u6211\u4E86\u3002\u201D"
   countsAsInvestigation: 0
-  setFlagsOnComplete:
-  - truth_revealed
+  setFlagsOnComplete: []
   advanceTimeOnComplete: 0
   grantCluesOnComplete:
   - {fileID: 11400000, guid: adc000d774ec85b43918e37a8117ed4a, type: 2}

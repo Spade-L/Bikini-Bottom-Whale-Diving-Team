@@ -248,12 +248,13 @@ public static class ContentGenerator
                 ("", "（那是你的脸。）"),
                 ("我", "…………")));
 
-        // 最后一条线索：设置 truth_revealed，线索日志全部切换为真相文本
+        // 最后一条线索：真相揭示交由天台的 EndingGate 判定后处理，此对话不直接设 flag。
+        // 全查过 → EndingGate 设 truth_revealed（真结局）；有遗漏 → 播 Dlg_bad_ending 回主菜单。
         Clue("roof_diary_final", "日记的最后一页",
             "再次翻开日记，最后一页的文字变了。",
             "“你终于认出我了。”",
             "你终于认出我了。",
-            Dlg("Dlg_roof_diary_final", false, new[] { "truth_revealed" },
+            Dlg("Dlg_roof_diary_final", false, null,
                 ("", "（你回到椅子边，再次翻开日记。最后一页的文字——变了。）"),
                 ("", "“你终于认出我了。”")));
     }
@@ -358,6 +359,13 @@ public static class ContentGenerator
 
         Dlg("Dlg_door_noreturn", false, null,
             ("", "（门推不开。像是有什么在告诉你——过去回不去了。）"));
+
+        // 坏结局：前五关未全部查过时，翻开日记最后一页触发（EndingGate 播完回主菜单）
+        Dlg("Dlg_bad_ending", false, null,
+            ("", "（你翻开最后一页。上面……什么都没有。）"),
+            ("我", "……"),
+            ("我", "这一切都是假的吧。{sibling}的下落，根本就查不出来。"),
+            ("我", "我被那封信骗了……"));
     }
 
     // ================== 事件表 & 数据库 ==================
@@ -375,7 +383,6 @@ public static class ContentGenerator
             Evt(18, "封锁·路人",   new[] { "lock_npc_talk" },     null,         null),
             Evt(25, "回溯3·镜子",   null,                          "Dlg_inv_25", null),
             Evt(28, "封锁·回头路", new[] { "lock_early_scenes" }, "Dlg_inv_28", null),
-            Evt(30, "终门解锁",     new[] { "final_door_open" },   null,         null),
         };
 
         EditorUtility.SetDirty(table);

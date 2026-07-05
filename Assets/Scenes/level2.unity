@@ -1028,7 +1028,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1766,7 +1766,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3779,6 +3779,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ff2d276e2a29d34429e55c17fe5d54ad, type: 2}
   progressText: {fileID: 0}
   progressFormat: "\u5BFB\u8E2A\u8FDB\u5EA6\uFF1A{0}/{1}"
+  requireTruthRevealed: 0
   brotherShadow: {fileID: 0}
   shadowDuration: 2
   blackout: {fileID: 633245799}
@@ -6034,6 +6035,8 @@ MonoBehaviour:
   protagonistFemale: {fileID: 0}
   protagonistSpeakerName: "\u6211"
   charsPerSecond: 30
+  openSound: {fileID: 8300000, guid: d2b8ec8681cadd8409820f92977601a8, type: 3}
+  openSoundVolume: 1
   advanceKey: 101
   reopenInputDelay: 0.1
 --- !u!4 &1689141795
@@ -8099,6 +8102,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5580206637214953793, guid: 5ffc8edc034218a4bbaf424c5660100c, type: 3}
+      propertyPath: footstepLoop
+      value: 
+      objectReference: {fileID: 8300000, guid: c863b5f7559070d40b2c82679b8be4a0, type: 3}
     - target: {fileID: 5998835483905830012, guid: 5ffc8edc034218a4bbaf424c5660100c, type: 3}
       propertyPath: m_Size.x
       value: 3.9650073

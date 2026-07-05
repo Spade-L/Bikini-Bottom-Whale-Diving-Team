@@ -128,6 +128,31 @@ public class GameManager : MonoBehaviour
         return collectedClueIds.Contains(clueId);
     }
 
+    /// <summary>
+    /// 前五关（家/学校/便利店/小巷/游乐场）的全部关键线索是否都已收集。
+    /// 判定口径：线索数据库里所有 ClueId 不以 "roof_" 开头的线索都已收集。
+    /// 天台结局分支用它区分「真结局（全查过）」与「坏结局（有遗漏）」。
+    /// </summary>
+    public bool HasCollectedAllPreRooftopClues()
+    {
+        if (clueDatabase == null)
+        {
+            return false;
+        }
+
+        foreach (ClueData clue in clueDatabase.AllClues)
+        {
+            if (clue != null
+                && !clue.ClueId.StartsWith("roof_")
+                && !HasClue(clue.ClueId))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public void CollectClue(ClueData clue)
     {
         if (clue == null || collectedClueIds.Contains(clue.ClueId))

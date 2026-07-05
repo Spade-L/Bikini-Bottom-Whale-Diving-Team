@@ -31,6 +31,12 @@ public class DialogueUIManager : MonoBehaviour
     [Header("打字机")]
     [SerializeField] private float charsPerSecond = 30f;
 
+    [Header("音效")]
+    [Tooltip("对话框弹出时播放一次的音效（不循环）")]
+    [SerializeField] private AudioClip openSound;
+    [Range(0f, 1f)]
+    [SerializeField] private float openSoundVolume = 1f;
+
     [Header("输入")]
     [SerializeField] private KeyCode advanceKey = KeyCode.E;
     [SerializeField] private float reopenInputDelay = 0.1f;
@@ -89,6 +95,11 @@ public class DialogueUIManager : MonoBehaviour
         if (dialoguePanel != null)
         {
             dialoguePanel.SetActive(true);
+        }
+
+        if (openSound != null && SfxManager.Instance != null)
+        {
+            SfxManager.Instance.Play(openSound, openSoundVolume);
         }
 
         ShowCurrentLine();
@@ -164,9 +175,13 @@ public class DialogueUIManager : MonoBehaviour
         dialogueText.text = text;
         dialogueText.maxVisibleCharacters = 0;
 
+        // 强制立即重建文本网格，否则 GetParsedText / textInfo 可能还是上一行的旧数据，
+        // 导致 totalChars 偏小、打字机提前停下（文字只显示一半）。
+        dialogueText.ForceMeshUpdate();
+        int totalChars = dialogueText.textInfo.characterCount;
+
         // 用 maxVisibleCharacters 而非逐字拼接，避免富文本标签被截断
         float visibleCount = 0f;
-        int totalChars = dialogueText.GetParsedText().Length;
 
         while (dialogueText.maxVisibleCharacters < totalChars)
         {

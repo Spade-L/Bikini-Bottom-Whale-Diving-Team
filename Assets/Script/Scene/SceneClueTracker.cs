@@ -20,6 +20,8 @@ public class SceneClueTracker : MonoBehaviour
     [SerializeField] private string progressFormat = "寻踪进度：{0}/{1}";
 
     [Header("通关演出")]
+    [Tooltip("勾选 = 只有 truth_revealed 已设置才播通关演出（天台专用：区分真/坏结局）")]
+    [SerializeField] private bool requireTruthRevealed = false;
     [Tooltip("“哥哥”的影子（场景里预放好，默认隐藏）")]
     [SerializeField] private GameObject brotherShadow;
     [Tooltip("影子展示秒数")]
@@ -49,6 +51,7 @@ public class SceneClueTracker : MonoBehaviour
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnClueCollected += HandleClueCollected;
+            GameManager.Instance.OnFlagSet += HandleFlagSet;
         }
 
         RefreshProgressUI();
@@ -59,6 +62,7 @@ public class SceneClueTracker : MonoBehaviour
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnClueCollected -= HandleClueCollected;
+            GameManager.Instance.OnFlagSet -= HandleFlagSet;
         }
     }
 
@@ -93,9 +97,28 @@ public class SceneClueTracker : MonoBehaviour
     private void HandleClueCollected(ClueData _)
     {
         RefreshProgressUI();
+        TryTriggerClear();
+    }
 
+    private void HandleFlagSet(string flag)
+    {
+        // 真相 flag 由 EndingGate 在真结局分支设置——此时天台线索已集齐，补触发通关演出
+        if (requireTruthRevealed && flag == "truth_revealed")
+        {
+            TryTriggerClear();
+        }
+    }
+
+    private void TryTriggerClear()
+    {
         GameManager gm = GameManager.Instance;
         if (gm == null || gm.HasFlag(ClearedFlag))
+        {
+            return;
+        }
+
+        // 天台专用门：坏结局不设 truth_revealed，集齐线索也不通关（交给 EndingGate 收尾）
+        if (requireTruthRevealed && !gm.HasFlag("truth_revealed"))
         {
             return;
         }

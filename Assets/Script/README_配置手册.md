@@ -66,6 +66,8 @@
 5. **主角立绘**：`Protagonist Male` / `Protagonist Female` 拖入主角的 CharacterData 资产（男/女各一个）。
    对话行的说话人名字是「我」（可通过 `Protagonist Speaker Name` 改）且行内没指定立绘时，
    自动显示主角立绘；姐姐线（`gender_female` flag）自动切女版，女版没配则用男版
+6. **对话框弹出音效**：`Open Sound` 拖入一个不循环的音效（每次对话框弹出播一次），
+   `Open Sound Volume` 调音量。留空 = 无音效。走 SfxManager 播放。
 
 **注意**：面板初始激活与否无所谓，Awake 会强制隐藏。名字/立绘/箭头引用都可留空（对应功能跳过）。
 **对话框打开或闪回演出期间，玩家移动自动禁用**（PlayerMovement2D 检测，无需配置）。
@@ -102,6 +104,8 @@
 5. `Blackout`：Canvas 下的全屏黑 Image + **CanvasGroup**（和闪回覆盖层分开建，避免冲突）
 6. `Shadow Duration` / `Blackout Fade Duration` / `Blackout Hold Duration`：演出节奏
 7. `Clear Monologue`：黑幕结束后的独白 DialogueData（可空；**不要勾**计数）
+8. `Require Truth Revealed`：**仅天台勾选**。勾选后只有 `truth_revealed` 已设置才播通关演出——
+   用于区分真/坏结局：坏结局不设 `truth_revealed`，即使集齐 6 条线索也不通关，交由 EndingGate 收尾。
 
 **机制**：演出会等对话和闪回都结束才开始；场景变化（门开、物件改变）靠通关 Flag 驱动，在黑幕遮挡期间完成切换。
 
@@ -276,6 +280,11 @@ Locked By Flag=`lock_home_items`，Locked Dialogue=`Dlg_home_locked`
 **机制**：移动时脚本直接 `Animator.Play(方向状态)`，不依赖控制器里的过渡连线（连线可以留着不管）；
 停下时关闭 Animator 并把 Sprite 换成对应朝向的静止帧。斜走时水平方向优先。
 
+**行走脚步声**：
+- `Footstep Loop`：拖入循环脚步音效 clip（可空 = 无脚步声）
+- `Footstep Volume`：脚步音量（默认 0.5）
+- 移动时自动循环播放，停下即停；对话/闪回/渐变导致移动锁定时脚步也随之停止。
+
 ### 17. SceneMusic.cs（Scene/）— 场景背景音乐配置
 **作用**：声明本场景播放哪些 BGM。进入场景时交给 MusicManager 随机循环播放。
 
@@ -289,6 +298,23 @@ Locked By Flag=`lock_home_items`，Locked Dialogue=`Dlg_home_locked`
 
 **机制**：相邻两个场景配置**相同的列表**时，过门音乐不中断、无缝延续；
 列表不同才做「旧淡出 → 新淡入」。没放 SceneMusic 的场景会延续上个场景的音乐。
+
+### 18. EndingGate.cs（Scene/）— 天台结局判定 ⭐ 结局核心
+**作用**：玩家翻开日记最后一页（收集 `roof_diary_final`）时接管，二选一：
+- **真结局**：前五关全部 18 条关键线索都查过 → 设置 `truth_revealed`（日志切真相文本），
+  天台的 SceneClueTracker（勾了 Require Truth Revealed）随后播通关演出。
+- **坏结局**：有任何遗漏 → 播「与自己的对话」独白 `Dlg_bad_ending`
+  （"……" / "这一切都是假的吧" / "我被那封信骗了……"），播完淡出**回主菜单**。
+
+**配置**（天台放一个空物体挂上）：
+| 字段 | 值 |
+|---|---|
+| `Final Clue Id` | `roof_diary_final`（默认，一般不用改） |
+| `Bad Ending` | 拖入 `Dlg_bad_ending` |
+| `Menu Scene Index` | 主菜单在 Build Settings 的序号（默认 0） |
+
+**判定口径**：前五关完整度 = 线索数据库里所有 ClueId **不以 `roof_` 开头**的线索都已收集。
+只统计带线索的 18 个关键点，装饰性调查点（不给线索的）不计入。
 
 ---
 
@@ -336,6 +362,23 @@ Locked By Flag=`lock_home_items`，Locked Dialogue=`Dlg_home_locked`
 - 切换列表时旧音乐淡出、新音乐淡入；相同列表跨场景无缝延续
 代码调用：`MusicManager.Instance.PlayPlaylist(clips, 音量, 淡变秒数)`、`StopMusic(淡变秒数)`。
 
+### SfxManager.cs（Core/）— 全局音效播放器（自动创建，不挂物体）
+游戏启动时自动生成常驻的一次性音效播放器，**无需任何场景配置**。
+供 UI 点击等音效使用：`SfxManager.Instance.Play(clip, 音量)`（PlayOneShot，叠加播放）。与背景音乐分开。
+
+### UIButtonClickSound.cs（UI/）— 按钮点击音效
+挂在任意带 Button 的物体上，配一个点击音效 clip，点击时通过 SfxManager 播放。
+用代码 `onClick.AddListener` 挂钩，**不占用按钮 Inspector 里的 OnClick 列表**（原有绑定不受影响）。
+
+**配置**：
+| 字段 | 说明 |
+|---|---|
+| `Click Clip` | 点击音效 |
+| `Volume` | 音量（默认 1） |
+
+**落地**：给每个需要音效的按钮挂上本组件并配 clip。Button 预制体的实例可统一配一次；
+主菜单里手工搭的开始/性别/退出/返回按钮若不是预制体实例，需分别挂上。
+
 ### ContentGenerator.cs（Editor/）— 内容资产生成器（编辑器专用）
 菜单栏 **Trace Me > 生成全部内容资产**：按策划案一键生成/更新全部线索（24 条）、
 对话（约 50 段）、事件表、线索数据库到 `Assets/GameData/`。
@@ -380,13 +423,14 @@ Locked By Flag=`lock_home_items`，Locked Dialogue=`Dlg_home_locked`
 
 ## 七、调查次数总账（设计校验）
 
-固定计数来源：**5 段开场白**（家→游乐场）+ **18 个关键物品**（4+4+3+3+4）= 到达天台门前**23 次**。
-终门需要 **30 次** → 前五个场景还需布置**至少 7 个「装饰性调查点」**——
-CluePickup2D，`Clue To Grant` 留空、`Disappear After Pickup` 不勾、计数保持勾选，
-配一段简短氛围独白（如便利店闪烁的灯、学校停在12:30的钟、游乐场打转的落叶）。
-建议每场景放 2 个（共 10 个），给玩家留探索余量；只放 7 个则必须全查才开终门。
+> **结局已改为「探索完整度」判定，不再依赖调查次数。**
+> 调查次数系统现在**只驱动 5/8/10/15/18/25/28 的闪回与封锁**，第 30 阈值（终门）已移除。
+> 结局在天台由 EndingGate 判定：前五关 18 条关键线索全查过 = 真结局，有遗漏 = 坏结局回主菜单。
 
-进入天台后：开场白 +1、6 条线索 +6（若之前不足 30，天台内也会补满）。阈值节奏：
+固定计数来源：**5 段开场白**（家→游乐场）+ **18 个关键物品**（4+4+3+3+4）= 到达天台前**23 次**，
+已足够触发到第 28 阈值（封锁回头路）。**装饰性调查点现在纯属氛围可选**，放不放都不影响结局。
+
+阈值节奏：
 
 | 累计 | 大约位置 | 触发 |
 |---|---|---|
@@ -396,10 +440,10 @@ CluePickup2D，`Clue To Grant` 留空、`Disappear After Pickup` 不勾、计数
 | 15 | 便利店中段 | 回溯2·便条 |
 | 18 | 小巷中段 | 路人消失 `lock_npc_talk` |
 | 25 | 游乐场收尾 | 回溯3·镜子 |
-| 28 | 游乐场收尾~天台门前 | 封锁回头路 `lock_early_scenes` |
-| 30 | 天台门前 | 终门解锁 `final_door_open` |
+| 28 | 游乐场收尾~天台前 | 封锁回头路 `lock_early_scenes` |
 
-> **校验规则：增删任何调查点后，确保「天台门之前可达到的总数 ≥ 30」，否则终局无法解锁。**
+> 装饰性调查点可选：CluePickup2D，`Clue To Grant` 留空、`Disappear After Pickup` 不勾、计数保持勾选，
+> 配一段氛围独白（便利店闪灯、学校停在12:30的钟、游乐场落叶）。给玩家探索余量，但不影响结局判定。
 
 ## 八、各场景接线表
 
@@ -483,11 +527,14 @@ Grant Clues On Complete 里，**Clue To Grant 留空**，避免重复发放。
 | 日记里的自画像 | `Dlg_roof_diary_page` | `roof_diary` | 与日记同位置再放一个触发器 |
 | 地上的脚印 | `Dlg_roof_footprints` | — | 楼梯口到椅子之间 |
 | 玻璃门上的倒影 | `Dlg_roof_reflection` | `roof_chair`, `roof_diary`, `roof_diary_page`, `roof_footprints` | 前四条集齐才出现 |
-| 日记的最后一页 | `Dlg_roof_diary_final` | `roof_reflection` | **对话会设置 `truth_revealed`**（日志切换真相文本） |
+| 日记的最后一页 | `Dlg_roof_diary_final` | `roof_reflection` | 收集时由 **EndingGate** 判定真/坏结局（对话本身不再设 flag） |
 
-- SceneClueTracker.Key Clues 填全部 6 条；集齐 → 影子演出 → 黑幕 → Clear Monologue = `Dlg_clear_rooftop`（结局独白+黑屏两句）
-- 终门（天台入口，在游乐场→天台之间或天台楼梯口）：requiredFlags = [`final_door_open`]
-- 结局后处理（回主菜单/制作名单）暂未实现，告诉我你想要的形式
+- SceneClueTracker.Key Clues 填全部 6 条；**勾 `Require Truth Revealed`**（只有真结局才播通关演出）；
+  Clear Monologue = `Dlg_clear_rooftop`（真结局尾声，结局独白+黑屏两句）
+- **EndingGate**（天台放空物体挂上）：拖 `Dlg_bad_ending`、Menu Scene Index=主菜单序号（0）
+  - 真结局：前五关 18 条线索全查过 → 设 `truth_revealed` → SceneClueTracker 播通关演出
+  - 坏结局：有遗漏 → 播 `Dlg_bad_ending`（"这一切都是假的吧…被那封信骗了…"）→ 淡出回主菜单
+- 天台入口门（游乐场→天台）：requiredFlags = [`scene_cleared_playground`]（不再用 `final_door_open`）
 
 ## 九、系统对话速查
 
@@ -499,11 +546,13 @@ Grant Clues On Complete 里，**Clue To Grant 留空**，避免重复发放。
 | `Dlg_door_noreturn` | 回头路被封 | 各场景"往回走"的门 Locked Dialogue |
 | `Dlg_intro_*` × 6 | 场景开场白（计数） | 各场景 SceneIntro |
 | `Dlg_clear_*` × 6 | 通关演出独白 | 各场景 SceneClueTracker |
+| `Dlg_bad_ending` | 坏结局「与自己的对话」 | 天台 EndingGate 的 Bad Ending |
 
 ## 十、待办清单（内容完成后）
 
-1. 主菜单：性别选择（女性 → `SetFlag("gender_female")`）+ 继续游戏按钮
+1. 主菜单：继续游戏按钮（读档，SaveSystem.HasSave 判断）
 2. 闪回美术图就绪后填入事件表各行的 Flashback.Images（文字版演出已可用）
-3. 结局黑屏后的收尾（回主菜单/制作名单）
+3. 真结局黑屏后的收尾（制作名单等，坏结局已实现回主菜单）
 4. NPC：策划案暂未写具体 NPC，第 20 次困惑台词的 NPC 待内容确定后配置
 5. 存档触发点（建议过门自动存档）
+6. 音频文件（脚步声、按钮点击、各场景 BGM）导入后拖到对应字段
