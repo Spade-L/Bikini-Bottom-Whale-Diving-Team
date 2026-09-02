@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 242c439da8465eb41be805f141204134
+guid: b6ad0f17d39f1904295fd864adaec30d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5041582821372257235
-    second: jiaoshi_0
+      213: -2008719976811965973
+    second: "\u63D2\u753B5 2_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: jiaoshi_0
+      name: "\u63D2\u753B5 2_0"
       rect:
         serializedVersion: 2
-        x: 39
+        x: 0
         y: 0
-        width: 1182
-        height: 1121
+        width: 8000
+        height: 5000
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -127,8 +127,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3d3ea955ddc47f540800000000000000
-      internalID: 5041582821372257235
+      spriteID: be154e0e2d79f14e0800000000000000
+      internalID: -2008719976811965973
       vertices: []
       indices: 
       edges: []
@@ -143,8 +143,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      jiaoshi_0: 5041582821372257235
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: 6762c6db66fa5a84bb998ca980472747
+guid: 4c3f43131fbc3034abfe2a9e7e7ede32
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3754904163963365647
-    second: yizhi_0
-  - first:
-      213: 7228063584384028034
-    second: yizhi_1
-  - first:
-      213: 8599442240536539551
-    second: yizhi_2
-  - first:
-      213: 437364457729908508
-    second: yizhi_3
+      213: -4188189294806726657
+    second: "\u63D2\u753B5 6_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -122,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: yizhi_0
+      name: "\u63D2\u753B5 6_0"
       rect:
         serializedVersion: 2
-        x: 11
-        y: 251
-        width: 92
-        height: 98
+        x: 5524
+        y: 2925
+        width: 395
+        height: 625
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -136,71 +127,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1f61455ae86e3ebc0800000000000000
-      internalID: -3754904163963365647
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: yizhi_1
-      rect:
-        serializedVersion: 2
-        x: 191
-        y: 251
-        width: 92
-        height: 98
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 28d8529b88d3f4460800000000000000
-      internalID: 7228063584384028034
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: yizhi_2
-      rect:
-        serializedVersion: 2
-        x: 35
-        y: 107
-        width: 92
-        height: 98
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f917bade72b575770800000000000000
-      internalID: 8599442240536539551
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: yizhi_3
-      rect:
-        serializedVersion: 2
-        x: 215
-        y: 107
-        width: 92
-        height: 98
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c1f5f5438a4d11600800000000000000
-      internalID: 437364457729908508
+      spriteID: ff783feb60090e5c0800000000000000
+      internalID: -4188189294806726657
       vertices: []
       indices: 
       edges: []
@@ -215,11 +143,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      yizhi_0: -3754904163963365647
-      yizhi_1: 7228063584384028034
-      yizhi_2: 8599442240536539551
-      yizhi_3: 437364457729908508
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
