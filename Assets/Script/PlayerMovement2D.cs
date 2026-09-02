@@ -3,10 +3,16 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement2D : MonoBehaviour
 {
+    // 移动参数。
+    // 速度控制。
+    // 斜向开关。
     [Header("移动设置")]
     [SerializeField] private float moveSpeed = 4f;
     [SerializeField] private bool allowDiagonalMovement = false;
 
+    // 动画引用。
+    // 四向状态。
+    // 可选配置。
     [Header("动画设置（可选）")]
     [SerializeField] private Animator animator;
     [Tooltip("四向行走动画在控制器中的状态名")]
@@ -15,24 +21,39 @@ public class PlayerMovement2D : MonoBehaviour
     [SerializeField] private string walkLeftState = "左走";
     [SerializeField] private string walkRightState = "右走";
 
+    // 待机贴图。
+    // 保留朝向。
+    // 四个方向。
     [Header("待机静止帧（停下时按最后朝向显示）")]
     [SerializeField] private Sprite idleDown;
     [SerializeField] private Sprite idleUp;
     [SerializeField] private Sprite idleLeft;
     [SerializeField] private Sprite idleRight;
 
+    // 脚步音效。
+    // 循环播放。
+    // 音量设置。
     [Header("行走脚步声（循环）")]
     [SerializeField] private AudioClip footstepLoop;
     [Range(0f, 1f)]
     [SerializeField] private float footstepVolume = 0.5f;
 
+    // 物理组件。
+    // 渲染组件。
+    // 音频组件。
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private AudioSource footstepSource;
+    // 当前输入。
+    // 最后朝向。
+    // 动画状态。
     private Vector2 moveInput;
     private Vector2 lastMoveDirection = Vector2.down;
     private string currentWalkState;
 
+    // 获取组件。
+    // 配置刚体。
+    // 准备音源。
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -54,6 +75,9 @@ public class PlayerMovement2D : MonoBehaviour
         footstepSource.volume = footstepVolume;
     }
 
+    // 初始化待机。
+    // 停用动画。
+    // 应用贴图。
     private void Start()
     {
         // 出生时静止：关掉 Animator，显示朝下的待机帧
@@ -65,6 +89,9 @@ public class PlayerMovement2D : MonoBehaviour
         ApplyIdleSprite();
     }
 
+    // 读取输入。
+    // 更新动画。
+    // 更新音效。
     private void Update()
     {
         ReadMovementInput();
@@ -72,11 +99,17 @@ public class PlayerMovement2D : MonoBehaviour
         UpdateFootsteps();
     }
 
+    // 执行物理移动。
+    // 使用固定步长。
     private void FixedUpdate()
     {
         rb.MovePosition(rb.position + moveInput * moveSpeed * Time.fixedDeltaTime);
     }
 
+    // 判断移动锁定。
+    // 对话期间锁定。
+    // 演出期间锁定。
+    // 渐变期间锁定。
     /// <summary>对话框打开、闪回演出或黑幕渐变期间禁止移动。</summary>
     private bool IsMovementLocked()
     {
@@ -98,6 +131,11 @@ public class PlayerMovement2D : MonoBehaviour
         return false;
     }
 
+    // 处理移动输入。
+    // 锁定时清零。
+    // 读取轴值。
+    // 限制斜向。
+    // 记录方向。
     private void ReadMovementInput()
     {
         if (IsMovementLocked())
@@ -129,6 +167,32 @@ public class PlayerMovement2D : MonoBehaviour
         }
     }
 
+    // 更新行走动画。
+    // 无组件时跳过。
+    // 移动时播放。
+    // 静止时待机。
+    // 同步显示。
+    // 避免重复。
+    // 方向明确。
+    // 及时切换。
+    // 保持稳定。
+    // 处理过渡。
+    // 防止覆盖。
+    // 回到目标。
+    // 清理状态。
+    // 应用待机。
+    // 逻辑独立。
+    // 每帧调用。
+    // 配置可选。
+    // 行走优先。
+    // 静止优先。
+    // 保持一致。
+    // 状态缓存。
+    // 避免闪烁。
+    // 朝向同步。
+    // 贴图优先。
+    // 动画可控。
+    // 结果直观。
     private void UpdateAnimator()
     {
         if (animator == null)
@@ -174,6 +238,9 @@ public class PlayerMovement2D : MonoBehaviour
         }
     }
 
+    // 匹配行走状态。
+    // 水平优先。
+    // 返回方向。
     private string ResolveWalkState(Vector2 direction)
     {
         // 斜向移动时以水平朝向优先
@@ -185,6 +252,10 @@ public class PlayerMovement2D : MonoBehaviour
         return direction.y < 0f ? walkDownState : walkUpState;
     }
 
+    // 更新脚步声音。
+    // 无音频时跳过。
+    // 移动时播放。
+    // 停止时关闭。
     private void UpdateFootsteps()
     {
         if (footstepSource == null || footstepSource.clip == null)
@@ -205,6 +276,10 @@ public class PlayerMovement2D : MonoBehaviour
         }
     }
 
+    // 应用待机贴图。
+    // 无渲染时跳过。
+    // 根据朝向选择。
+    // 贴图有效时应用。
     private void ApplyIdleSprite()
     {
         if (spriteRenderer == null)

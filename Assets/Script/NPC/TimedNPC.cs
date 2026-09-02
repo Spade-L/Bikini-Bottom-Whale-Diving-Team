@@ -13,6 +13,9 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class TimedNPC : MonoBehaviour
 {
+    // 状态数据。
+    // 供配置使用。
+    // 便于扩展。
     [System.Serializable]
     public class NPCState
     {
@@ -22,16 +25,28 @@ public class TimedNPC : MonoBehaviour
         public DialogueData dialogue;
     }
 
+    // NPC 标识。
+    // 用于剧情。
+    // 保持唯一。
     [Header("标识")]
     [SerializeField] private string npcId;
 
+    // 出现规则。
+    // 控制显示。
+    // 支持条件。
     [Header("整体出现条件（可留默认 = 一直出现）")]
     [Tooltip("不满足则 NPC 隐藏。例：forbiddenFlags 填 lock_npc_talk，调查 18 次后路人消失")]
     [SerializeField] private StoryCondition appearCondition = new StoryCondition();
 
+    // 状态集合。
+    // 顺序生效。
+    // 后项优先。
     [Header("状态列表（后面的优先级更高）")]
     [SerializeField] private NPCState[] states;
 
+    // 离开规则。
+    // 可被救援。
+    // 留下标记。
     [Header("离开设定（-1 = 永不离开）")]
     [Tooltip("时间段到达此值时，NPC 离开")]
     [SerializeField] private int departTimePeriod = -1;
@@ -40,43 +55,60 @@ public class TimedNPC : MonoBehaviour
     [Tooltip("NPC 离开后播放一次的告别对话（可选，需要场景中有其他触发方式则留空）")]
     [SerializeField] private DialogueData fallbackDialogue;
 
+    // 交互提示。
+    // 玩家标签。
+    // 范围判定。
     [Header("交互 UI")]
     [SerializeField] private GameObject interactionUI;
     [SerializeField] private string playerTag = "Player";
 
+    // 接近状态。
+    // 控制提示。
     private bool playerInRange;
 
+    // 离开标记。
+    // 动态生成。
     private string DepartedFlag => $"departed_{npcId}";
 
+    // 初始化碰撞。
+    // 默认隐藏。
     private void Awake()
     {
         GetComponent<BoxCollider2D>().isTrigger = true;
         HidePrompt();
     }
 
+    // 监听变化。
+    // 刷新初始状态。
     private void Start()
     {
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnTimeAdvanced += HandleStateMayChange;
-            GameManager.Instance.OnFlagSet += HandleFlagSet;
+            GameManager.Instance.OnFlagsChanged += HandleFlagsChanged;
         }
 
         RefreshPresence();
     }
 
+    // 解除监听。
+    // 避免残留。
     private void OnDestroy()
     {
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnTimeAdvanced -= HandleStateMayChange;
-            GameManager.Instance.OnFlagSet -= HandleFlagSet;
+            GameManager.Instance.OnFlagsChanged -= HandleFlagsChanged;
         }
     }
 
+    // 时间变化。
     private void HandleStateMayChange(int _) => RefreshPresence();
-    private void HandleFlagSet(string _) => RefreshPresence();
+    private void HandleFlagsChanged() => RefreshPresence();
 
+    // 同步存在状态。
+    // 检查救援结果。
+    // 更新场景显示。
     /// <summary>判定 NPC 当前是否在场，并同步离开 Flag。</summary>
     private void RefreshPresence()
     {
@@ -99,6 +131,9 @@ public class TimedNPC : MonoBehaviour
         gameObject.SetActive(!gm.HasFlag(DepartedFlag) && appearCondition.IsMet());
     }
 
+    // 选择当前状态。
+    // 按顺序覆盖。
+    // 返回匹配项。
     private NPCState GetActiveState()
     {
         if (states == null)
@@ -118,6 +153,14 @@ public class TimedNPC : MonoBehaviour
         return active;
     }
 
+    // 检查交互输入。
+    // 打开对应对话。
+    // 对话结束恢复。
+    // 持续检测。
+    // 需要按键。
+    // 条件满足。
+    // 状态有效。
+    // 安全恢复。
     private void Update()
     {
         if (!playerInRange || !Input.GetKeyDown(KeyCode.E))
@@ -146,6 +189,8 @@ public class TimedNPC : MonoBehaviour
         }
     }
 
+    // 玩家进入范围。
+    // 显示提示。
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag(playerTag))
@@ -155,6 +200,8 @@ public class TimedNPC : MonoBehaviour
         }
     }
 
+    // 玩家离开范围。
+    // 隐藏提示。
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag(playerTag))
@@ -164,6 +211,8 @@ public class TimedNPC : MonoBehaviour
         }
     }
 
+    // 显示交互提示。
+    // 检查对象。
     private void ShowPrompt()
     {
         if (interactionUI != null)
@@ -172,6 +221,8 @@ public class TimedNPC : MonoBehaviour
         }
     }
 
+    // 隐藏交互提示。
+    // 检查对象。
     private void HidePrompt()
     {
         if (interactionUI != null)

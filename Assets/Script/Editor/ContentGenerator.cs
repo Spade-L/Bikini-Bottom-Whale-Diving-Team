@@ -11,38 +11,171 @@ using UnityEngine;
 /// </summary>
 public static class ContentGenerator
 {
+    // 编辑器专用生成流程说明：
+    // 菜单命令只在 UNITY_EDITOR 条件下编译。
+    // 运行时程序集不会引用 UnityEditor API。
+    // 生成目标必须位于项目的 Assets 目录内。
+    // 目录由 AssetDatabase 以项目相对路径识别。
+    // 每次生成先确保所有目标目录存在。
+    // 已存在目录不会被删除或重建。
+    // 已存在资产会按相同路径重新加载。
+    // 重新加载不会替换该资产的 .meta 文件。
+    // 因此 Unity 会保持原有资产 GUID。
+    // 场景、预制体和其他资产的 GUID 引用可继续有效。
+    // 同路径重复生成只更新可写入的序列化字段。
+    // 生成器不会自动保留这些字段的手动改动。
+    // 内容调整应修改本文件后重新执行菜单。
+    // 删除 .asset 会使下次生成创建新资产。
+    // 删除或重建 .meta 也会改变资产 GUID。
+    // GUID 变化后，现有序列化引用需要重新关联。
+    // allClues 仅保存本轮生成期间的内存引用。
+    // Clear 不会删除任何已创建的线索资产。
+    // 场景方法按固定顺序填充该内存列表。
+    // 数据库在全部线索生成后一次性写入。
+    // 该顺序也会成为数据库的默认线索顺序。
+    // 对话必须先创建，线索才能引用其完成奖励。
+    // 事件表也必须在对应对话创建后生成。
+    // SerializedObject 用于访问私有序列化字段。
+    // ApplyModifiedPropertiesWithoutUndo 不创建编辑器撤销记录。
+    // EditorUtility.SetDirty 只标记资产待保存。
+    // SaveAssets 才会统一写入磁盘。
+    // Refresh 让导入管线和 Project 窗口识别新增资产。
+    // 本工具不会保存或打开场景。
+    // 本工具不会执行运行时对白、拾取或事件逻辑。
+    // 本工具只生成由运行时系统消费的数据资产。
+    // 线索 ID 是运行时查找和存档使用的稳定键。
+    // 线索标题是面向界面显示的文本。
+    // 描述、表层含义和真相分别保存到数据字段。
+    // Dlg_ 前缀资产是可复用的对白数据。
+    // 空说话人名称表示旁白或环境文本。
+    // 对白行数组顺序就是运行时显示顺序。
+    // countsAsInvestigation 影响调查进度统计。
+    // setFlagsOnComplete 在对白结束时由运行时设置。
+    // grantCluesOnComplete 在对白结束时由运行时发放。
+    // 生成时会重置对白的这些可生成配置。
+    // 如需手动扩展，应在生成源中声明而非直接改资产。
+    // 文本占位符保留给运行时的玩家性别替换。
+    // 生成器不负责验证占位符是否被运行时支持。
+    // 事件阈值按调查数量触发，具体执行由运行时负责。
+    // 封锁 flag 的含义由对应运行时逻辑解释。
+    // FlashbackSequence 的图片配置可在事件数据中补充。
+    // 新建资产时 Unity 会创建对应的 .meta 文件。
+    // CreateAsset 仅应在目标路径没有资产时调用。
+    // LoadAssetAtPath 失败时才进入新建分支。
+    // 目录创建会拆分父路径和最后一级目录名。
+    // 目标父目录应已由前序 EnsureFolder 建立。
+    // 菜单可重复执行，但应在版本控制中提交生成结果。
+    // 合并资产改动时需注意同一数据字段的覆盖。
+    // 仅修改注释不会改变上述生成行为。
+    // 资产路径是 GUID 引用之外的加载定位依据。
+    // 保持路径稳定可避免生成器创建重复内容。
+    // 同名路径上的资产会在原对象上更新字段。
+    // AssetDatabase 调用只能在编辑器环境执行。
+    // 条件编译范围覆盖整个生成器类。
+    // 构建时该文件不会向玩家代码提供菜单功能。
+    // 生成前建议确认版本控制工作区状态。
+    // 生成后应检查新增资产及其 .meta 一并提交。
+    // 资源引用异常时先确认 .meta 未被重建。
+    // 手动移动资产前应同步更新这里的目录常量。
+    // 手动重命名对白资产会影响事件表加载路径。
+    // 线索资产名称由 Clue_ 加线索 ID 组成。
+    // 对话资产名称由调用时提供的名称组成。
+    // 同一线索 ID 不应在不同调用中重复使用。
+    // 同一资产路径不应被不同数据类型复用。
+    // 生成目录不应存放需要手工维护的同名资产。
+    // 生成器以代码内容为最终数据来源。
+    // 运行时读取的是生成后的 ScriptableObject 数据。
+    // 修改代码后未重新生成不会更新已有数据资产。
+    // Refresh 不会替代 SaveAssets 的持久化职责。
+    // SaveAssets 不会自动修复失效的场景引用。
+    // GUID 稳定性依赖保留既有 .asset 与 .meta 配对。
+    // 仅修改注释不会改变上述生成行为。
+    // 目录常量统一定义，避免各生成方法拼接出不一致的路径。
+    // Root 是全部游戏数据资产的共同父目录。
+    // ClueDir 专门保存可调查线索的 ScriptableObject 资产。
+    // DlgDir 专门保存对白数据资产。
+    // 路径均使用 Unity 识别的项目相对路径格式。
+    // 不要改为操作系统绝对路径，否则 AssetDatabase 无法定位资产。
+    // 目录名称变化时，旧资产需先在版本控制中完成迁移。
+    // 常量之间的拼接关系保持生成目标集中且易于维护。
+    // 这些路径仅用于编辑器生成流程。
+    // 运行时通过资产引用读取数据，不直接使用本组常量。
+    // 创建目录的责任由 GenerateAll 调用 EnsureFolder 承担。
+    // 同一目录下的资产名应保持唯一。
+    // 线索与对白分目录存放可避免同名资产冲突。
+    // 后续新增数据类别应声明独立目录常量。
+    // 保持目录结构稳定有助于减少资源迁移成本。
+    // 以下三个常量不承载可变运行时状态。
     private const string Root = "Assets/GameData";
     private const string ClueDir = Root + "/Clues";
     private const string DlgDir = Root + "/Dialogues";
 
+    // 本次生成临时收集线索，用于随后重建数据库的排序列表。
+    // 列表按各场景生成方法的调用顺序追加。
+    // 该顺序决定数据库中默认展示和处理的线索顺序。
+    // 此集合只在本次编辑器命令执行期间有效。
+    // GenerateAll 开始时会清空旧的内存引用。
+    // 列表不直接序列化到任何资产文件。
+    // 每个元素均为本轮加载或创建的 ClueData 实例。
+    // 数据库写入阶段会逐项复制这些对象引用。
+    // 生成流程结束后无需手动释放此静态集合。
+    // 重复执行菜单时会以新的完整顺序重新填充。
+    // 不应在场景生成方法之外随意插入临时线索。
+    // 线索数量日志也以该集合的数量为准。
+    // 保持此列表集中收集可避免数据库遗漏资产。
+    // 该集合不负责去重，调用方必须保证线索 ID 唯一。
+    // 清空集合不会影响已经写入磁盘的任何线索资产。
+    // 其职责仅是衔接线索生成和数据库生成两个阶段。
+    // 静态只读限定符保证集合实例本身不会被替换。
+    // 其中的元素仍会按生成逻辑被新增。
+    // 该设计避免每次添加线索时重复读取数据库资产。
+    // 数据库最终写入使用 SerializedObject 保持私有字段封装。
+    // 这里不保存对白引用，相关引用由 Clue 方法单独配置。
+    // 线索资产可被其他编辑器或运行时系统通过 GUID 引用。
+    // 因此列表中保存对象引用而非资产路径字符串。
+    // 本列表不承担资源生命周期或卸载职责。
+    // 编辑器域重载后列表会按下一次菜单执行重新建立。
+    // 执行结束后的下一次生成会自然覆盖其内存内容。
+    // 下面字段是本生成器唯一的线索汇总缓存。
     private static readonly List<ClueData> allClues = new List<ClueData>();
 
     [MenuItem("Trace Me/生成全部内容资产")]
+    // 仅能在编辑器菜单中运行；构建产物不会包含此脚本。
     public static void GenerateAll()
     {
+        // 先确保父目录存在，避免 CreateAsset 因路径缺失失败。
         EnsureFolder(Root);
         EnsureFolder(ClueDir);
         EnsureFolder(DlgDir);
+        // 清空的是内存列表，不会删除磁盘上的资产。
         allClues.Clear();
 
+        // 按场景顺序生成，数据库也保留这一稳定顺序。
         GenerateHome();
         GenerateSchool();
         GenerateStore();
         GenerateAlley();
         GeneratePlayground();
         GenerateRooftop();
+        // 开场与通关对白不属于单个可调查物品。
         GenerateSceneIntrosAndClears();
+        // 阈值、封锁和门等运行时系统使用独立对白资产。
         GenerateSystemDialogues();
+        // 事件表依赖前面已创建的对白资产。
         GenerateEventTable();
+        // 数据库最后写入，确保其引用的是本轮生成的线索。
         GenerateClueDatabase();
 
+        // SetDirty 仅标记变更；此处统一持久化到磁盘。
         AssetDatabase.SaveAssets();
+        // 刷新后 Project 窗口和导入管线才能立即识别新资产。
         AssetDatabase.Refresh();
         Debug.Log($"[ContentGenerator] 完成：{allClues.Count} 条线索及全部对话/事件表已生成到 {Root}");
     }
 
     // ================== 场景内容 ==================
 
+    // 家庭场景的四条可调查线索。
     private static void GenerateHome()
     {
         Clue("home_photo", "旧照片",
@@ -78,6 +211,7 @@ public static class ContentGenerator
                 ("我", "手环内侧有刻字……我的名字缩写，和{sibling}的名字缩写是一样的……不愧是{kin}。")));
     }
 
+    // 学校场景的四条可调查线索。
     private static void GenerateSchool()
     {
         Clue("school_desk", "课桌刻字",
@@ -114,6 +248,7 @@ public static class ContentGenerator
                 ("我", "这粉笔字……是我写的。我记得这笔迹。但我什么时候写的？")));
     }
 
+    // 便利店场景的三条可调查线索。
     private static void GenerateStore()
     {
         Clue("store_note", "收银台便条",
@@ -141,6 +276,7 @@ public static class ContentGenerator
                 ("我", "……刚好是我的手掌大小。指纹方向……是往外推门的。")));
     }
 
+    // 小巷场景的三条可调查线索。
     private static void GenerateAlley()
     {
         Clue("alley_graffiti", "墙上的涂鸦",
@@ -169,6 +305,7 @@ public static class ContentGenerator
                 ("我", "这张寻人启事……是谁贴的？")));
     }
 
+    // 游乐场场景的四条可调查线索。
     private static void GeneratePlayground()
     {
         Clue("pg_carousel", "旋转木马",
@@ -204,6 +341,7 @@ public static class ContentGenerator
                 ("我", "这些票根……都是同一场次的。……单人票。每一次都是单人票。")));
     }
 
+    // 天台场景承载最终线索与结局前置条件。
     private static void GenerateRooftop()
     {
         Clue("roof_chair", "椅子",
@@ -261,6 +399,7 @@ public static class ContentGenerator
 
     // ================== 开场白 & 通关独白 ==================
 
+    // 生成场景进入和清空后的非物品对白。
     private static void GenerateSceneIntrosAndClears()
     {
         // 开场白：勾选计数（6 个开场 + 24 个物品 = 恰好 30 次，与阈值表对齐）
@@ -325,6 +464,7 @@ public static class ContentGenerator
 
     // ================== 系统对话（阈值/封锁/门） ==================
 
+    // 生成由调查进度或关卡规则触发的对白。
     private static void GenerateSystemDialogues()
     {
         // 回溯闪回（暂以文字演出，美术闪回图就绪后填入事件表的 images 即可叠加）
@@ -370,6 +510,7 @@ public static class ContentGenerator
 
     // ================== 事件表 & 数据库 ==================
 
+    // 事件表中的对白名称必须与前面生成的资产名一致。
     private static void GenerateEventTable()
     {
         var table = GetOrCreate<InvestigationEventTable>(Root + "/InvestigationEventTable.asset");
@@ -403,6 +544,7 @@ public static class ContentGenerator
         };
     }
 
+    // 通过 SerializedObject 写入私有序列化字段，避免暴露运行时接口。
     private static void GenerateClueDatabase()
     {
         var db = GetOrCreate<ClueDatabase>(Root + "/ClueDatabase.asset");
@@ -419,6 +561,7 @@ public static class ContentGenerator
 
     // ================== 工具方法 ==================
 
+    // 每条线索与其调查对白建立双向生成顺序中的引用。
     private static ClueData Clue(string id, string title, string description,
         string surface, string truth, DialogueData inspectDialogue)
     {
@@ -443,6 +586,7 @@ public static class ContentGenerator
         return clue;
     }
 
+    // 每次执行都会覆盖此对白的可生成字段，手动修改应放在生成源中。
     private static DialogueData Dlg(string assetName, bool countsAsInvestigation,
         string[] setFlags, params (string speaker, string text)[] lines)
     {
@@ -467,11 +611,15 @@ public static class ContentGenerator
         return dlg;
     }
 
+    // 先按路径加载可保留既有 .meta 的 GUID；场景和其他资产引用不会因重复生成失效。
+    // 仅路径不存在时创建新资产；删除 .asset 或 .meta 后才会产生新的 GUID。
     private static T GetOrCreate<T>(string path) where T : ScriptableObject
     {
         var asset = AssetDatabase.LoadAssetAtPath<T>(path);
+        // CreateAsset 只能用于尚未存在的目标路径。
         if (asset == null)
         {
+            // 新建资产会由 Unity 同时创建对应的 .meta 文件。
             asset = ScriptableObject.CreateInstance<T>();
             AssetDatabase.CreateAsset(asset, path);
         }
@@ -479,8 +627,10 @@ public static class ContentGenerator
         return asset;
     }
 
+    // AssetDatabase 只接受项目内 Assets 下的规范路径。
     private static void EnsureFolder(string path)
     {
+        // 已存在时不操作，保证可重复执行。
         if (!AssetDatabase.IsValidFolder(path))
         {
             string parent = path.Substring(0, path.LastIndexOf('/'));

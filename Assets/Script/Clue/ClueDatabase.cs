@@ -8,10 +8,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ClueDatabase", menuName = "游戏数据/线索数据库")]
 public class ClueDatabase : ScriptableObject
 {
+    // 此列表是运行时以 ID 反查资产的唯一登记来源，需包含全部可存档线索。
+    // 列表项允许为空以便编辑期排查，但空项不会参与查找。
     [SerializeField] private List<ClueData> allClues = new List<ClueData>();
 
+    // 以只读接口暴露，调用方不应修改资产内部的登记顺序或内容。
     public IReadOnlyList<ClueData> AllClues => allClues;
 
+    /// <summary>
+    /// 按存档 ID 线性查找线索资产。
+    /// 存档加载依赖精确字符串匹配；重复 ID 会返回列表中最先登记的一项。
+    /// </summary>
     public ClueData FindById(string clueId)
     {
         foreach (ClueData clue in allClues)

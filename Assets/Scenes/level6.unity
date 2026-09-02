@@ -638,7 +638,7 @@ MonoBehaviour:
   journalPanel: {fileID: 111769764}
   toggleKey: 9
   listContent: {fileID: 768978245}
-  listItemPrefab: {fileID: 4307795662730718761, guid: 272773ab8581914479773827d2d4fd19, type: 3}
+  listItemPrefab: {fileID: 908526418788542015, guid: 272773ab8581914479773827d2d4fd19, type: 3}
   detailTitle: {fileID: 1583840825}
   detailDescription: {fileID: 0}
   detailMeaning: {fileID: 0}

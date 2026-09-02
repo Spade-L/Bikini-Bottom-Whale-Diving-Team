@@ -11,6 +11,8 @@ public static class TextTokens
 {
     public const string FemaleFlag = "gender_female";
 
+    // 在文本显示阶段按当前全局性别 Flag 统一解析，避免在资源中复制性别分支文本。
+    // 空字符串原样返回；管理器尚未创建时默认采用男性文案。
     public static string Resolve(string raw)
     {
         if (string.IsNullOrEmpty(raw))

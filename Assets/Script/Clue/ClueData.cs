@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// 一条线索。ClueId 是全局唯一标识，用于存档和条件判断。
@@ -7,15 +7,23 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Clue_", menuName = "游戏数据/线索")]
 public class ClueData : ScriptableObject
 {
+    // 存档稳定键。
+    // 不随资源名变化。
+    // 不参与本地化。
+    // 应保持非空。
+    // 用于反查。
+    // 用于去重。
     [Header("标识（全局唯一，存档用）")]
     [SerializeField] private string clueId;
 
+    // 以下字段只负责日志展示，不参与线索是否已收集的判定。
     [Header("线索日志中的展示")]
     [SerializeField] private string title;
     [TextArea(3, 8)]
     [SerializeField] private string description;
     [SerializeField] private Sprite icon;
 
+    // trueMeaning 仅在特定剧情 Flag 成立时覆盖表层解读；两者可独立使用文本令牌。
     [Header("叙事")]
     [Tooltip("表层含义 —— 玩家一开始看到的解读")]
     [TextArea(2, 5)]
