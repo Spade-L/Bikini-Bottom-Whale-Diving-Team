@@ -12,8 +12,12 @@ public class ClueDatabase : ScriptableObject
     // 列表项允许为空以便编辑期排查，但空项不会参与查找。
     [SerializeField] private List<ClueData> allClues = new List<ClueData>();
 
+    // 真结局所需的前天台核心线索；补充线索可登记但不必然提高结局门槛。
+    [SerializeField] private List<ClueData> trueEndingRequiredClues = new List<ClueData>();
+
     // 以只读接口暴露，调用方不应修改资产内部的登记顺序或内容。
     public IReadOnlyList<ClueData> AllClues => allClues;
+    public IReadOnlyList<ClueData> TrueEndingRequiredClues => trueEndingRequiredClues;
 
     /// <summary>
     /// 按存档 ID 线性查找线索资产。

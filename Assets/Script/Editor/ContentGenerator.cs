@@ -138,6 +138,7 @@ public static class ContentGenerator
     // 执行结束后的下一次生成会自然覆盖其内存内容。
     // 下面字段是本生成器唯一的线索汇总缓存。
     private static readonly List<ClueData> allClues = new List<ClueData>();
+    private static readonly List<ClueData> trueEndingRequiredClues = new List<ClueData>();
 
     [MenuItem("Trace Me/生成全部内容资产")]
     // 仅能在编辑器菜单中运行；构建产物不会包含此脚本。
@@ -149,13 +150,25 @@ public static class ContentGenerator
         EnsureFolder(DlgDir);
         // 清空的是内存列表，不会删除磁盘上的资产。
         allClues.Clear();
+        trueEndingRequiredClues.Clear();
 
         // 按场景顺序生成，数据库也保留这一稳定顺序。
         GenerateHome();
+        trueEndingRequiredClues.AddRange(allClues);
         GenerateSchool();
+
+        int beforeStore = allClues.Count;
         GenerateStore();
+        trueEndingRequiredClues.AddRange(allClues.GetRange(beforeStore, allClues.Count - beforeStore));
+
+        int beforeAlley = allClues.Count;
         GenerateAlley();
+        trueEndingRequiredClues.AddRange(allClues.GetRange(beforeAlley, allClues.Count - beforeAlley));
+
+        int beforePlayground = allClues.Count;
         GeneratePlayground();
+        trueEndingRequiredClues.AddRange(allClues.GetRange(beforePlayground, allClues.Count - beforePlayground));
+
         GenerateRooftop();
         // 开场与通关对白不属于单个可调查物品。
         GenerateSceneIntrosAndClears();
@@ -211,9 +224,10 @@ public static class ContentGenerator
                 ("我", "手环内侧有刻字……我的名字缩写，和{sibling}的名字缩写是一样的……不愧是{kin}。")));
     }
 
-    // 学校场景的四条可调查线索。
+    // 学校场景的四条核心线索与补充调查线索。
     private static void GenerateSchool()
     {
+        int schoolCoreStart = allClues.Count;
         Clue("school_desk", "课桌刻字",
             "靠窗第三排的课桌，桌面上用小刀刻着一个日期。",
             "{sibling}的课桌上刻着{ta}消失那天的日期。",
@@ -231,11 +245,11 @@ public static class ContentGenerator
                 ("我", "名字被涂掉了……但科目成绩都很高。是{sibling}的吧？")));
 
         Clue("school_locker", "储物柜",
-            "走廊尽头的铁皮柜。锁是坏的。里面有一幅画：两个人站在操场边，其中一个被撕掉了。",
+            "教室边上的铁皮柜。锁是坏的。里面有一幅画：两个人站在操场边，其中一个被撕掉了。",
             "{sibling}的储物柜里留着一幅两个人的画，被撕掉了一半。",
             "画里被撕掉的那个人从来不存在。完整的那个人，就是你。",
             Dlg("Dlg_school_locker", false, null,
-                ("", "（走廊尽头的铁皮柜。锁已经坏了，轻轻一拉就开。里面放着一幅画。）"),
+                ("", "（教室边上的铁皮柜。锁已经坏了，轻轻一拉就开。里面放着一幅画。）"),
                 ("我", "画的是两个人站在操场边上……但其中一个被撕掉了。只剩下右边那个。"),
                 ("", "（右边那个人的脸是完整的——和你一模一样。）")));
 
@@ -246,6 +260,65 @@ public static class ContentGenerator
             Dlg("Dlg_school_board", false, null,
                 ("", "（黑板右下角，有一行没写完的粉笔字。日光灯在头顶闪了一下。）"),
                 ("我", "这粉笔字……是我写的。我记得这笔迹。但我什么时候写的？")));
+
+        trueEndingRequiredClues.AddRange(allClues.GetRange(schoolCoreStart, allClues.Count - schoolCoreStart));
+
+        Clue("school_water_dispenser", "饮水机",
+            "一台放在墙角的饮水机，水桶早就干了。",
+            "一个饮水机，竟然暗藏玄机？",
+            "你把它移开后，才看见后面藏着的房间。",
+            Dlg("Dlg_school_water_dispenser", false, null,
+                ("", "（一台放在墙角的饮水机 水桶早就干了）"),
+                ("我", "饮水机不太稳……好像可以移动？")));
+
+        Dlg("Dlg_school_water_dispenser_reveal", false, null,
+            ("我", "后面好像有个房间……"));
+        Dlg("Dlg_school_water_dispenser_repeat", false, null,
+            ("我", "一个饮水机，竟然暗藏玄机？"));
+
+        Clue("school_paper_rank", "成绩排名纸",
+            "饮水机不远处的地上掉了一张纸。",
+            "是某次考试的成绩排名，虽然看不太清上面的具体字迹了，不过我们家姓氏很少见，当然也很明显，哥哥（姐姐）的名字在第一。",
+            "那张成绩排名记录的，是你曾经取得的成绩。",
+            Dlg("Dlg_school_paper_rank", false, null,
+                ("", "（饮水机不远处的地上掉了一张纸）"),
+                ("我", "是某次考试的成绩排名，虽然看不太清上面的具体字迹了，不过我们家姓氏很少见，当然也很明显，哥哥（姐姐）的名字在第一。")));
+
+        Clue("school_paper_counseling", "破碎的纸张",
+            "公告栏前面掉了一张破碎的纸张。",
+            "勉强看得清上面残留的部分字迹，是学校的心理咨询活动吗？",
+            "被撕碎的记录，仍然留下了你不愿面对的求助痕迹。",
+            Dlg("Dlg_school_paper_counseling", false, null,
+                ("", "（公告栏前面掉了一张破碎的纸张）"),
+                ("我", "勉强看得清上面残留的部分字迹，是学校的心理咨询活动吗？")));
+
+        Clue("school_hidden_room_files", "墙上的纸张",
+            "地上墙上充满了凌乱的纸张，无一例外的都是关于哥哥（姐姐）的信息。",
+            "家庭住址、盗摄的照片、每次考试的成绩、作业的分数……还有病历？",
+            "这里记录的不是另一个人，而是你被切割出来的记忆。",
+            Dlg("Dlg_school_hidden_room_files", false, null,
+                ("我", "这…这里是怎么回事……"),
+                ("", "（地上墙上充满了凌乱的纸张，无一例外的都是关于哥哥（姐姐）的信息）"),
+                ("我", "家庭住址、盗摄的照片、每次考试的成绩、作业的分数……还有病历？"),
+                ("我", "哥哥（姐姐）是生病了吗……"),
+                ("我", "不对，这里到底是怎么回事，为什么哥哥（姐姐）会被人盯上。"),
+                ("我", "但是，为什么只写了姓氏？")));
+
+        Clue("school_notice_board", "公告栏",
+            "上面贴了学校的各种活动，以及通知，包括国家规定的节假日，以及寒暑假的调休。",
+            "哥哥（姐姐）真的好辛苦，要参加的东西好多。",
+            "你把自己的日程和身份，写成了另一个人的生活。",
+            Dlg("Dlg_school_notice_board", false, null,
+                ("", "（上面贴了学校的各种活动，以及通知，包括国家规定的节假日，以及寒暑假的调休）"),
+                ("我", "哥哥（姐姐）真的好辛苦，要参加的东西好多。")));
+
+        Clue("school_cleaning_tools", "清洁工具堆",
+            "扫帚和拖把之类的东西被一股脑地堆在这个角落中。",
+            "好乱。",
+            "你一直把不愿整理的东西堆在角落里。",
+            Dlg("Dlg_school_cleaning_tools", false, null,
+                ("", "（扫帚和拖把之类的东西被一股脑地堆在这个角落中）"),
+                ("我", "好乱。")));
     }
 
     // 便利店场景的三条可调查线索。
@@ -556,6 +629,14 @@ public static class ContentGenerator
         {
             list.GetArrayElementAtIndex(i).objectReferenceValue = allClues[i];
         }
+
+        var requiredList = so.FindProperty("trueEndingRequiredClues");
+        requiredList.arraySize = trueEndingRequiredClues.Count;
+        for (int i = 0; i < trueEndingRequiredClues.Count; i++)
+        {
+            requiredList.GetArrayElementAtIndex(i).objectReferenceValue = trueEndingRequiredClues[i];
+        }
+
         so.ApplyModifiedPropertiesWithoutUndo();
     }
 

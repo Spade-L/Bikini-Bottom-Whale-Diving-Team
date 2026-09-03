@@ -197,28 +197,24 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 前五关（家/学校/便利店/小巷/游乐场）的全部关键线索是否都已收集。
-    /// 判定口径：线索数据库里所有 ClueId 不以 "roof_" 开头的线索都已收集。
-    /// 天台结局分支用它区分「真结局（全查过）」与「坏结局（有遗漏）」。
+    /// 前五关的核心线索是否都已收集。补充线索不因登记到数据库而自动成为结局门槛。
     /// </summary>
     public bool HasCollectedAllPreRooftopClues()
     {
-        if (clueDatabase == null)
+        if (clueDatabase == null || clueDatabase.TrueEndingRequiredClues == null)
         {
             return false;
         }
 
-        foreach (ClueData clue in clueDatabase.AllClues)
+        foreach (ClueData clue in clueDatabase.TrueEndingRequiredClues)
         {
-            if (clue != null
-                && !clue.ClueId.StartsWith("roof_")
-                && !HasClue(clue.ClueId))
+            if (clue != null && !HasClue(clue.ClueId))
             {
                 return false;
             }
         }
 
-        return true;
+        return clueDatabase.TrueEndingRequiredClues.Count > 0;
     }
 
     // 空线索与重复 Id 都不产生事件，保证收集提示和相关 UI 只出现一次。
