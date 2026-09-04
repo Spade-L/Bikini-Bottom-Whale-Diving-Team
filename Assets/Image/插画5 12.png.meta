@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: addd780131ed070408a97f28775ef09c
+guid: 0cdde491290775840a0957be627f8f40
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7074933758960887540
-    second: tiantai_0
+      213: 1361373038648673185
+    second: "\u63D2\u753B5 12_0"
+  - first:
+      213: -7784133680293466482
+    second: "\u63D2\u753B5 12_1"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +49,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -74,7 +77,7 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 4
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -113,13 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tiantai_0
+      name: "\u63D2\u753B5 12_0"
       rect:
         serializedVersion: 2
-        x: 79
-        y: 79
-        width: 1122
-        height: 962
+        x: 5786
+        y: 642
+        width: 1085
+        height: 1168
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -127,8 +130,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c0997b71b39c0dd90800000000000000
-      internalID: -7074933758960887540
+      spriteID: 1a3c277d09194e210800000000000000
+      internalID: 1361373038648673185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\u63D2\u753B5 12_1"
+      rect:
+        serializedVersion: 2
+        x: 6005
+        y: 1782
+        width: 88
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8e24fde8a339f390800000000000000
+      internalID: -7784133680293466482
       vertices: []
       indices: 
       edges: []
@@ -136,7 +160,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -144,7 +168,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      tiantai_0: -7074933758960887540
+      "\u63D2\u753B5 12_0": 1361373038648673185
+      "\u63D2\u753B5 12_1": -7784133680293466482
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

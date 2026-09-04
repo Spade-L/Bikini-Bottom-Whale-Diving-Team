@@ -1,28 +1,19 @@
 fileFormatVersion: 2
-guid: fdcf01d185499264780da96b29554854
+guid: c29666badabf7334cb1f3fc74231a0a0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2028454596478375479
-    second: xiaowujian_0
+      213: -8986568391594136533
+    second: "\u63D2\u753B5 14_0"
   - first:
-      213: -3327123615650617690
-    second: xiaowujian_1
+      213: 4725457922195715195
+    second: "\u63D2\u753B5 14_1"
   - first:
-      213: -5170838215966993992
-    second: xiaowujian_2
+      213: 7569937685422598121
+    second: "\u63D2\u753B5 14_2"
   - first:
-      213: 5754200994754791264
-    second: xiaowujian_3
-  - first:
-      213: 2059357961893153713
-    second: xiaowujian_4
-  - first:
-      213: 3061199736455390964
-    second: xiaowujian_5
-  - first:
-      213: 3220934789286536281
-    second: xiaowujian_6
+      213: -519227092331174480
+    second: "\u63D2\u753B5 14_3"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -64,7 +55,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -131,13 +122,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: xiaowujian_0
+      name: "\u63D2\u753B5 14_0"
       rect:
         serializedVersion: 2
-        x: 233
-        y: 1379
-        width: 374
-        height: 680
+        x: 0
+        y: 3738
+        width: 2997
+        height: 619
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,20 +136,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9c9e5edaa4b79d3e0800000000000000
-      internalID: -2028454596478375479
+      spriteID: b2c274529ab494380800000000000000
+      internalID: -8986568391594136533
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: xiaowujian_1
+      name: "\u63D2\u753B5 14_1"
       rect:
         serializedVersion: 2
-        x: 905
-        y: 1433
-        width: 254
-        height: 584
+        x: 1923
+        y: 4316
+        width: 1222
+        height: 181
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,20 +157,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6a6e45d03bea3d1d0800000000000000
-      internalID: -3327123615650617690
+      spriteID: b74f78591f2349140800000000000000
+      internalID: 4725457922195715195
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: xiaowujian_2
+      name: "\u63D2\u753B5 14_2"
       rect:
         serializedVersion: 2
-        x: 1529
-        y: 1373
-        width: 374
-        height: 608
+        x: 5169
+        y: 3536
+        width: 2831
+        height: 902
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,20 +178,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8b1d542f90e7d38b0800000000000000
-      internalID: -5170838215966993992
+      spriteID: 9e7e477b732dd0960800000000000000
+      internalID: 7569937685422598121
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: xiaowujian_3
+      name: "\u63D2\u753B5 14_3"
       rect:
         serializedVersion: 2
-        x: 1931
-        y: 1931
-        width: 20
-        height: 20
+        x: 4995
+        y: 4161
+        width: 1174
+        height: 145
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -208,71 +199,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0670f8251570bdf40800000000000000
-      internalID: 5754200994754791264
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: xiaowujian_4
-      rect:
-        serializedVersion: 2
-        x: 725
-        y: 1913
-        width: 20
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1bb8308c72f449c10800000000000000
-      internalID: 2059357961893153713
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: xiaowujian_5
-      rect:
-        serializedVersion: 2
-        x: 2369
-        y: 1577
-        width: 176
-        height: 290
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4f661fdf0f09b7a20800000000000000
-      internalID: 3061199736455390964
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: xiaowujian_6
-      rect:
-        serializedVersion: 2
-        x: 1133
-        y: 1421
-        width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9542f18202f03bc20800000000000000
-      internalID: 3220934789286536281
+      spriteID: 0b567d3e5b55bc8f0800000000000000
+      internalID: -519227092331174480
       vertices: []
       indices: 
       edges: []
@@ -280,7 +208,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -288,13 +216,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      xiaowujian_0: -2028454596478375479
-      xiaowujian_1: -3327123615650617690
-      xiaowujian_2: -5170838215966993992
-      xiaowujian_3: 5754200994754791264
-      xiaowujian_4: 2059357961893153713
-      xiaowujian_5: 3061199736455390964
-      xiaowujian_6: 3220934789286536281
+      "\u63D2\u753B5 14_0": -8986568391594136533
+      "\u63D2\u753B5 14_1": 4725457922195715195
+      "\u63D2\u753B5 14_2": 7569937685422598121
+      "\u63D2\u753B5 14_3": -519227092331174480
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

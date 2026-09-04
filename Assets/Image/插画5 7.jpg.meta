@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 95d2fae8266493248a3cd11bfbe245e1
+guid: 9a44d6f0c0bef0342855665e7279a7c7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8302190414794997843
-    second: maxituan_0
+      213: -8089211215986292040
+    second: "\u63D2\u753B5 7_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: maxituan_0
+      name: "\u63D2\u753B5 7_0"
       rect:
         serializedVersion: 2
-        x: 99
-        y: 19
-        width: 1181
-        height: 1102
+        x: 0
+        y: 0
+        width: 8000
+        height: 5000
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -127,8 +127,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3504283023e473370800000000000000
-      internalID: 8302190414794997843
+      spriteID: 8ba080ee1495dbf80800000000000000
+      internalID: -8089211215986292040
       vertices: []
       indices: 
       edges: []
@@ -143,8 +143,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      maxituan_0: 8302190414794997843
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

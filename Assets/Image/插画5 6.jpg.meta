@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 686e47adc1636fa48982054802440b17
+guid: ca8df8fbc592143488d6efb39d35ef7c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1884684323607465790
-    second: xiang_0
+      213: -4188189294806726657
+    second: "\u63D2\u753B5 6_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: xiang_0
+      name: "\u63D2\u753B5 6_0"
       rect:
         serializedVersion: 2
-        x: 39
-        y: 359
-        width: 1182
-        height: 602
+        x: 0
+        y: 0
+        width: 8000
+        height: 5000
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -127,8 +127,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2c031a9d79148d5e0800000000000000
-      internalID: -1884684323607465790
+      spriteID: ff783feb60090e5c0800000000000000
+      internalID: -4188189294806726657
       vertices: []
       indices: 
       edges: []
@@ -143,8 +143,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      xiang_0: -1884684323607465790
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
