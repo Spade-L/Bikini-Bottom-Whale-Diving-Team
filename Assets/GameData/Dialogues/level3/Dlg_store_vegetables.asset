@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461e0625d8c4d5944a6365731ccf612b, type: 3}
+  m_Name: Dlg_store_vegetables
+  m_EditorClassIdentifier: 
+  lines:
+  - character: {fileID: 0}
+    expression: 
+    speakerName: 
+    text: "\uFF08\u5269\u4E0B\u4E00\u4E9B\u96F6\u96F6\u6563\u6563\u7684\u852C\u83DC\u3002\uFF09"
+  - character: {fileID: 0}
+    expression: 
+    speakerName: "\u6211"
+    text: "\u5E94\u8BE5\u8BF4\u4E0D\u6127\u662F\u88AB\u6311\u5269\u7684\u5417\uFF1F"
+  - character: {fileID: 0}
+    expression: 
+    speakerName: 
+    text: "\uFF08\u5269\u4E0B\u7684\u852C\u83DC\u6709\u7684\u5DF2\u7ECF\u6709\u4E9B\u70C2\u6389\u4E86\uFF0C\u8FD8\u6709\u7684\u54C1\u76F8\u5F88\u5DEE\u3002\uFF09"
+  countsAsInvestigation: 0
+  setFlagsOnComplete: []
+  advanceTimeOnComplete: 0
+  grantCluesOnComplete:
+  - {fileID: 11400000, guid: ae0ec86c1670cde40bf93f8f13845499, type: 2}

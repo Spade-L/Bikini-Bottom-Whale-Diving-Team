@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68ba6c6c36e65794f9525ef4559b9b75, type: 3}
+  m_Name: Clue_home_cabinet
+  m_EditorClassIdentifier: 
+  clueId: home_cabinet
+  title: "\u5E8A\u5934\u67DC\u91CC\u7684\u5DE5\u5177"
+  description: "\u5E8A\u5934\u67DC\u91CC\u9762\u653E\u7740\u5404\u79CD\u6742\u7269\u5DE5\u5177\u3002"
+  icon: {fileID: 0}
+  surfaceMeaning: "\u81EA\u5DF1\u4E0D\u4F1A\u64CD\u4F5C\uFF0C{sibling}\u5374\u5F88\u719F\u7EC3\u7684\u5DE5\u5177\u3002"
+  trueMeaning: "\u5DE5\u5177\u4ECD\u7559\u5728\u539F\u5904\u3002"

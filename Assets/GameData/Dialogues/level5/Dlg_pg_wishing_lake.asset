@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461e0625d8c4d5944a6365731ccf612b, type: 3}
+  m_Name: Dlg_pg_wishing_lake
+  m_EditorClassIdentifier: 
+  lines:
+  - character: {fileID: 0}
+    expression: 
+    speakerName: 
+    text: "\uFF08\u65CB\u8F6C\u6728\u9A6C\u80CC\u540E\u6709\u4E00\u7247\u666E\u901A\u7684\u6E56\u3002\u56E0\u4E3A\u8FD9\u91CC\u662F\u6E38\u4E50\u573A\uFF0C\u6E56\u9762\u4E5F\u50CF\u88AB\u67D3\u4E0A\u4E86\u5947\u5E7B\u7684\u8272\u5F69\u3002\uFF09"
+  - character: {fileID: 0}
+    expression: 
+    speakerName: "\u6211"
+    text: "\u4EE5\u524D\u4F1A\u8DDF{sibling}\u5728\u8FD9\u91CC\u8BB8\u613F\u3002\u65E0\u975E\u662F\u5E0C\u671B\u6210\u7EE9\u597D\u4E00\u4E9B\uFF0C\u96F6\u82B1\u94B1\u591A\u4E00\u4E9B\u4E4B\u7C7B\u7684\u613F\u671B\u3002"
+  - character: {fileID: 0}
+    expression: 
+    speakerName: "\u6211"
+    text: "\u8BB8\u613F\u6E56\u554A\uFF0C\u5982\u679C\u6211\u5E0C\u671B\u6211\u80FD\u627E\u5230\u6D88\u5931\u7684{sibling}\uFF0C\u4F60\u80FD\u5B9E\u73B0\u6211\u7684\u613F\u671B\u5417\u2026"
+  countsAsInvestigation: 0
+  setFlagsOnComplete: []
+  advanceTimeOnComplete: 0
+  grantCluesOnComplete:
+  - {fileID: 11400000, guid: 6b9a96b7600affc4dbed259382df6b3e, type: 2}

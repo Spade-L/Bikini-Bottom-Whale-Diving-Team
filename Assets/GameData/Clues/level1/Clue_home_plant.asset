@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68ba6c6c36e65794f9525ef4559b9b75, type: 3}
+  m_Name: Clue_home_plant
+  m_EditorClassIdentifier: 
+  clueId: home_plant
+  title: "\u5899\u89D2\u7684\u76C6\u683D"
+  description: "{sibling}\u4E4B\u524D\u79CD\u7684\u76C6\u683D\uFF0C\u4ECD\u7136\u975E\u5E38\u6709\u6D3B\u529B\u3002"
+  icon: {fileID: 0}
+  surfaceMeaning: "\u4E00\u76F4\u6089\u5FC3\u7167\u987E\u7684\u76C6\u683D\u3002"
+  trueMeaning: "\u4F60\u7684\u7167\u6599\u8BA9\u690D\u7269\u7EE7\u7EED\u751F\u957F\u3002"

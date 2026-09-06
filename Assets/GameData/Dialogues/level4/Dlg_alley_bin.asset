@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461e0625d8c4d5944a6365731ccf612b, type: 3}
+  m_Name: Dlg_alley_bin
+  m_EditorClassIdentifier: 
+  lines:
+  - character: {fileID: 0}
+    expression: 
+    speakerName: 
+    text: "\uFF08\u6709\u4E00\u4E2A\u5783\u573E\u6876\u5012\u5728\u4E86\u5730\u4E0A\uFF0C\u53E6\u4E00\u4E2A\u4F9D\u65E7\u5728\u90A3\u5C79\u7ACB\u7740\u3002\uFF09"
+  - character: {fileID: 0}
+    expression: 
+    speakerName: "\u6211"
+    text: "\u8FD9\u4E2A\u5783\u573E\u6876\u2026\u2026\u6709\u70B9\u50CF\u6CB9\u6876"
+  - character: {fileID: 0}
+    expression: 
+    speakerName: 
+    text: "\uFF08\u91CC\u9762\u597D\u50CF\u6709\u4EC0\u4E48\u4E1C\u897F\u3002\uFF09"
+  - character: {fileID: 0}
+    expression: 
+    speakerName: 
+    text: "\uFF08\u4F60\u53D1\u73B0\u4E86\u4E00\u628A\u7834\u635F\u7684\u94A5\u5319\u3002\uFF09"
+  - character: {fileID: 0}
+    expression: 
+    speakerName: "\u6211"
+    text: "\u4E3A\u4EC0\u4E48\u2026\u2026\u6709\u70B9\u50CF\u6211\u4E4B\u524D\u574F\u6389\u7684\u90A3\u628A\u5BB6\u95E8\u94A5\u5319\uFF1F"
+  countsAsInvestigation: 0
+  setFlagsOnComplete: []
+  advanceTimeOnComplete: 0
+  grantCluesOnComplete:
+  - {fileID: 11400000, guid: 086bf5874b6065e4c9d224346a4256af, type: 2}

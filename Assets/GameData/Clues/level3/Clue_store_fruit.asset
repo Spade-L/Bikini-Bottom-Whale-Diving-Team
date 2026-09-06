@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68ba6c6c36e65794f9525ef4559b9b75, type: 3}
+  m_Name: Clue_store_fruit
+  m_EditorClassIdentifier: 
+  clueId: store_fruit
+  title: "\u6C34\u679C\u533A"
+  description: "\u6C34\u679C\u533A\u653E\u7740\u84DD\u8393\u548C\u5357\u74DC\u3002"
+  icon: {fileID: 0}
+  surfaceMeaning: "\u4E3A\u4EC0\u4E48\u6C34\u679C\u533A\u8FD8\u6709\u5357\u74DC\uFF1F"
+  trueMeaning: "\u8D27\u67B6\u4E0A\u7559\u4E0B\u4E86\u4E0D\u540C\u7684\u98DF\u7269\u3002"

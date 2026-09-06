@@ -62,7 +62,7 @@ public static class Level2SceneSetup
         CluePickup2D pickup = GetOrAdd<CluePickup2D>(go);
         Set(pickup, "inspectDialogue", Load<DialogueData>(DialogueDir + "Dlg_" + clueId + ".asset"));
         Set(pickup, "clueToGrant", Load<ClueData>(ClueDir + "Clue_" + clueId + ".asset"));
-        Set(pickup, "disappearAfterPickup", false);
+        Set(pickup, "disappearAfterPickup", true);
         Set(pickup, "countsAsInvestigation", true);
     }
 
