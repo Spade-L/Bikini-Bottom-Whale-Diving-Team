@@ -133,6 +133,7 @@ public class GameManager : MonoBehaviour
             }
 
             changed = true;
+            OnFlagSet?.Invoke(flag);
             if (logStateChanges)
             {
                 Debug.Log($"[GameManager] 设置 Flag: {flag}");

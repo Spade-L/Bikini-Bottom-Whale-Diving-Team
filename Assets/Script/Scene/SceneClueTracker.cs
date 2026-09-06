@@ -54,6 +54,8 @@ public class SceneClueTracker : MonoBehaviour
     // 使用场景标识生成对应的通关状态 Flag。
     private string ClearedFlag => $"scene_cleared_{sceneId}";
 
+    private bool clearSequencePlaying;
+
     // Unity 启动时重置临时演出对象并注册监听。
     private void Start()
     {
@@ -80,11 +82,15 @@ public class SceneClueTracker : MonoBehaviour
 
         // 初始化 UI，使已读档的进度立即可见。
         RefreshProgressUI();
+        // 读档后可能已经集齐核心线索但尚未写入清场 Flag。
+        TryTriggerClear();
     }
 
     // Unity 销毁时撤销对全局事件的监听。
     private void OnDestroy()
     {
+        clearSequencePlaying = false;
+
         // 解除事件订阅，防止对象销毁后继续响应。
         if (GameManager.Instance != null)
         {
@@ -117,13 +123,31 @@ public class SceneClueTracker : MonoBehaviour
         return count;
     }
 
-    // 将收集统计结果同步到可选的文本 UI。
+    private int CountRequiredClues()
+    {
+        if (keyClues == null)
+        {
+            return 0;
+        }
+
+        int count = 0;
+        foreach (ClueData clue in keyClues)
+        {
+            if (clue != null && !string.IsNullOrEmpty(clue.ClueId))
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
     private void RefreshProgressUI()
     {
         // UI 与线索配置齐全时，按格式显示当前收集数量。
         if (progressText != null && keyClues != null)
         {
-            progressText.text = string.Format(progressFormat, CountCollected(), keyClues.Length);
+            progressText.text = string.Format(progressFormat, CountCollected(), CountRequiredClues());
         }
     }
 
@@ -149,7 +173,7 @@ public class SceneClueTracker : MonoBehaviour
     {
         // 已通关的场景不重复启动演出协程。
         GameManager gm = GameManager.Instance;
-        if (gm == null || gm.HasFlag(ClearedFlag))
+        if (gm == null || gm.HasFlag(ClearedFlag) || clearSequencePlaying)
         {
             return;
         }
@@ -160,11 +184,12 @@ public class SceneClueTracker : MonoBehaviour
             return;
         }
 
-        // 空数组不会被视为自动通关。
         // 配置了至少一项关键线索且全部收集后才播放演出。
-        if (keyClues != null && keyClues.Length > 0 && CountCollected() >= keyClues.Length)
+        int requiredCount = CountRequiredClues();
+        if (requiredCount > 0 && CountCollected() >= requiredCount)
         {
             // 启动后由协程负责等待已有演出结束。
+            clearSequencePlaying = true;
             StartCoroutine(PlayClearSequence());
         }
     }
@@ -228,12 +253,20 @@ public class SceneClueTracker : MonoBehaviour
         {
             DialogueUIManager.Instance.StartDialogue(clearMonologue);
         }
+
+        clearSequencePlaying = false;
     }
 
     // 在指定起止透明度之间逐帧执行黑幕过渡。
     private IEnumerator FadeBlackout(float from, float to)
     {
-        // 以配置时长累计时间，逐帧插值更新黑幕透明度。
+        // 黑幕过渡时间可配置为零，零时直接写入目标值。
+        if (blackoutFadeDuration <= 0f)
+        {
+            blackout.alpha = to;
+            yield break;
+        }
+
         float elapsed = 0f;
         while (elapsed < blackoutFadeDuration)
         {

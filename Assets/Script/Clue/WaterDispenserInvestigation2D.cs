@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -23,7 +24,8 @@ public class WaterDispenserInvestigation2D : MonoBehaviour
     [SerializeField] private GameObject interactionUI;
     [SerializeField] private string playerTag = "Player";
 
-    private bool playerInRange;
+    private readonly HashSet<Collider2D> overlappingPlayerColliders = new HashSet<Collider2D>();
+    private bool playerInRange => overlappingPlayerColliders.Count > 0;
     private bool dialoguePlaying;
 
     private void Awake()
@@ -85,7 +87,7 @@ public class WaterDispenserInvestigation2D : MonoBehaviour
             }
 
             // 移动前清除旧位置的重叠状态；玩家必须重新进入移动后的饮水机碰撞体才显示暗室。
-            playerInRange = false;
+            overlappingPlayerColliders.Clear();
             HidePrompt();
             ApplyState(true);
             RefreshRoomVisibility();
@@ -144,7 +146,7 @@ public class WaterDispenserInvestigation2D : MonoBehaviour
     {
         if (other.CompareTag(playerTag))
         {
-            playerInRange = true;
+            overlappingPlayerColliders.Add(other);
             RefreshRoomVisibility();
             ShowPrompt();
         }
@@ -154,7 +156,7 @@ public class WaterDispenserInvestigation2D : MonoBehaviour
     {
         if (other.CompareTag(playerTag))
         {
-            playerInRange = false;
+            overlappingPlayerColliders.Remove(other);
             RefreshRoomVisibility();
             HidePrompt();
         }

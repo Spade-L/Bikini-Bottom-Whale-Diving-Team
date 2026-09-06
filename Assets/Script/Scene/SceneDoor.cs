@@ -29,6 +29,8 @@ public class SceneDoor : MonoBehaviour
     // 成功进门前播放的可选过场对话。
     [Tooltip("进门前播放的对话（可空，播完才切场景）")]
     [SerializeField] private DialogueData enterDialogue;
+    [Tooltip("出口视觉演出（可空，演出完成后才切场景）")]
+    [SerializeField] private SceneStoryPresentation exitPresentation;
 
     // 可选的屏幕交互提示对象。
     [Header("交互 UI")]
@@ -91,13 +93,25 @@ public class SceneDoor : MonoBehaviour
         }
         else
         {
-            // 未配置过场对话时直接前往目标场景。
+            // 无进门对白时也先锁定，避免同一帧重复加载场景。
+            isTransitioning = true;
             LoadTargetScene();
         }
     }
 
     // 在满足门条件后负责执行实际场景加载。
     private void LoadTargetScene()
+    {
+        if (exitPresentation != null)
+        {
+            exitPresentation.Play(LoadTargetSceneAfterPresentation);
+            return;
+        }
+
+        LoadTargetSceneAfterPresentation();
+    }
+
+    private void LoadTargetSceneAfterPresentation()
     {
         // 目标名为空时保留当前场景并解除转场锁。
         if (string.IsNullOrEmpty(targetSceneName))

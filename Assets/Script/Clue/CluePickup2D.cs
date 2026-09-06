@@ -129,6 +129,9 @@ public class CluePickup2D : MonoBehaviour
         gameObject.SetActive(!alreadyPicked && appearCondition.IsMet());
     }
 
+    // 调查次数按物件只计一次；与拾取消失 Flag 分开，支持可重复调查物件。
+    private string InvestigationFlag => clueToGrant != null ? $"investigated_{clueToGrant.ClueId}" : $"investigated_{name}";
+
     // 只在玩家位于触发器内且按键刚按下时发起调查。
     private void Update()
     {
@@ -172,9 +175,11 @@ public class CluePickup2D : MonoBehaviour
             return;
         }
 
-        if (countsAsInvestigation && GameManager.Instance != null)
+        if (countsAsInvestigation && GameManager.Instance != null
+            && !GameManager.Instance.HasFlag(InvestigationFlag))
         {
             GameManager.Instance.AddInvestigation();
+            GameManager.Instance.SetFlag(InvestigationFlag);
         }
 
         if (inspectDialogue != null)

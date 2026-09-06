@@ -36,6 +36,7 @@ public class EndingGate : MonoBehaviour
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnClueCollected += HandleClueCollected;
+            ResolveIfFinalClueAlreadyCollected(GameManager.Instance);
         }
     }
 
@@ -50,7 +51,37 @@ public class EndingGate : MonoBehaviour
         }
     }
 
-    // 从已收集线索事件中筛选最终页。
+    private void ResolveIfFinalClueAlreadyCollected(GameManager gm)
+    {
+        if (gm == null || resolved || string.IsNullOrEmpty(finalClueId)
+            || !gm.HasClue(finalClueId))
+        {
+            return;
+        }
+
+        ResolveEnding(gm);
+    }
+
+    private void ResolveEnding(GameManager gm)
+    {
+        if (gm == null || resolved)
+        {
+            return;
+        }
+
+        resolved = true;
+
+        // 真结局需要此前全部关键线索均已收集。
+        if (gm.HasCollectedAllPreRooftopClues())
+        {
+            gm.SetFlag("truth_revealed");
+        }
+        else
+        {
+            StartCoroutine(PlayBadEnding());
+        }
+    }
+
     private void HandleClueCollected(ClueData clue)
     {
         // 非目标线索、空数据或已判定时均不处理。
@@ -59,21 +90,7 @@ public class EndingGate : MonoBehaviour
             return;
         }
 
-        // 一旦命中最终线索，立即锁定本次判定。
-        resolved = true;
-
-        // 真结局需要此前全部关键线索均已收集。
-        if (GameManager.Instance.HasCollectedAllPreRooftopClues())
-        {
-            // 真结局：设置真相 flag，线索日志切换真相文本；
-            // 天台的 SceneClueTracker（勾了 Require Truth Revealed）随后播通关演出。
-            GameManager.Instance.SetFlag("truth_revealed");
-        }
-        else
-        {
-            // 坏结局：等最后一页的调查对话关闭后播独白，播完回主菜单。
-            StartCoroutine(PlayBadEnding());
-        }
+        ResolveEnding(GameManager.Instance);
     }
 
     private System.Collections.IEnumerator PlayBadEnding()
