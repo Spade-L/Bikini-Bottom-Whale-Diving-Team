@@ -43,6 +43,7 @@ public class SceneDoor : MonoBehaviour
     private bool playerInRange;
     // 对话播完至场景切换期间，阻止重复触发进门流程。
     private bool isTransitioning;
+    private bool interactionSuppressed;
 
     // 初始化门的触发器与提示状态。
     private void Awake()
@@ -60,6 +61,26 @@ public class SceneDoor : MonoBehaviour
     // 每帧读取玩家的门交互输入。
     private void Update()
     {
+        if (GameplayInputLock.IsInteractionLocked)
+        {
+            interactionSuppressed = true;
+            if (interactionUI != null)
+            {
+                interactionUI.SetActive(false);
+            }
+
+            return;
+        }
+
+        if (interactionSuppressed)
+        {
+            interactionSuppressed = false;
+            if (playerInRange && interactionUI != null)
+            {
+                interactionUI.SetActive(true);
+            }
+        }
+
         // 需同时满足范围内、未转场和按下 E 才继续。
         if (!playerInRange || isTransitioning || !Input.GetKeyDown(KeyCode.E))
         {

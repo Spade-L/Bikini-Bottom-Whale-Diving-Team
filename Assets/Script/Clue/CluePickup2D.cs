@@ -74,6 +74,7 @@ public class CluePickup2D : MonoBehaviour
 
     // 仅表示触发器范围；物件隐藏后 Unity 不再接收后续触发回调。
     private bool playerInRange;
+    private bool interactionSuppressed;
 
     // 未配置线索时返回 null，避免生成无意义的 picked_ Flag。
     private string PickupFlag => clueToGrant != null ? $"picked_{clueToGrant.ClueId}" : null;
@@ -135,6 +136,22 @@ public class CluePickup2D : MonoBehaviour
     // 只在玩家位于触发器内且按键刚按下时发起调查。
     private void Update()
     {
+        if (GameplayInputLock.IsInteractionLocked)
+        {
+            interactionSuppressed = true;
+            HidePrompt();
+            return;
+        }
+
+        if (interactionSuppressed)
+        {
+            interactionSuppressed = false;
+            if (playerInRange)
+            {
+                ShowPrompt();
+            }
+        }
+
         if (!playerInRange || !Input.GetKeyDown(KeyCode.E))
         {
             return;

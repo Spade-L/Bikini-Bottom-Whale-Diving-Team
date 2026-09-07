@@ -113,6 +113,11 @@ public class PlayerMovement2D : MonoBehaviour
     /// <summary>对话框打开、闪回演出或黑幕渐变期间禁止移动。</summary>
     private bool IsMovementLocked()
     {
+        if (GameplayInputLock.IsMovementLocked)
+        {
+            return true;
+        }
+
         if (DialogueUIManager.Instance != null && DialogueUIManager.Instance.IsDialogueOpen)
         {
             return true;

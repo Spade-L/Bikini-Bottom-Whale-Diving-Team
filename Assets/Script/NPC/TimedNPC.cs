@@ -65,6 +65,7 @@ public class TimedNPC : MonoBehaviour
     // 接近状态。
     // 控制提示。
     private bool playerInRange;
+    private bool interactionSuppressed;
 
     // 离开标记。
     // 动态生成。
@@ -163,6 +164,22 @@ public class TimedNPC : MonoBehaviour
     // 安全恢复。
     private void Update()
     {
+        if (GameplayInputLock.IsInteractionLocked)
+        {
+            interactionSuppressed = true;
+            HidePrompt();
+            return;
+        }
+
+        if (interactionSuppressed)
+        {
+            interactionSuppressed = false;
+            if (playerInRange)
+            {
+                ShowPrompt();
+            }
+        }
+
         if (!playerInRange || !Input.GetKeyDown(KeyCode.E))
         {
             return;

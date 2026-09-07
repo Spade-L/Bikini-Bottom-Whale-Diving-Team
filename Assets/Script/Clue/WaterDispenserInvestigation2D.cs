@@ -27,6 +27,7 @@ public class WaterDispenserInvestigation2D : MonoBehaviour
     private readonly HashSet<Collider2D> overlappingPlayerColliders = new HashSet<Collider2D>();
     private bool playerInRange => overlappingPlayerColliders.Count > 0;
     private bool dialoguePlaying;
+    private bool interactionSuppressed;
 
     private void Awake()
     {
@@ -47,6 +48,19 @@ public class WaterDispenserInvestigation2D : MonoBehaviour
 
     private void Update()
     {
+        if (GameplayInputLock.IsInteractionLocked)
+        {
+            interactionSuppressed = true;
+            HidePrompt();
+            return;
+        }
+
+        if (interactionSuppressed)
+        {
+            interactionSuppressed = false;
+            ShowPromptIfInRange();
+        }
+
         if (!playerInRange || dialoguePlaying || !Input.GetKeyDown(KeyCode.E))
         {
             return;
