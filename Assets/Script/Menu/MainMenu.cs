@@ -1,34 +1,11 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    // 菜单生命周期与配置说明：
-    // Start 只在组件启用后的首帧调用一次。
-    // 因此面板初始状态在场景加载完成后统一设置。
-    // genderSelectPanel 需在 Inspector 中绑定对应面板对象。
-    // 未绑定面板时开始按钮会采用默认的男性分支。
-    // 面板对象本身可以初始激活，Start 会将其隐藏。
-    // StartGame、StartAsMale 和 StartAsFemale 可绑定到 Button.OnClick。
-    // 按钮回调必须指向场景中已激活的 MainMenu 组件。
-    // 性别选择写入静态 PendingFemaleSelection。
-    // 该值必须在加载游戏场景前设置。
-    // 下一场景由游戏流程读取该待选状态。
-    // 重新开始或返回菜单时应由游戏流程重新覆盖该状态。
-    // ShowPanelWithFade 依赖场景内可用的 ScreenFader.Instance。
-    // 未配置淡入淡出器时会直接切换面板以保持菜单可用。
-    // 有淡入淡出器时，面板切换发生在其回调中。
-    // 回调执行前 genderSelectPanel 必须仍然有效。
-    // LoadGameScene 同样会在淡出完成后再加载场景。
-    // gameSceneIndex 必须对应 Build Settings 中已加入的场景。
-    // 无效索引会导致 SceneManager.LoadScene 失败。
-    // 以索引加载时，Build Settings 的场景顺序即运行时配置。
-    // QuitGame 只会在已构建的播放器中结束应用。
-    // 在 Unity 编辑器 Play Mode 中该调用不会退出编辑器。
-    // 调试日志仅用于确认退出请求已执行。
-    // 本组件不创建 ScreenFader 或游戏场景。
-    // 所需单例和场景索引均应在项目配置中准备。
-    // 仅修改注释不会改变按钮绑定和场景加载行为。
     [Header("场景设置")]
     [SerializeField] private int gameSceneIndex = 1;
 
@@ -36,18 +13,69 @@ public class MainMenu : MonoBehaviour
     [Tooltip("点击开始游戏后弹出的面板（含两个按钮：寻找哥哥/寻找姐姐），默认隐藏")]
     [SerializeField] private GameObject genderSelectPanel;
 
-    // Start 在物体启用后的首帧调用，确保面板初始状态在场景加载后统一关闭。
+    [Header("主菜单按钮反馈")]
+    [SerializeField] private Button startButton;
+    [SerializeField] private GameObject startBImage;
+    [SerializeField] private Button saveButton;
+    [SerializeField] private GameObject saveBImage;
+    [SerializeField] private Button settingsButton;
+    [SerializeField] private GameObject settingsBImage;
+
+    private bool transitionInProgress;
+
     private void Start()
     {
         if (genderSelectPanel != null)
         {
             genderSelectPanel.SetActive(false);
         }
+
+        HideButtonFeedbackImages();
     }
 
-    /// <summary>开始按钮：黑幕过渡弹出性别选择；没配面板则直接以默认（哥哥线）开始。</summary>
-    // 可直接绑定到 Button.OnClick；未配置面板时使用默认分支，避免空引用。
+    /// <summary>开始按钮：先显示按下图，停留 0.5 秒后弹出性别选择。</summary>
     public void StartGame()
+    {
+        BeginButtonFeedback(startBImage, StartGameAfterFeedback);
+    }
+
+    /// <summary>存档按钮的安全占位入口。未配置真实存档界面前不执行存档业务。</summary>
+    public void OpenSave()
+    {
+        BeginButtonFeedback(saveBImage, () =>
+        {
+            Debug.Log("主菜单：Save 尚未配置存档界面或存档操作，已返回菜单。");
+        });
+    }
+
+    /// <summary>设置按钮的安全占位入口。未配置真实设置界面前不打开猜测的面板。</summary>
+    public void OpenSettings()
+    {
+        BeginButtonFeedback(settingsBImage, () =>
+        {
+            Debug.Log("主菜单：Settings 尚未配置设置界面，已返回菜单。");
+        });
+    }
+
+    private void HideButtonFeedbackImages()
+    {
+        if (startBImage != null)
+        {
+            startBImage.SetActive(false);
+        }
+
+        if (saveBImage != null)
+        {
+            saveBImage.SetActive(false);
+        }
+
+        if (settingsBImage != null)
+        {
+            settingsBImage.SetActive(false);
+        }
+    }
+
+    private void StartGameAfterFeedback()
     {
         if (genderSelectPanel != null)
         {
@@ -59,8 +87,68 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    private void BeginButtonFeedback(GameObject feedbackImage, Action afterDelay)
+    {
+        if (transitionInProgress)
+        {
+            return;
+        }
+
+        StartCoroutine(ButtonFeedbackRoutine(feedbackImage, afterDelay));
+    }
+
+    private IEnumerator ButtonFeedbackRoutine(GameObject feedbackImage, Action afterDelay)
+    {
+        transitionInProgress = true;
+        SetTopLevelButtonsInteractable(false);
+        HideButtonFeedbackImages();
+
+        if (feedbackImage != null)
+        {
+            feedbackImage.SetActive(true);
+        }
+
+        yield return new WaitForSecondsRealtime(0.5f);
+        afterDelay?.Invoke();
+
+        // FadeOutIn 在下一帧才会启动其内部协程，先让出一帧再检查渐变状态。
+        yield return null;
+
+        // Start 的面板切换或场景淡出完成前保持锁定，避免重复反馈和重复转场。
+        while (isActiveAndEnabled && ScreenFader.IsFading)
+        {
+            yield return null;
+        }
+
+        if (!isActiveAndEnabled)
+        {
+            yield break;
+        }
+
+        HideButtonFeedbackImages();
+        SetTopLevelButtonsInteractable(true);
+        transitionInProgress = false;
+    }
+
+    private void SetTopLevelButtonsInteractable(bool interactable)
+    {
+        if (startButton != null)
+        {
+            startButton.interactable = interactable;
+        }
+
+        if (saveButton != null)
+        {
+            saveButton.interactable = interactable;
+        }
+
+        if (settingsButton != null)
+        {
+            settingsButton.interactable = interactable;
+        }
+    }
+
     /// <summary>「寻找哥哥」按钮（玩家为男性）。</summary>
-    // 选择结果必须在加载场景前写入，供下一场景读取。
     public void StartAsMale()
     {
         GameManager.PendingFemaleSelection = false;
@@ -68,7 +156,6 @@ public class MainMenu : MonoBehaviour
     }
 
     /// <summary>「寻找姐姐」按钮（玩家为女性）。</summary>
-    // 该静态待选状态由游戏流程消费；重新开始时应由流程覆盖。
     public void StartAsFemale()
     {
         GameManager.PendingFemaleSelection = true;
@@ -78,12 +165,25 @@ public class MainMenu : MonoBehaviour
     /// <summary>性别面板的返回按钮。</summary>
     public void CancelGenderSelect()
     {
+        if (transitionInProgress)
+        {
+            return;
+        }
+
         ShowPanelWithFade(false);
     }
 
-    // ScreenFader 未放入场景时降级为直接切换，避免配置缺失阻断菜单。
     private void ShowPanelWithFade(bool show)
     {
+        if (genderSelectPanel == null)
+        {
+            return;
+        }
+
+        bool alreadyLocked = transitionInProgress;
+        transitionInProgress = true;
+        SetTopLevelButtonsInteractable(false);
+
         if (ScreenFader.Instance != null)
         {
             ScreenFader.Instance.FadeOutIn(() => genderSelectPanel.SetActive(show), 0.3f);
@@ -92,11 +192,57 @@ public class MainMenu : MonoBehaviour
         {
             genderSelectPanel.SetActive(show);
         }
+
+        // Start 的反馈协程负责等待并释放锁；取消按钮没有外层反馈协程，需要由这里负责。
+        if (!alreadyLocked)
+        {
+            StartCoroutine(ReleaseTransitionAfterFade());
+        }
     }
 
-    // gameSceneIndex 必须已加入 Build Settings，否则 LoadScene 会失败。
+    private IEnumerator ReleaseTransitionAfterFade()
+    {
+        yield return WaitForFadeToFinish();
+
+        if (!isActiveAndEnabled)
+        {
+            yield break;
+        }
+
+        SetTopLevelButtonsInteractable(true);
+        transitionInProgress = false;
+    }
+
+    private IEnumerator WaitForFadeToFinish()
+    {
+        if (ScreenFader.Instance == null)
+        {
+            yield break;
+        }
+
+        // FadeOutIn 在下一帧启动协程，先等待到渐变真正开始，再等待它结束。
+        yield return null;
+        while (isActiveAndEnabled && !ScreenFader.IsFading)
+        {
+            yield return null;
+        }
+
+        while (isActiveAndEnabled && ScreenFader.IsFading)
+        {
+            yield return null;
+        }
+    }
+
     private void LoadGameScene()
     {
+        if (ScreenFader.IsFading)
+        {
+            return;
+        }
+
+        transitionInProgress = true;
+        SetTopLevelButtonsInteractable(false);
+
         if (ScreenFader.Instance != null)
         {
             ScreenFader.Instance.FadeOutThen(() => SceneManager.LoadScene(gameSceneIndex));
@@ -107,7 +253,6 @@ public class MainMenu : MonoBehaviour
         }
     }
 
-    // Application.Quit 在编辑器中不会退出，仅在已构建的播放器中生效。
     public void QuitGame()
     {
         Application.Quit();

@@ -1597,8 +1597,7 @@ GameObject:
   - component: {fileID: 366723408}
   - component: {fileID: 366723412}
   - component: {fileID: 366723411}
-  - component: {fileID: 366723410}
-  - component: {fileID: 366723409}
+  - component: {fileID: 366723413}
   m_Layer: 0
   m_Name: Square (20)
   m_TagString: Untagged
@@ -1621,56 +1620,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1013634201}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &366723409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 366723407}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a7f4c6d1b2e4390a5f6c8d7e9b0a123, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstDialogue: {fileID: 11400000, guid: fdc7cb4ec438267468f8262b2c905ee6, type: 2}
-  revealDialogue: {fileID: 11400000, guid: 10b2cd3a78e82444ca6724593288e6f5, type: 2}
-  repeatDialogue: {fileID: 11400000, guid: b88e2e75f9d5dd849b5958d00d5653bf, type: 2}
-  clueToGrant: {fileID: 11400000, guid: 1cd1da683322dd4469206a96042869fc, type: 2}
-  classroomRoot: {fileID: 9546732}
-  hiddenRoomRoot: {fileID: 1490865886}
-  initialPosition: {x: 18, y: 2, z: 0}
-  movedPosition: {x: 12, y: 2, z: 0}
-  movedFlag: school_water_dispenser_moved
-  interactionUI: {fileID: 0}
-  playerTag: Player
---- !u!50 &366723410
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 366723407}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!61 &366723411
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1771,6 +1720,29 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &366723413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 366723407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a7f4c6d1b2e4390a5f6c8d7e9b0a123, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstDialogue: {fileID: 11400000, guid: fdc7cb4ec438267468f8262b2c905ee6, type: 2}
+  revealDialogue: {fileID: 11400000, guid: 10b2cd3a78e82444ca6724593288e6f5, type: 2}
+  repeatDialogue: {fileID: 11400000, guid: b88e2e75f9d5dd849b5958d00d5653bf, type: 2}
+  clueToGrant: {fileID: 11400000, guid: 1cd1da683322dd4469206a96042869fc, type: 2}
+  classroomRoot: {fileID: 9546732}
+  hiddenRoomRoot: {fileID: 1490865886}
+  initialPosition: {x: 18, y: 2, z: 0}
+  movedPosition: {x: 12, y: 2, z: 0}
+  movedFlag: school_water_dispenser_moved
+  interactionUI: {fileID: 0}
+  playerTag: Player
 --- !u!1 &380584340
 GameObject:
   m_ObjectHideFlags: 0
@@ -3034,7 +3006,6 @@ GameObject:
   - component: {fileID: 638889224}
   - component: {fileID: 638889227}
   - component: {fileID: 638889226}
-  - component: {fileID: 638889225}
   - component: {fileID: 638889228}
   m_Layer: 0
   m_Name: Square (19)
@@ -3058,33 +3029,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 875718612}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &638889225
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 638889223}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!61 &638889226
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4643,6 +4587,8 @@ GameObject:
   m_Component:
   - component: {fileID: 875718612}
   - component: {fileID: 875718611}
+  - component: {fileID: 875718614}
+  - component: {fileID: 875718615}
   m_Layer: 0
   m_Name: "\u63D2\u753B5 5_0"
   m_TagString: Untagged
@@ -4720,6 +4666,79 @@ Transform:
   - {fileID: 638889224}
   m_Father: {fileID: 9546734}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &875718614
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 875718610}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.95, y: 6.25}
+    newSize: {x: 3.95, y: 6.25}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 3.95, y: 6.25}
+  m_EdgeRadius: 0
+--- !u!50 &875718615
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 875718610}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &919451840
 GameObject:
   m_ObjectHideFlags: 0
@@ -4976,6 +4995,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1013634201}
   - component: {fileID: 1013634200}
+  - component: {fileID: 1013634203}
+  - component: {fileID: 1013634204}
   m_Layer: 0
   m_Name: "\u63D2\u753B5 5_0 (1)"
   m_TagString: Untagged
@@ -5053,6 +5074,79 @@ Transform:
   - {fileID: 366723408}
   m_Father: {fileID: 1490865888}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1013634203
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013634199}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.95, y: 6.25}
+    newSize: {x: 3.95, y: 6.25}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 3.95, y: 6.25}
+  m_EdgeRadius: 0
+--- !u!50 &1013634204
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013634199}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1044850175
 GameObject:
   m_ObjectHideFlags: 0
