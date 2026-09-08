@@ -2,9 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// 为场景演出提供可恢复的移动与普通交互锁。每次获取都会返回独立令牌，只有该令牌能释放对应锁。
-/// </summary>
 public static class GameplayInputLock
 {
     private sealed class LockLease : IDisposable

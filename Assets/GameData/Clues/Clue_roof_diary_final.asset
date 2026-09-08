@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68ba6c6c36e65794f9525ef4559b9b75, type: 3}
+  m_Name: Clue_roof_diary_final
+  m_EditorClassIdentifier: 
+  clueId: roof_diary_final
+  title: "\u65E5\u8BB0\u7684\u6700\u540E\u4E00\u9875"
+  description: "\u518D\u6B21\u7FFB\u5F00\u65E5\u8BB0\uFF0C\u6700\u540E\u4E00\u9875\u7684\u6587\u5B57\u53D8\u4E86\u3002"
+  icon: {fileID: 0}
+  surfaceMeaning: "\u201C\u4F60\u7EC8\u4E8E\u8BA4\u51FA\u6211\u4E86\u3002\u201D"
+  trueMeaning: "\u4F60\u7EC8\u4E8E\u8BA4\u51FA\u6211\u4E86\u3002"

@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 461e0625d8c4d5944a6365731ccf612b, type: 3}
-  m_Name: Dlg_home_tv
+  m_Name: Dlg_store_exit_ready
   m_EditorClassIdentifier: 
   lines:
   - character: {fileID: 0}
     expression: 
     speakerName: "\u6211"
-    text: "\u2026\u2026\u7535\u89C6\u3002"
+    text: "\u4F3C\u4E4E\u53EF\u4EE5\u51FA\u95E8\u4E86\u3002"
   countsAsInvestigation: 0
   setFlagsOnComplete: []
   advanceTimeOnComplete: 0
-  grantCluesOnComplete:
-  - {fileID: 11400000, guid: 2b76861898e297e4093b9098d9ccedbf, type: 2}
+  grantCluesOnComplete: []

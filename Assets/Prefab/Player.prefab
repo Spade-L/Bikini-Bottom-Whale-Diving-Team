@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7335158809392967031}
   - component: {fileID: 7634458805362219870}
   - component: {fileID: 6644556677889900112}
+  - component: {fileID: 812345678901234567}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -186,6 +187,21 @@ MonoBehaviour:
   idleUp: {fileID: 1685729871079090873, guid: 9c024130f129d674a8afa430205e0dc0, type: 3}
   idleLeft: {fileID: 6812849112986518149, guid: 9c024130f129d674a8afa430205e0dc0, type: 3}
   idleRight: {fileID: -5287853521424204019, guid: 9c024130f129d674a8afa430205e0dc0, type: 3}
+--- !u!114 &812345678901234567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887272988175805244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 128b8521d86b2044ebfa6610de289b08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  promptPrefab: {fileID: 7075636452894642994, guid: 83974bf53669a314a8ace64906e03b45, type: 3}
+  worldOffset: {x: 0.75, y: 0.8, z: 0}
+  promptScale: 1
 --- !u!95 &6644556677889900112
 Animator:
   serializedVersion: 7

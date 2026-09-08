@@ -85,7 +85,7 @@ Canvas
    - Speaker Name Text → SpeakerName
    - Continue Indicator → ContinueIndicator
    - Portrait Image → Portrait
-   - Chars Per Second：30 / Advance Key：E（默认即可）
+   - Chars Per Second：30 / Advance Key：F（默认即可）
 
 > 首次导入 TMP 组件时若弹窗 "Import TMP Essentials"，点导入。
 > 中文显示为方块 = 缺中文字体：Window > TextMeshPro > Font Asset Creator，
@@ -135,11 +135,13 @@ Canvas
    - Detail Title / Description / Meaning / Icon → 对应四个
    - Toggle Key：Tab（默认）
 
-### 3.6 交互提示（"按 E"气泡）
-这个不在 Canvas 里——做一个**世界空间**的小提示，跟着物品走：
-1. 场景里建 2D Object > Sprites > Square，改小（如 0.5×0.5），换成"E"字样的 Sprite 或加个世界空间 TMP 子文本
-2. 存为 Prefab `InteractPrompt`，删掉场景里的
-3. 之后每个交互物把它拖为**子物体**，摆在头顶，**默认取消勾选（隐藏）**，再拖给脚本的 Interaction UI 字段
+### 3.6 交互提示（“按 F”气泡）
+交互提示由 Player 统一管理，不需要为每个物体创建提示子物体：
+1. 打开 `Assets/Prefab/Player.prefab`，确认 Player 挂有 `PlayerInteractionPromptController`
+2. 将 `Assets/Prefab/F.prefab` 配置到 Controller 的 Prompt Prefab 字段
+3. 运行时 Player 只创建一个 F 提示实例，并将它显示在角色右侧，随 Player 移动
+4. 进入多个交互范围时，只要至少一个来源当前可交互就保持显示；离开全部可用范围、进入对话或输入锁定时隐藏
+5. 各交互脚本中的 `interactionUI` 字段仅为旧场景序列化兼容保留，新配置无需填写，也不要创建 `InteractPrompt` 子物体
 
 ### 3.7 存 Prefab
 把整个 **Canvas 拖到 Assets/Prefabs/ 存为 Prefab**（EventSystem 不用进 Prefab，每个场景保留一个即可）。
@@ -175,7 +177,7 @@ Canvas
 - Clear Monologue → `Dlg_clear_home`
 
 ### 5.2 四个调查物品
-每个物品：2D Sprite（临时方块也行）+ Add Component > `CluePickup2D`（碰撞框自动加，把 Size 调大一圈当交互范围）+ 子物体 InteractPrompt（隐藏，拖给 Interaction UI）。
+每个物品：2D Sprite（临时方块也行）+ Add Component > `CluePickup2D`（碰撞框自动加，把 Size 调大一圈当交互范围）。无需创建 `InteractPrompt` 子物体；`interactionUI` 仅为旧配置兼容保留。
 
 | 物品 | Inspect Dialogue | Locked By Flag | Locked Dialogue | 其他 |
 |---|---|---|---|---|
@@ -200,15 +202,15 @@ Canvas
 - Target Scene Name：`School`
 - Open Condition > Required Flags：填 1 个元素 `scene_cleared_home`
 - Locked Dialogue → `Dlg_door_locked`
-- Interaction UI → 子物体 InteractPrompt
+- `interactionUI` 无需配置，仅保留旧场景序列化兼容
 
 ### 5.5 测试！
 按 Play，验证这条流程：
 1. 开场白自动播放（第一次调查计数 +1，看 Console 日志）
-2. 走近照片出现提示 → 按 E 对话 → 右上角进度变 1/4
+2. 走近照片出现提示 → 按 F 对话 → 右上角进度变 1/4
 3. Tab 打开日志能看到"旧照片"，有描述和表层解读
 4. 集齐 4 个 → 影子出现 2 秒 → 黑幕 → "……你是在给我带路吗？"
-5. 走到门按 E → 切到 School 场景（School 还没搭好会白屏，正常）
+5. 走到门按 F → 切到 School 场景（School 还没搭好会白屏，正常）
 6. Console 全程无红色报错
 
 ---
@@ -304,7 +306,7 @@ School / Store / Alley / Playground 与 Home 完全同构，只有内容不同�
 
 | 现象 | 原因 |
 |---|---|
-| 按 E 没反应 | 玩家 Tag 不是 Player / 物品碰撞框太小 / 对话面板引用没拖 |
+| 按 F 没反应 | 玩家 Tag 不是 Player / 物品碰撞框太小 / 对话面板引用没拖 |
 | 对话文字是方块 | TMP 缺中文字体，见 3.2 备注 |
 | 线索拿了日志里没有 | 用了手动 Clue To Grant 且没登记数据库——记住 Clue To Grant 留空 |
 | 线索给了两次 | Clue To Grant 和对话里都配了——清空 Clue To Grant |

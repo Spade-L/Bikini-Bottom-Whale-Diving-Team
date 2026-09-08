@@ -1,11 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// 饮水机专用调查：饮水机自身的 BoxCollider2D 同时承担玩家重叠检测和交互范围。
-/// </summary>
 [RequireComponent(typeof(BoxCollider2D))]
-public class WaterDispenserInvestigation2D : MonoBehaviour
+public class WaterDispenserInvestigation2D : MonoBehaviour, IInteractionPromptSource
 {
     [Header("调查内容")]
     [SerializeField] private DialogueData firstDialogue;
@@ -29,6 +26,17 @@ public class WaterDispenserInvestigation2D : MonoBehaviour
     private bool dialoguePlaying;
     private bool interactionSuppressed;
 
+    public bool IsInteractionPromptEligible
+    {
+        get
+        {
+            return isActiveAndEnabled
+                && playerInRange
+                && !dialoguePlaying
+                && !interactionSuppressed;
+        }
+    }
+
     private void Awake()
     {
         GetComponent<BoxCollider2D>().isTrigger = true;
@@ -41,9 +49,16 @@ public class WaterDispenserInvestigation2D : MonoBehaviour
         RefreshRoomVisibility();
     }
 
+    // 销毁时解除事件关系
     private void OnDestroy()
     {
+        PlayerInteractionPromptController.UnregisterSource(this);
         HidePrompt();
+    }
+
+    private void OnDisable()
+    {
+        PlayerInteractionPromptController.UnregisterSource(this);
     }
 
     private void Update()
@@ -61,7 +76,7 @@ public class WaterDispenserInvestigation2D : MonoBehaviour
             ShowPromptIfInRange();
         }
 
-        if (!playerInRange || dialoguePlaying || !Input.GetKeyDown(KeyCode.E))
+        if (!playerInRange || dialoguePlaying || !Input.GetKeyDown(KeyCode.F))
         {
             return;
         }
@@ -100,8 +115,9 @@ public class WaterDispenserInvestigation2D : MonoBehaviour
                 GameManager.Instance.SetFlag(movedFlag);
             }
 
-            // 移动前清除旧位置的重叠状态；玩家必须重新进入移动后的饮水机碰撞体才显示暗室。
+            // 移动前清除旧位置的重叠状态；玩家必须重新进入移动后的饮水机碰撞体才显示暗室
             overlappingPlayerColliders.Clear();
+            PlayerInteractionPromptController.UnregisterSource(this);
             HidePrompt();
             ApplyState(true);
             RefreshRoomVisibility();
@@ -156,39 +172,44 @@ public class WaterDispenserInvestigation2D : MonoBehaviour
         }
     }
 
+    // 进入触发区域后记录对象
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag(playerTag))
         {
+            bool wasInRange = playerInRange;
             overlappingPlayerColliders.Add(other);
             RefreshRoomVisibility();
-            ShowPrompt();
+            if (!wasInRange)
+            {
+                PlayerInteractionPromptController.RegisterSource(this);
+            }
+            PlayerInteractionPromptController.RefreshSource(this);
         }
     }
 
+    // 离开触发区域后清除记录
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag(playerTag))
         {
             overlappingPlayerColliders.Remove(other);
             RefreshRoomVisibility();
-            HidePrompt();
+            if (!playerInRange)
+            {
+                PlayerInteractionPromptController.UnregisterSource(this);
+            }
+            PlayerInteractionPromptController.RefreshSource(this);
         }
     }
 
     private void ShowPrompt()
     {
-        if (interactionUI != null)
-        {
-            interactionUI.SetActive(true);
-        }
+        PlayerInteractionPromptController.RefreshSource(this);
     }
 
     private void HidePrompt()
     {
-        if (interactionUI != null)
-        {
-            interactionUI.SetActive(false);
-        }
+        PlayerInteractionPromptController.RefreshSource(this);
     }
 }

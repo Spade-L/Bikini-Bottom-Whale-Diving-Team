@@ -2987,7 +2987,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 777759485}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.9999696
+  m_Size: 0.99992704
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4927,7 +4927,7 @@ MonoBehaviour:
   charsPerSecond: 30
   openSound: {fileID: 8300000, guid: d2b8ec8681cadd8409820f92977601a8, type: 3}
   openSoundVolume: 1
-  advanceKey: 101
+  advanceKey: 102
   reopenInputDelay: 0.1
 --- !u!4 &1689141795
 Transform:
@@ -5268,7 +5268,7 @@ MonoBehaviour:
     requiredFlags: []
     forbiddenFlags: []
     requiredClues: []
-  inspectDialogue: {fileID: 11400000, guid: 82cea2f3dd0598e4eb424aa82f943635, type: 2}
+  inspectDialogue: {fileID: 11400000, guid: 72710b4ef23179644869ffad32162088, type: 2}
   clueToGrant: {fileID: 11400000, guid: 2b76861898e297e4093b9098d9ccedbf, type: 2}
   disappearAfterPickup: 1
   countsAsInvestigation: 1

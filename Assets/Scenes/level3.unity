@@ -809,7 +809,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &159582095
 Transform:
   m_ObjectHideFlags: 0
@@ -1504,10 +1504,11 @@ MonoBehaviour:
   openCondition:
     minTimePeriod: -1
     maxTimePeriod: -1
-    requiredFlags: []
+    requiredFlags:
+    - level3_store_shadow_resolved
     forbiddenFlags: []
     requiredClues: []
-  lockedDialogue: {fileID: 0}
+  lockedDialogue: {fileID: 11400000, guid: a56a6fcd93524b84cae300de22ed44af, type: 2}
   enterDialogue: {fileID: 0}
   exitPresentation: {fileID: 0}
   interactionUI: {fileID: 0}
@@ -3643,13 +3644,28 @@ MonoBehaviour:
     showResultObjectsDuringStep: 0
     hideRootAfterStep: 0
     duration: 1.25
+  requiredInvestigationIds:
+  - store_note
+  - store_poster
+  - store_vegetables
+  - store_handprint
+  - store_fruit
+  - store_toy
   hand: {fileID: 1812552953}
   eye: {fileID: 1120952585}
-  sequenceOnlyObjects:
-  - {fileID: 1780939164}
-  - {fileID: 1502820664}
+  sequenceOnlyObjects: []
+  revealDialogue: {fileID: 11400000, guid: ddc901c113ee76b4a932dd994a9a99b7, type: 2}
+  deliveryDialogue: {fileID: 11400000, guid: c62fca663e3a52a45bfa8a83dd5da363, type: 2}
+  disappearanceDialogue: {fileID: 11400000, guid: 6e729dc3bcb2b904e8cd4ea05175e824, type: 2}
+  exitReadyDialogue: {fileID: 11400000, guid: 41c5a5dd3eefb954589061faa8c6d48e, type: 2}
+  fallingBreakingSound: {fileID: 0}
+  fallingBreakingVolume: 1
   completedFlag: level3_door_sequence_done
+  resolvedFlag: level3_store_shadow_resolved
+  toyDeliveredFlag: level3_store_toy_delivered
+  interactionUI: {fileID: 0}
   playerTag: Player
+  interactionKey: 102
 --- !u!61 &1135501610
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3684,7 +3700,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 1.4882196, y: 0.28784478}
+  m_Offset: {x: 1.4482801, y: 0.31982923}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3694,7 +3710,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3.5210388, y: 1.0034583}
+  m_Size: {x: 3.6035094, y: 0.98708725}
   m_EdgeRadius: 0
 --- !u!4 &1135501611
 Transform:
@@ -3750,10 +3766,10 @@ MonoBehaviour:
   requireTruthRevealed: 0
   brotherShadow: {fileID: 0}
   shadowDuration: 2
-  blackout: {fileID: 1214378686}
+  blackout: {fileID: 0}
   blackoutFadeDuration: 0.6
   blackoutHoldDuration: 1
-  clearMonologue: {fileID: 11400000, guid: f1505d5c0fddc24448f3a9f949fee773, type: 2}
+  clearMonologue: {fileID: 0}
 --- !u!4 &1147137758
 Transform:
   m_ObjectHideFlags: 0
@@ -3875,7 +3891,7 @@ MonoBehaviour:
   disappearAfterPickup: 0
   countsAsInvestigation: 1
   lockedByFlag: level3_door_sequence_done
-  lockedDialogue: {fileID: 11400000, guid: 8656417db1bebf749ab6676dcd8ee6cd, type: 2}
+  lockedDialogue: {fileID: 11400000, guid: 93b79c87d625a7d46aa662ee4f3b217f, type: 2}
   interactionUI: {fileID: 0}
   playerTag: Player
 --- !u!61 &1372570353
@@ -4315,7 +4331,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1502820665
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5348,7 +5364,7 @@ MonoBehaviour:
   charsPerSecond: 30
   openSound: {fileID: 8300000, guid: d2b8ec8681cadd8409820f92977601a8, type: 3}
   openSoundVolume: 1
-  advanceKey: 101
+  advanceKey: 102
   reopenInputDelay: 0.1
 --- !u!4 &1689141795
 Transform:
@@ -5542,7 +5558,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1780939165
 Transform:
   m_ObjectHideFlags: 0
@@ -5940,7 +5956,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1910384465
 SpriteRenderer:
   m_ObjectHideFlags: 0

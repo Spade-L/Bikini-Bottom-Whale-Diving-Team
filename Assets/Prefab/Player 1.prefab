@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 378928523916222005}
   - component: {fileID: 5580206637214953793}
   - component: {fileID: 352446164325379828}
+  - component: {fileID: 7132564558698709586}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Player
@@ -186,6 +187,8 @@ MonoBehaviour:
   idleUp: {fileID: 1685729871079090873, guid: 9c024130f129d674a8afa430205e0dc0, type: 3}
   idleLeft: {fileID: 6812849112986518149, guid: 9c024130f129d674a8afa430205e0dc0, type: 3}
   idleRight: {fileID: -5287853521424204019, guid: 9c024130f129d674a8afa430205e0dc0, type: 3}
+  footstepLoop: {fileID: 0}
+  footstepVolume: 0.5
 --- !u!95 &352446164325379828
 Animator:
   serializedVersion: 7
@@ -208,3 +211,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7132564558698709586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5084737768472544661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 128b8521d86b2044ebfa6610de289b08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  promptPrefab: {fileID: 7075636452894642994, guid: 83974bf53669a314a8ace64906e03b45, type: 3}
+  worldOffset: {x: 0.75, y: 0.8, z: 0}
+  promptScale: 1

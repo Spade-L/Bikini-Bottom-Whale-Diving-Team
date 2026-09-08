@@ -6,7 +6,10 @@
 > **第七节起是本作全部剧情内容的配置对照表（按策划案生成）。**
 >
 > 通用约定：
-> - 所有交互都是「玩家走近 → 显示提示 UI → 按 E」。玩家物体的 Tag 必须是 `Player`。
+> - 所有交互都是「玩家走近 → 由 Player 侧集中提示 → 按 F」。玩家物体的 Tag 必须是 `Player`
+> - Player prefab 挂载 `PlayerInteractionPromptController`，并将 `Assets/Prefab/F.prefab` 配置为 Prompt Prefab
+> - 运行时只创建一个 F 提示，使用屏幕空间 Canvas 显示在 Player 右侧并随玩家移动；多个范围重叠时按当前可交互来源聚合显示
+> - 提示会在没有可用来源、对话进行中或交互输入锁定时隐藏；各交互脚本的 `interactionUI` 仅为旧序列化兼容保留，新对象无需配置。
 > - 「Flag」是一个字符串开关，由 GameManager 记录，存档保存。谁都能设置、谁都能引用。
 > - 「StoryCondition（剧情条件）」是所有脚本共用的条件配置块，见第 2 节，先看懂它。
 > - 文本占位符：`{sibling}`=哥哥/姐姐、`{ta}`=他/她、`{kin}`=好兄弟/好姐妹。
@@ -52,7 +55,7 @@
 
 ### 3. DialogueUIManager.cs（根目录）— 对话框
 **作用**：播放 DialogueData 对话——多行推进、打字机效果、说话人名字、
-**左侧立绘 + 表情差分**。按 E：打字中→立刻显示全文；显示完→下一行；最后一行→关闭并结算对话效果。
+**左侧立绘 + 表情差分**。按 F：打字中→立刻显示全文；显示完→下一行；最后一行→关闭并结算对话效果。
 
 **配置**（每个游戏场景的 Canvas 上）：
 1. Canvas 下建 `DialoguePanel`（对话框背景 Image，锚定屏幕下方）
@@ -62,7 +65,7 @@
    - `Portrait`（Image，**锚定面板左侧**，立绘用；建议 Preserve Aspect 勾上）
    - `ContinueIndicator`（小箭头图标，一行显示完才出现）
 3. 挂 DialogueUIManager 到 Canvas（或面板父物体），依次拖入上面引用
-4. `Chars Per Second`：打字速度（默认 30）；`Advance Key`：推进键（默认 E）
+4. `Chars Per Second`：打字速度（默认 30）；`Advance Key`：推进键（默认 F）
 5. **主角立绘**：`Protagonist Male` / `Protagonist Female` 拖入主角的 CharacterData 资产（男/女各一个）。
    对话行的说话人名字是「我」（可通过 `Protagonist Speaker Name` 改）且行内没指定立绘时，
    自动显示主角立绘；姐姐线（`gender_female` flag）自动切女版，女版没配则用男版
@@ -214,7 +217,7 @@ SaveSystem.HasSave();
 ## 三、场景物件脚本（挂在场景交互对象上）
 
 ### 13. CluePickup2D.cs（Clue/）— 可调查物品 ⭐ 用得最多
-**作用**：可调查的物品/痕迹。按 E → 调查计数 +1 → 播调查对话 → 给线索 → 消失（可选）。
+**作用**：可调查的物品/痕迹。按 F → 调查计数 +1 → 播调查对话 → 给线索 → 消失（可选）。
 
 **配置**（物品是带 SpriteRenderer 的物体，脚本自动要求 BoxCollider2D 并设为 Trigger，把碰撞框调大一圈当交互范围）：
 | 字段 | 说明 |
@@ -225,8 +228,8 @@ SaveSystem.HasSave();
 | `Disappear After Pickup` | 勾 = 拾取后消失（跨存档记住）；不勾 = 可反复调查但线索只给一次 |
 | `Counts As Investigation` | 默认勾。装饰性小物件想不计数就取消 |
 | `Locked By Flag` | 封锁 Flag。家中物品填 `lock_home_items` |
-| `Locked Dialogue` | 封锁后按 E 的台词（"这地方我翻遍了……"，**不勾计数**） |
-| `Interaction UI` | 头顶"按 E"提示（物品子物体，默认隐藏） |
+| `Locked Dialogue` | 封锁后按 F 的台词（"这地方我翻遍了……"，**不勾计数**） |
+| `Interaction UI` | 旧字段，仅为序列化兼容保留；提示由 PlayerInteractionPromptController 统一管理 |
 
 **典型配法——家里的旧照片**：
 Inspect Dialogue=`Dlg_home_photo`，Clue To Grant=`home_photo`，
@@ -247,7 +250,7 @@ Locked By Flag=`lock_home_items`，Locked Dialogue=`Dlg_home_locked`
 | `Depart Time Period` | -1 = 永不离开 |
 | `Rescue Flag` | 干涉成功 Flag（由某段对话的 setFlags 设置） |
 | `Fallback Dialogue` | 没有状态满足时的兜底对话 |
-| `Interaction UI` | 头顶提示 |
+| `Interaction UI` | 旧字段，仅为序列化兼容保留；新配置无需填写 |
 
 **典型配法——会离开的老花匠**：
 - Npc Id=`gardener`，Depart Time Period=`3`，Rescue Flag=`helped_gardener`
@@ -257,7 +260,7 @@ Locked By Flag=`lock_home_items`，Locked Dialogue=`Dlg_home_locked`
 - States[3]：条件 requiredFlags=[`inv_reached_20`] → "你在找谁？这里从没有别人住过。"
 
 ### 15. SceneDoor.cs（Scene/）— 场景门
-**作用**：按 E 切换场景。条件不满足播「锁着」台词。
+**作用**：按 F 切换场景。条件不满足播「锁着」台词。
 
 **配置**：
 | 字段 | 典型值 |

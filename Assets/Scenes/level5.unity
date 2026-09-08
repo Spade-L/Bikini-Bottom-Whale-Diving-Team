@@ -7259,7 +7259,7 @@ MonoBehaviour:
   charsPerSecond: 30
   openSound: {fileID: 8300000, guid: d2b8ec8681cadd8409820f92977601a8, type: 3}
   openSoundVolume: 1
-  advanceKey: 101
+  advanceKey: 102
   reopenInputDelay: 0.1
 --- !u!4 &1689141795
 Transform:

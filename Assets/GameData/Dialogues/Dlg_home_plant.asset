@@ -10,26 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 461e0625d8c4d5944a6365731ccf612b, type: 3}
-  m_Name: Dlg_bad_ending
+  m_Name: Dlg_home_plant
   m_EditorClassIdentifier: 
   lines:
   - character: {fileID: 0}
     expression: 
     speakerName: 
-    text: "\uFF08\u4F60\u7FFB\u5F00\u6700\u540E\u4E00\u9875\u3002\u4E0A\u9762\u2026\u2026\u4EC0\u4E48\u90FD\u6CA1\u6709\u3002\uFF09"
+    text: "\uFF08{sibling}\u4E4B\u524D\u79CD\u7684\u76C6\u683D\u3002\uFF09"
   - character: {fileID: 0}
     expression: 
     speakerName: "\u6211"
-    text: "\u2026\u2026"
+    text: "\u5C31\u7B97\u6240\u6709\u4EBA\u90FD\u89C9\u5F97{ta}\u4E0D\u5B58\u5728\uFF0C\u6211\u4E5F\u4E0D\u4F1A\u5FD8\u8BB0{sibling}\u7684\u3002"
   - character: {fileID: 0}
     expression: 
     speakerName: "\u6211"
-    text: "\u8FD9\u4E00\u5207\u90FD\u662F\u5047\u7684\u5427\u3002{sibling}\u7684\u4E0B\u843D\uFF0C\u6839\u672C\u5C31\u67E5\u4E0D\u51FA\u6765\u3002"
-  - character: {fileID: 0}
-    expression: 
-    speakerName: "\u6211"
-    text: "\u6211\u88AB\u90A3\u5C01\u4FE1\u9A97\u4E86\u2026\u2026"
+    text: "\u4ECE{ta}\u4E0D\u89C1\u4E4B\u540E\uFF0C\u6211\u5C31\u4E00\u76F4\u5728\u6089\u5FC3\u7167\u987E\u8FD9\u4E2A\u76C6\u683D\uFF0C\u6240\u4EE5\u975E\u5E38\u6709\u6D3B\u529B\u3002"
   countsAsInvestigation: 0
   setFlagsOnComplete: []
   advanceTimeOnComplete: 0
-  grantCluesOnComplete: []
+  grantCluesOnComplete:
+  - {fileID: 11400000, guid: 389987e6c0781bc40bf2f58973b29c97, type: 2}

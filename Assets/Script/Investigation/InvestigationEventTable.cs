@@ -1,21 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// 调查次数阈值事件表。按你的策划案预配置：
-/// 5  第一次回溯（哥哥的背影）
-/// 8  封锁 Flag: lock_home_items
-/// 10 动摇独白
-/// 15 第二次回溯（写便条）
-/// 18 封锁 Flag: lock_npc_talk
-/// 20 由 NPC 状态条件实现（requiredFlags: inv_reached_20）
-/// 25 第三次回溯（镜子）
-/// 28 封锁 Flag: lock_early_scenes
-///
-/// 结局不再由调查次数决定（原第 30 阈值 final_door_open 已移除）——
-/// 结局在天台由 EndingGate 按「前五关线索完整度」判定真/坏结局。
-///
-/// 每个阈值达成时自动设置 "inv_reached_<次数>" flag，场景物件可直接引用。
-/// </summary>
 [CreateAssetMenu(fileName = "InvestigationEventTable", menuName = "游戏数据/调查事件表")]
 public class InvestigationEventTable : ScriptableObject
 {

@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461e0625d8c4d5944a6365731ccf612b, type: 3}
+  m_Name: Dlg_home_tv
+  m_EditorClassIdentifier: 
+  lines:
+  - character: {fileID: 0}
+    expression: 
+    speakerName: "\u6211"
+    text: "\u4E0A\u9762\u64AD\u653E\u7740\u7279\u4EF7\u5546\u54C1\u5E7F\u544A"
+  - character: {fileID: 0}
+    expression: 
+    speakerName: "\u6211"
+    text: "\u7B11\u5230\u5C31\u662F\u8D5A\u5230\uFF0C\u4ECA\u5929\u5F00\u59CB\u4F60\u5C31\u662F\u8D62\u5BB6\uFF01"
+  - character: {fileID: 0}
+    expression: 
+    speakerName: "\u6211"
+    text: "\u6C38\u8FDC\u4EE5\u4F18\u60E0\u65F6\u4EF7\u63D0\u4F9B\u4F73\u54C1\uFF01"
+  - character: {fileID: 0}
+    expression: 
+    speakerName: "\u6211"
+    text: "\u201C\u4E0D\u898198\uFF0C\u4E0D\u8981998\uFF0C\u53EA\u89819998\uFF01\uFF01"
+  - character: {fileID: 0}
+    expression: 
+    speakerName: "\u6211"
+    text: "\u201C\u5443... ... \u8BA4\u771F\u7684\u5417\u201D"
+  countsAsInvestigation: 0
+  setFlagsOnComplete: []
+  advanceTimeOnComplete: 0
+  grantCluesOnComplete:
+  - {fileID: 11400000, guid: 827387635fb43e649b737d3faaa6b725, type: 2}

@@ -4,10 +4,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-/// <summary>
-/// 可选的场景出口演出。挂在门或出口对象上，由 SceneDoor 在切场景前调用。
-/// 演出只负责临时视觉，不写入存档；完成后通过回调继续转场。
-/// </summary>
 public class SceneStoryPresentation : MonoBehaviour
 {
     [Header("一次性播放")]
@@ -106,7 +102,7 @@ public class SceneStoryPresentation : MonoBehaviour
         if (objects == null) return;
         foreach (GameObject target in objects)
         {
-            // 不允许演出关闭自身或自己的父节点。
+            // 不允许演出关闭自身或自己的父节点
             if (target == null || transform.IsChildOf(target.transform)) continue;
             if (!originalStates.ContainsKey(target)) originalStates.Add(target, target.activeSelf);
             target.SetActive(active);

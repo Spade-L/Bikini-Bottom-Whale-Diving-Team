@@ -2,11 +2,8 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-/// <summary>
-/// level3 门前一次性演出。使用独立触发器，依次播放 sps0 与 sps，完成后显示手印和眼睛。
-/// </summary>
 [RequireComponent(typeof(BoxCollider2D))]
-public class Level3DoorSequence : MonoBehaviour
+public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
 {
     [Serializable]
     private class SequenceStep
@@ -15,35 +12,81 @@ public class Level3DoorSequence : MonoBehaviour
         public GameObject root;
         public Animator animator;
         public string stateName;
-        [Tooltip("此步骤是否需要先启用 hand 与 eye 供动画绑定；完成 Flag 仍只在全部步骤结束后写入。")]
         public bool showResultObjectsDuringStep;
-        [Tooltip("步骤结束后是否隐藏 root。结果对象位于 root 子级时应关闭此项。")]
         public bool hideRootAfterStep = true;
         [Min(0.01f)] public float duration = 1f;
     }
 
-    [Header("演出步骤（严格按数组顺序）")]
+    [Header("演出步骤（严格为 sps0 → sps）")]
     [SerializeField] private SequenceStep[] steps;
 
-    [Header("完成后显示")]
+    [Header("六个便利店调查条件")]
+    [Tooltip("填写 ClueData.ClueId；组件检查 investigated_<id> Flag，不改变核心线索列表。")]
+    [SerializeField] private string[] requiredInvestigationIds =
+    {
+        "store_note",
+        "store_poster",
+        "store_vegetables",
+        "store_handprint",
+        "store_fruit",
+        "store_toy"
+    };
+
+    [Header("演出对象")]
     [SerializeField] private GameObject hand;
     [SerializeField] private GameObject eye;
-    [Tooltip("仅供动画绑定使用；演出完成或中断后隐藏。")]
     [SerializeField] private GameObject[] sequenceOnlyObjects;
-    [SerializeField] private string completedFlag = "level3_door_sequence_done";
 
-    [Header("触发")]
+    [Header("演出对白")]
+    [SerializeField] private DialogueData revealDialogue;
+    [SerializeField] private DialogueData deliveryDialogue;
+    [SerializeField] private DialogueData disappearanceDialogue;
+    [SerializeField] private DialogueData exitReadyDialogue;
+
+    [Header("音效（没有匹配资产时保持为空）")]
+    [SerializeField] private AudioClip fallingBreakingSound;
+    [Range(0f, 1f)] [SerializeField] private float fallingBreakingVolume = 1f;
+
+    [Header("存档 Flag")]
+    [SerializeField] private string completedFlag = "level3_door_sequence_done";
+    [SerializeField] private string resolvedFlag = "level3_store_shadow_resolved";
+    [SerializeField] private string toyDeliveredFlag = "level3_store_toy_delivered";
+
+    [Header("触发与交互")]
+    [SerializeField] private GameObject interactionUI;
     [SerializeField] private string playerTag = "Player";
+    [SerializeField] private KeyCode interactionKey = KeyCode.F;
 
     private Coroutine sequenceCoroutine;
     private IDisposable movementLease;
     private IDisposable interactionLease;
+    private bool playerInRange;
+    private bool inputSuppressed;
+    private bool subscribedToGameManager;
     private bool completed;
+    private bool resolved;
+
+    public bool IsInteractionPromptEligible
+    {
+        get
+        {
+            if (!isActiveAndEnabled || !playerInRange || sequenceCoroutine != null
+                || inputSuppressed || resolved)
+            {
+                return false;
+            }
+
+            return !completed ? HasAllInvestigations() : HasToyInvestigation();
+        }
+    }
+
+    private string InvestigationFlag(string clueId) => $"investigated_{clueId}";
 
     private void Awake()
     {
         GetComponent<BoxCollider2D>().isTrigger = true;
         ApplySavedState();
+        HidePrompt();
     }
 
     private void Start()
@@ -54,103 +97,228 @@ public class Level3DoorSequence : MonoBehaviour
     private void OnEnable()
     {
         ApplySavedState();
+        SubscribeGameManager(true);
     }
 
     private void OnDisable()
     {
+        PlayerInteractionPromptController.UnregisterSource(this);
+        SubscribeGameManager(false);
         InterruptSequence();
+        HidePrompt();
     }
 
     private void OnDestroy()
     {
+        PlayerInteractionPromptController.UnregisterSource(this);
+        SubscribeGameManager(false);
         InterruptSequence();
+    }
+
+    private void Update()
+    {
+        if (!subscribedToGameManager)
+        {
+            SubscribeGameManager(true);
+        }
+
+        if (GameplayInputLock.IsInteractionLocked)
+        {
+            inputSuppressed = true;
+            HidePrompt();
+            return;
+        }
+
+        if (inputSuppressed)
+        {
+            inputSuppressed = false;
+            RefreshPrompt();
+        }
+
+        if (!playerInRange || sequenceCoroutine != null || !Input.GetKeyDown(interactionKey)
+            || (DialogueUIManager.Instance != null && !DialogueUIManager.Instance.CanOpenDialogue))
+        {
+            return;
+        }
+
+        if (resolved)
+        {
+            return;
+        }
+
+        if (!completed)
+        {
+            if (HasAllInvestigations())
+            {
+                sequenceCoroutine = StartCoroutine(PlaySequence());
+            }
+
+            return;
+        }
+
+        if (!HasToyInvestigation())
+        {
+            return;
+        }
+
+        sequenceCoroutine = StartCoroutine(DeliverToy());
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!completed && sequenceCoroutine == null && other.CompareTag(playerTag))
+        if (other.CompareTag(playerTag))
         {
-            sequenceCoroutine = StartCoroutine(PlaySequence());
+            playerInRange = true;
+            PlayerInteractionPromptController.RegisterSource(this);
+            PlayerInteractionPromptController.RefreshSource(this);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag(playerTag))
+        {
+            playerInRange = false;
+            PlayerInteractionPromptController.UnregisterSource(this);
         }
     }
 
     private IEnumerator PlaySequence()
     {
-        if (!HasValidSteps())
+        HidePrompt();
+
+        if (!HasAllInvestigations() || !HasValidSteps())
         {
-            Debug.LogError("[Level3DoorSequence] 必须按顺序配置且仅配置 sps0、sps 两个有效步骤，演出未启动。", this);
+            if (!HasValidSteps())
+            {
+                Debug.LogError("[Level3DoorSequence] 必须按顺序配置且仅配置 sps0、sps 两个有效步骤，演出未启动。", this);
+            }
+
             sequenceCoroutine = null;
-            SetAllStepsVisible(false);
-            SetResultObjectsVisible(false);
+            RefreshPrompt();
             yield break;
         }
 
         movementLease = GameplayInputLock.AcquireMovementLock();
         interactionLease = GameplayInputLock.AcquireInteractionLock();
-
-        SetResultObjectsVisible(false);
         SetAllStepsVisible(false);
+        SetSequenceOnlyObjectsVisible(false);
+        SetResultObjectsVisible(false);
 
-        if (steps != null)
+        foreach (SequenceStep step in steps)
         {
-            foreach (SequenceStep step in steps)
+            if (step == null)
             {
-                if (step == null)
-                {
-                    continue;
-                }
+                continue;
+            }
 
-                if (step.root != null)
-                {
-                    step.root.SetActive(true);
-                }
+            if (step.root != null)
+            {
+                step.root.SetActive(true);
+            }
 
-                if (step.showResultObjectsDuringStep)
-                {
-                    SetResultObjectsVisible(true);
-                }
+            if (step.showResultObjectsDuringStep)
+            {
+                SetResultObjectsVisible(true);
+            }
 
-                if (step.animator != null && !string.IsNullOrEmpty(step.stateName))
-                {
-                    step.animator.Play(step.stateName, 0, 0f);
-                    step.animator.Update(0f);
-                }
-                else
-                {
-                    Debug.LogWarning($"[Level3DoorSequence] 步骤 {step.label} 未配置可播放的 Animator 状态，将仅等待配置时长。", this);
-                }
+            if (step.animator != null && !string.IsNullOrEmpty(step.stateName))
+            {
+                step.animator.Play(step.stateName, 0, 0f);
+                step.animator.Update(0f);
+            }
 
-                yield return new WaitForSecondsRealtime(Mathf.Max(0.01f, step.duration));
+            yield return new WaitForSecondsRealtime(Mathf.Max(0.01f, step.duration));
 
-                if (step.hideRootAfterStep && step.root != null)
-                {
-                    step.root.SetActive(false);
-                }
+            if (step.hideRootAfterStep && step.root != null)
+            {
+                step.root.SetActive(false);
+            }
 
-                if (step.showResultObjectsDuringStep)
-                {
-                    SetResultObjectsVisible(false);
-                }
+            if (step.showResultObjectsDuringStep)
+            {
+                SetResultObjectsVisible(false);
             }
         }
 
+        SetResultObjectsVisible(true);
         completed = true;
         SetSequenceOnlyObjectsVisible(false);
-        SetResultObjectsVisible(true);
+        SetStepRootVisible(0, false);
+        SetStepRootVisible(1, true);
+        GameManager.Instance?.SetFlag(completedFlag);
 
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.SetFlag(completedFlag);
-        }
-        else
-        {
-            completed = false;
-            SetResultObjectsVisible(false);
-            Debug.LogWarning("[Level3DoorSequence] GameManager 不存在，演出完成状态未保存。", this);
-        }
+        yield return StartDialogueAndWait(revealDialogue);
 
-        sequenceCoroutine = null;
         ReleaseLocks();
+        sequenceCoroutine = null;
+        RefreshPrompt();
+    }
+
+    private IEnumerator DeliverToy()
+    {
+        HidePrompt();
+        movementLease = GameplayInputLock.AcquireMovementLock();
+        interactionLease = GameplayInputLock.AcquireInteractionLock();
+
+        yield return StartDialogueAndWait(deliveryDialogue);
+        GameManager.Instance?.SetFlag(toyDeliveredFlag);
+        yield return StartDialogueAndWait(disappearanceDialogue);
+
+        if (SfxManager.Instance != null && fallingBreakingSound != null)
+        {
+            SfxManager.Instance.Play(fallingBreakingSound, fallingBreakingVolume);
+        }
+
+        SetResultObjectsVisible(false);
+        SetStepRootVisible(1, false);
+        yield return StartDialogueAndWait(exitReadyDialogue);
+
+        GameManager.Instance?.SetFlag(resolvedFlag);
+        resolved = true;
+        ReleaseLocks();
+        sequenceCoroutine = null;
+        RefreshPrompt();
+    }
+
+    private IEnumerator StartDialogueAndWait(DialogueData dialogue)
+    {
+        if (dialogue == null || dialogue.lines == null || dialogue.lines.Length == 0
+            || DialogueUIManager.Instance == null)
+        {
+            yield break;
+        }
+
+        bool finished = false;
+        DialogueUIManager.Instance.StartDialogue(dialogue, () => finished = true);
+        while (!finished)
+        {
+            yield return null;
+        }
+    }
+
+    private bool HasAllInvestigations()
+    {
+        if (GameManager.Instance == null || requiredInvestigationIds == null || requiredInvestigationIds.Length == 0)
+        {
+            return false;
+        }
+
+        foreach (string clueId in requiredInvestigationIds)
+        {
+            if (string.IsNullOrEmpty(clueId) || !GameManager.Instance.HasFlag(InvestigationFlag(clueId)))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private bool HasToyInvestigation()
+    {
+        return GameManager.Instance != null
+            && GameManager.Instance.HasFlag(InvestigationFlag("store_toy"));
     }
 
     private bool HasValidSteps()
@@ -164,10 +332,8 @@ public class Level3DoorSequence : MonoBehaviour
         {
             SequenceStep step = steps[i];
             string expectedLabel = i == 0 ? "sps0" : "sps";
-            if (step == null
-                || !string.Equals(step.label, expectedLabel, StringComparison.Ordinal)
-                || step.root == null
-                || step.duration < 0.01f)
+            if (step == null || !string.Equals(step.label, expectedLabel, StringComparison.Ordinal)
+                || step.root == null || step.duration < 0.01f)
             {
                 return false;
             }
@@ -178,21 +344,52 @@ public class Level3DoorSequence : MonoBehaviour
 
     private void ApplySavedState()
     {
-        completed = GameManager.Instance != null
-            && GameManager.Instance.HasFlag(completedFlag);
+        GameManager gm = GameManager.Instance;
+        completed = gm != null && gm.HasFlag(completedFlag);
+        resolved = gm != null && gm.HasFlag(resolvedFlag);
 
-        if (completed)
+        SetAllStepsVisible(false);
+        SetSequenceOnlyObjectsVisible(false);
+        SetResultObjectsVisible(completed && !resolved);
+        SetStepRootVisible(0, false);
+        SetStepRootVisible(1, completed && !resolved);
+        RefreshPrompt();
+    }
+
+    private void SubscribeGameManager(bool subscribe)
+    {
+        GameManager gm = GameManager.Instance;
+        if (gm == null || subscribedToGameManager == subscribe)
         {
-            SetAllStepsVisible(false);
-            SetSequenceOnlyObjectsVisible(false);
-            SetResultObjectsVisible(true);
+            return;
         }
-        else if (sequenceCoroutine == null)
+
+        if (subscribe)
         {
-            SetAllStepsVisible(false);
-            SetSequenceOnlyObjectsVisible(false);
-            SetResultObjectsVisible(false);
+            gm.OnFlagsChanged += HandleFlagsChanged;
         }
+        else
+        {
+            gm.OnFlagsChanged -= HandleFlagsChanged;
+        }
+
+        subscribedToGameManager = subscribe;
+    }
+
+    private void HandleFlagsChanged()
+    {
+        ApplySavedState();
+        PlayerInteractionPromptController.RefreshSource(this);
+    }
+
+    private void RefreshPrompt()
+    {
+        PlayerInteractionPromptController.RefreshSource(this);
+    }
+
+    private void HidePrompt()
+    {
+        PlayerInteractionPromptController.RefreshSource(this);
     }
 
     private void InterruptSequence()
@@ -203,59 +400,52 @@ public class Level3DoorSequence : MonoBehaviour
             sequenceCoroutine = null;
         }
 
-        if (!completed)
+        ReleaseLocks();
+        if (!completed || resolved)
         {
             SetAllStepsVisible(false);
             SetSequenceOnlyObjectsVisible(false);
-            SetResultObjectsVisible(false);
         }
 
-        ReleaseLocks();
+        if (resolved)
+        {
+            SetResultObjectsVisible(false);
+        }
     }
 
-    private void SetAllStepsVisible(bool visible)
+    private void SetStepRootVisible(int index, bool visible)
     {
-        if (steps == null)
+        if (steps == null || index < 0 || index >= steps.Length || steps[index] == null
+            || steps[index].root == null)
         {
             return;
         }
 
+        steps[index].root.SetActive(visible);
+    }
+
+    private void SetAllStepsVisible(bool visible)
+    {
+        if (steps == null) return;
         foreach (SequenceStep step in steps)
         {
-            if (step != null && step.root != null)
-            {
-                step.root.SetActive(visible);
-            }
+            if (step != null && step.root != null) step.root.SetActive(visible);
         }
     }
 
     private void SetSequenceOnlyObjectsVisible(bool visible)
     {
-        if (sequenceOnlyObjects == null)
-        {
-            return;
-        }
-
+        if (sequenceOnlyObjects == null) return;
         foreach (GameObject sequenceObject in sequenceOnlyObjects)
         {
-            if (sequenceObject != null)
-            {
-                sequenceObject.SetActive(visible);
-            }
+            if (sequenceObject != null) sequenceObject.SetActive(visible);
         }
     }
 
     private void SetResultObjectsVisible(bool visible)
     {
-        if (hand != null)
-        {
-            hand.SetActive(visible);
-        }
-
-        if (eye != null)
-        {
-            eye.SetActive(visible);
-        }
+        if (hand != null) hand.SetActive(visible);
+        if (eye != null) eye.SetActive(visible);
     }
 
     private void ReleaseLocks()

@@ -111,10 +111,10 @@ public class MainMenu : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.5f);
         afterDelay?.Invoke();
 
-        // FadeOutIn 在下一帧才会启动其内部协程，先让出一帧再检查渐变状态。
+        // FadeOutIn 在下一帧才会启动其内部协程，先让出一帧再检查渐变状态
         yield return null;
 
-        // Start 的面板切换或场景淡出完成前保持锁定，避免重复反馈和重复转场。
+        // Start 的面板切换或场景淡出完成前保持锁定，避免重复反馈和重复转场
         while (isActiveAndEnabled && ScreenFader.IsFading)
         {
             yield return null;
@@ -193,9 +193,10 @@ public class MainMenu : MonoBehaviour
             genderSelectPanel.SetActive(show);
         }
 
-        // Start 的反馈协程负责等待并释放锁；取消按钮没有外层反馈协程，需要由这里负责。
+        // Start 的反馈协程负责等待并释放锁；取消按钮没有外层反馈协程，需要由这里负责
         if (!alreadyLocked)
         {
+            // 启动当前异步流程
             StartCoroutine(ReleaseTransitionAfterFade());
         }
     }
@@ -220,7 +221,7 @@ public class MainMenu : MonoBehaviour
             yield break;
         }
 
-        // FadeOutIn 在下一帧启动协程，先等待到渐变真正开始，再等待它结束。
+        // FadeOutIn 在下一帧启动协程，先等待到渐变真正开始，再等待它结束
         yield return null;
         while (isActiveAndEnabled && !ScreenFader.IsFading)
         {
