@@ -148,6 +148,16 @@ public static class Level3DoorSequenceSetup
         ConfigureDoor(sceneDoor, doorLockedDialogue);
         Set(handprintPickup, "lockedByFlag", CompletedFlag);
         Set(handprintPickup, "lockedDialogue", handprintBlockedDialogue);
+        GameObject shelfToy = FindSceneObject("Toys on the shelf");
+        if (shelfToy != null)
+        {
+            CluePickup2D shelfToyPickup = shelfToy.GetComponent<CluePickup2D>();
+            if (shelfToyPickup != null)
+            {
+                Set(shelfToyPickup, "lockedByFlag", CompletedFlag);
+                Set(shelfToyPickup, "lockedDialogue", (Object)null);
+            }
+        }
         DisableDuplicateLevel3ClearPresentation();
 
         hand.SetActive(false);
