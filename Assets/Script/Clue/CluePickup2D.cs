@@ -14,6 +14,11 @@ public class CluePickup2D : MonoBehaviour, IInteractionPromptSource
     [Tooltip("拾取后物品是否从场景消失（false = 可反复调查，但线索只给一次）")]
     [SerializeField] private bool disappearAfterPickup = true;
 
+    [Tooltip("开启后该物品完成一次调查后不再响应交互，但物品仍保留在场景中")]
+    [SerializeField] private bool onlyInteractOnce;
+    [Tooltip("一次性交互的唯一 ID；留空时使用物体名")]
+    [SerializeField] private string interactionId;
+
     [Tooltip("调查此物品是否计入调查次数（默认计入；线索本身不额外计数）")]
     [SerializeField] private bool countsAsInvestigation = true;
 
@@ -32,6 +37,18 @@ public class CluePickup2D : MonoBehaviour, IInteractionPromptSource
     private bool interactionSuppressed;
 
     private string PickupFlag => clueToGrant != null ? $"picked_{clueToGrant.ClueId}" : null;
+    private string InteractionFlag
+    {
+        get
+        {
+            string id = string.IsNullOrEmpty(interactionId) ? name : interactionId;
+            return $"interacted_{id}";
+        }
+    }
+
+    private bool HasCompletedInteraction => onlyInteractOnce
+        && GameManager.Instance != null
+        && GameManager.Instance.HasFlag(InteractionFlag);
 
     public static void SetExclusiveInteractionTarget(GameObject target)
     {
@@ -55,6 +72,7 @@ public class CluePickup2D : MonoBehaviour, IInteractionPromptSource
         get
         {
             if (!isActiveAndEnabled || !playerInRange || interactionSuppressed
+                || HasCompletedInteraction
                 || (exclusiveInteractionTarget != null && exclusiveInteractionTarget != gameObject))
             {
                 return false;
@@ -141,7 +159,7 @@ public class CluePickup2D : MonoBehaviour, IInteractionPromptSource
             PlayerInteractionPromptController.RefreshSource(this);
         }
 
-        if (!IsExclusiveInteractionAllowed())
+        if (!IsExclusiveInteractionAllowed() || HasCompletedInteraction)
         {
             HidePrompt();
             return;
@@ -160,6 +178,11 @@ public class CluePickup2D : MonoBehaviour, IInteractionPromptSource
 
     private void Inspect()
     {
+        if (HasCompletedInteraction)
+        {
+            return;
+        }
+
         HidePrompt();
 
         bool locked = !string.IsNullOrEmpty(lockedByFlag)
@@ -210,6 +233,11 @@ public class CluePickup2D : MonoBehaviour, IInteractionPromptSource
                 gameObject.SetActive(false);
                 return;
             }
+        }
+
+        if (onlyInteractOnce && GameManager.Instance != null)
+        {
+            GameManager.Instance.SetFlag(InteractionFlag);
         }
 
         if (playerInRange)

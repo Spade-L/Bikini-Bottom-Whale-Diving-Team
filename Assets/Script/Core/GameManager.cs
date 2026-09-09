@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -187,13 +188,35 @@ public class GameManager : MonoBehaviour
 
     public SaveData CaptureSaveData()
     {
+        PlayerMovement2D player = FindFirstObjectByType<PlayerMovement2D>();
+        if (player == null)
+        {
+            Debug.LogWarning("[GameManager] 当前场景找不到玩家，无法创建存档。");
+            return null;
+        }
+
+        Vector3 position = player.transform.position;
         return new SaveData
         {
             flags = new List<string>(flags),
             collectedClueIds = new List<string>(collectedClueIds),
             timePeriod = CurrentTimePeriod,
             investigationCount = InvestigationCount,
+            sceneName = SceneManager.GetActiveScene().name,
+            playerX = position.x,
+            playerY = position.y,
         };
+    }
+
+    public void ResetRuntimeState()
+    {
+        flags.Clear();
+        collectedClueIds.Clear();
+        CurrentTimePeriod = 0;
+        InvestigationCount = 0;
+        OnFlagsChanged?.Invoke();
+        OnTimeAdvanced?.Invoke(CurrentTimePeriod);
+        OnInvestigationCountChanged?.Invoke(InvestigationCount);
     }
 
     public void RestoreSaveData(SaveData data)
@@ -210,17 +233,24 @@ public class GameManager : MonoBehaviour
         {
             foreach (string flag in data.flags)
             {
-                flags.Add(flag);
+                if (!string.IsNullOrEmpty(flag)) flags.Add(flag);
             }
         }
 
         if (data.collectedClueIds != null)
         {
-            collectedClueIds.AddRange(data.collectedClueIds);
+            foreach (string clueId in data.collectedClueIds)
+            {
+                if (!string.IsNullOrEmpty(clueId) && !collectedClueIds.Contains(clueId))
+                {
+                    collectedClueIds.Add(clueId);
+                }
+            }
         }
 
-        CurrentTimePeriod = data.timePeriod;
-        InvestigationCount = data.investigationCount;
+        CurrentTimePeriod = Mathf.Max(0, data.timePeriod);
+        InvestigationCount = Mathf.Max(0, data.investigationCount);
+        OnFlagsChanged?.Invoke();
         OnTimeAdvanced?.Invoke(CurrentTimePeriod);
         OnInvestigationCountChanged?.Invoke(InvestigationCount);
     }

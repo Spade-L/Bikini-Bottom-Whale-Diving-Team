@@ -40,7 +40,8 @@ public class SfxManager : MonoBehaviour
     {
         if (clip != null)
         {
-            source.PlayOneShot(clip, Mathf.Clamp01(volume));
+            float globalVolume = SettingsManager.Instance == null ? 1f : SettingsManager.Instance.SfxVolume;
+            source.PlayOneShot(clip, Mathf.Clamp01(volume * globalVolume));
         }
     }
 }

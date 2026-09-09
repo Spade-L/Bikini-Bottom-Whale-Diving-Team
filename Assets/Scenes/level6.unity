@@ -365,6 +365,8 @@ MonoBehaviour:
   inspectDialogue: {fileID: 11400000, guid: ff8622bfd6ace1e498d32df50b301de5, type: 2}
   clueToGrant: {fileID: 11400000, guid: ef0d3fd2520d57f4c86dde5a4b9db198, type: 2}
   disappearAfterPickup: 1
+  onlyInteractOnce: 1
+  interactionId: level6_diary
   countsAsInvestigation: 1
   lockedByFlag: 
   lockedDialogue: {fileID: 0}
@@ -529,6 +531,8 @@ MonoBehaviour:
   inspectDialogue: {fileID: 11400000, guid: 642f81b1b1493b747a56cd0c849cdceb, type: 2}
   clueToGrant: {fileID: 11400000, guid: 9ca0b802b9d88104587dae5cefc0dbf2, type: 2}
   disappearAfterPickup: 0
+  onlyInteractOnce: 1
+  interactionId: level6_reflection
   countsAsInvestigation: 1
   lockedByFlag: 
   lockedDialogue: {fileID: 0}
@@ -1112,7 +1116,7 @@ Transform:
   m_GameObject: {fileID: 376892340}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.2313, y: -2.367, z: 0.0071276957}
+  m_LocalPosition: {x: -2.293, y: -2.333, z: 0.0071276957}
   m_LocalScale: {x: 0.1830337, y: 0.7565, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1665,6 +1669,8 @@ MonoBehaviour:
   inspectDialogue: {fileID: 11400000, guid: c5afc9aaba7d1304097fb1d5458c066d, type: 2}
   clueToGrant: {fileID: 11400000, guid: adc000d774ec85b43918e37a8117ed4a, type: 2}
   disappearAfterPickup: 1
+  onlyInteractOnce: 1
+  interactionId: level6_diary_last_page
   countsAsInvestigation: 1
   lockedByFlag: 
   lockedDialogue: {fileID: 0}
@@ -2407,6 +2413,8 @@ MonoBehaviour:
   inspectDialogue: {fileID: 11400000, guid: e60497ec6e01a2949b485592f700b492, type: 2}
   clueToGrant: {fileID: 11400000, guid: 444aa54f03a61c242ad1b1d4ebadfeed, type: 2}
   disappearAfterPickup: 0
+  onlyInteractOnce: 1
+  interactionId: level6_footprints_2
   countsAsInvestigation: 1
   lockedByFlag: 
   lockedDialogue: {fileID: 0}
@@ -2868,6 +2876,8 @@ MonoBehaviour:
   inspectDialogue: {fileID: 11400000, guid: 276d028b80c02004eb525d5d75660e9e, type: 2}
   clueToGrant: {fileID: 11400000, guid: 4e2f89812949d664a91471d464d8129b, type: 2}
   disappearAfterPickup: 0
+  onlyInteractOnce: 1
+  interactionId: level6_chair
   countsAsInvestigation: 1
   lockedByFlag: 
   lockedDialogue: {fileID: 0}
@@ -3518,6 +3528,8 @@ MonoBehaviour:
   inspectDialogue: {fileID: 11400000, guid: e60497ec6e01a2949b485592f700b492, type: 2}
   clueToGrant: {fileID: 11400000, guid: 444aa54f03a61c242ad1b1d4ebadfeed, type: 2}
   disappearAfterPickup: 0
+  onlyInteractOnce: 1
+  interactionId: level6_footprints
   countsAsInvestigation: 1
   lockedByFlag: 
   lockedDialogue: {fileID: 0}
@@ -3679,6 +3691,8 @@ MonoBehaviour:
   inspectDialogue: {fileID: 11400000, guid: 6685eaf33fafd7f418d1ca1eae245954, type: 2}
   clueToGrant: {fileID: 11400000, guid: 6e423fc6a5480414fb243965e61c9eed, type: 2}
   disappearAfterPickup: 1
+  onlyInteractOnce: 1
+  interactionId: level6_self_portrait
   countsAsInvestigation: 1
   lockedByFlag: 
   lockedDialogue: {fileID: 0}
@@ -5515,6 +5529,8 @@ MonoBehaviour:
   inspectDialogue: {fileID: 11400000, guid: e60497ec6e01a2949b485592f700b492, type: 2}
   clueToGrant: {fileID: 11400000, guid: 444aa54f03a61c242ad1b1d4ebadfeed, type: 2}
   disappearAfterPickup: 0
+  onlyInteractOnce: 1
+  interactionId: level6_footprints_1
   countsAsInvestigation: 1
   lockedByFlag: 
   lockedDialogue: {fileID: 0}
@@ -5867,11 +5883,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1758276233883208641, guid: 5ffc8edc034218a4bbaf424c5660100c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.72
+      value: -2.782
       objectReference: {fileID: 0}
     - target: {fileID: 1758276233883208641, guid: 5ffc8edc034218a4bbaf424c5660100c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.31
+      value: -2.42
       objectReference: {fileID: 0}
     - target: {fileID: 1758276233883208641, guid: 5ffc8edc034218a4bbaf424c5660100c, type: 3}
       propertyPath: m_LocalPosition.z

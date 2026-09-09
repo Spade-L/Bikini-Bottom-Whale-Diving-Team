@@ -20,6 +20,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject saveBImage;
     [SerializeField] private Button settingsButton;
     [SerializeField] private GameObject settingsBImage;
+    [SerializeField] private SettingsOverlayController settingsOverlay;
 
     private bool transitionInProgress;
 
@@ -39,12 +40,20 @@ public class MainMenu : MonoBehaviour
         BeginButtonFeedback(startBImage, StartGameAfterFeedback);
     }
 
-    /// <summary>存档按钮的安全占位入口。未配置真实存档界面前不执行存档业务。</summary>
+    /// <summary>从主菜单打开存档页面，只允许读取存档。</summary>
     public void OpenSave()
     {
         BeginButtonFeedback(saveBImage, () =>
         {
-            Debug.Log("主菜单：Save 尚未配置存档界面或存档操作，已返回菜单。");
+            SaveMenuController target = SaveMenuController.Instance;
+            if (target != null)
+            {
+                target.Open(true);
+            }
+            else
+            {
+                Debug.LogWarning("主菜单：未找到存档页面控制器。");
+            }
         });
     }
 
@@ -53,7 +62,17 @@ public class MainMenu : MonoBehaviour
     {
         BeginButtonFeedback(settingsBImage, () =>
         {
-            Debug.Log("主菜单：Settings 尚未配置设置界面，已返回菜单。");
+            SettingsOverlayController target = settingsOverlay != null
+                ? settingsOverlay
+                : SettingsOverlayController.Instance;
+            if (target != null)
+            {
+                target.Open();
+            }
+            else
+            {
+                Debug.LogWarning("主菜单：未找到设置页面控制器。");
+            }
         });
     }
 
@@ -125,6 +144,17 @@ public class MainMenu : MonoBehaviour
             yield break;
         }
 
+        // 存档页面属于独立模态层：菜单按钮保持禁用，直到页面关闭。
+        while (isActiveAndEnabled && SaveMenuController.Instance != null && SaveMenuController.Instance.IsOpen)
+        {
+            yield return null;
+        }
+
+        if (!isActiveAndEnabled)
+        {
+            yield break;
+        }
+
         HideButtonFeedbackImages();
         SetTopLevelButtonsInteractable(true);
         transitionInProgress = false;
@@ -152,6 +182,7 @@ public class MainMenu : MonoBehaviour
     public void StartAsMale()
     {
         GameManager.PendingFemaleSelection = false;
+        GameManager.Instance?.ResetRuntimeState();
         LoadGameScene();
     }
 
@@ -159,6 +190,7 @@ public class MainMenu : MonoBehaviour
     public void StartAsFemale()
     {
         GameManager.PendingFemaleSelection = true;
+        GameManager.Instance?.ResetRuntimeState();
         LoadGameScene();
     }
 

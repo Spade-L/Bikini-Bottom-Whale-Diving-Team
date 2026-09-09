@@ -183,12 +183,12 @@ MonoBehaviour:
   walkUpState: "\u80CC\u8EAB"
   walkLeftState: "\u5DE6\u8D70"
   walkRightState: "\u53F3\u8D70"
-  idleDown: {fileID: -7542175737752339544, guid: 9c024130f129d674a8afa430205e0dc0, type: 3}
+  idleDown: {fileID: -3188479007519895904, guid: 9c024130f129d674a8afa430205e0dc0, type: 3}
   idleUp: {fileID: 1685729871079090873, guid: 9c024130f129d674a8afa430205e0dc0, type: 3}
   idleLeft: {fileID: 6812849112986518149, guid: 9c024130f129d674a8afa430205e0dc0, type: 3}
   idleRight: {fileID: -5287853521424204019, guid: 9c024130f129d674a8afa430205e0dc0, type: 3}
-  footstepLoop: {fileID: 0}
-  footstepVolume: 0.5
+  footstepLoop: {fileID: 8300000, guid: c863b5f7559070d40b2c82679b8be4a0, type: 3}
+  footstepVolume: 0.546
 --- !u!95 &352446164325379828
 Animator:
   serializedVersion: 7

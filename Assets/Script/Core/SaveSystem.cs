@@ -1,64 +1,176 @@
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using UnityEngine;
 
 // 纯数据载体，字段名同时是 JsonUtility 写入的 JSON 键名
-[System.Serializable]
+[Serializable]
 public class SaveData
 {
-    // GameManager 的剧情进度快照
     public List<string> flags;
     public List<string> collectedClueIds;
     public int timePeriod;
     public int investigationCount;
 
-    // 场景和二维坐标用于在读取后恢复玩家位置
     public string sceneName;
     public float playerX;
     public float playerY;
+    public string savedAtUtc;
 }
 
 public static class SaveSystem
 {
-    // 槽位编号直接参与文件名；不同槽位互不覆盖
+    public const int MinSlot = 1;
+    public const int MaxSlot = 4;
+
     private static string GetPath(int slot)
     {
         return Path.Combine(Application.persistentDataPath, $"save_{slot}.json");
     }
 
-    // 仅检查文件是否存在，不验证 JSON 完整性
-    public static bool HasSave(int slot = 0)
+    public static bool IsValidSlot(int slot)
     {
-        return File.Exists(GetPath(slot));
+        return slot >= MinSlot && slot <= MaxSlot;
     }
 
-    // 立即以格式化 JSON 覆盖对应槽位，调用方负责先汇集当前运行状态
-    public static void Save(SaveData data, int slot = 0)
+    public static bool HasSave(int slot)
     {
-        string json = JsonUtility.ToJson(data, prettyPrint: true);
-        File.WriteAllText(GetPath(slot), json);
-        Debug.Log($"[SaveSystem] 已存档: {GetPath(slot)}");
+        return TryLoad(slot, out _);
     }
 
-    // 缺档返回 null，由调用方决定显示新游戏流程还是报错提示
-    public static SaveData Load(int slot = 0)
+    public static bool Save(SaveData data, int slot)
     {
+        if (!IsValidSlot(slot) || data == null || string.IsNullOrWhiteSpace(data.sceneName))
+        {
+            Debug.LogWarning($"[SaveSystem] 无法保存：槽位或存档数据无效 ({slot})。");
+            return false;
+        }
+
+        data.savedAtUtc = DateTime.UtcNow.ToString("o", CultureInfo.InvariantCulture);
+        string path = GetPath(slot);
+        string temporaryPath = path + ".tmp";
+
+        try
+        {
+            Directory.CreateDirectory(Application.persistentDataPath);
+            string json = JsonUtility.ToJson(data, true);
+            File.WriteAllText(temporaryPath, json);
+
+            if (File.Exists(path))
+            {
+                File.Replace(temporaryPath, path, null);
+            }
+            else
+            {
+                File.Move(temporaryPath, path);
+            }
+
+            Debug.Log($"[SaveSystem] 已存档: {path}");
+            return true;
+        }
+        catch (Exception exception)
+        {
+            Debug.LogError($"[SaveSystem] 保存失败 ({slot}): {exception.Message}");
+            TryDelete(temporaryPath);
+            return false;
+        }
+    }
+
+    public static SaveData Load(int slot)
+    {
+        return TryLoad(slot, out SaveData data) ? data : null;
+    }
+
+    public static bool TryLoad(int slot, out SaveData data)
+    {
+        data = null;
+        if (!IsValidSlot(slot))
+        {
+            return false;
+        }
+
         string path = GetPath(slot);
         if (!File.Exists(path))
         {
-            return null;
+            return false;
         }
 
-        return JsonUtility.FromJson<SaveData>(File.ReadAllText(path));
+        try
+        {
+            data = JsonUtility.FromJson<SaveData>(File.ReadAllText(path));
+            if (!IsValidData(data))
+            {
+                data = null;
+                return false;
+            }
+
+            return true;
+        }
+        catch (Exception exception)
+        {
+            Debug.LogWarning($"[SaveSystem] 存档无法读取，将按空槽位处理 ({slot}): {exception.Message}");
+            return false;
+        }
     }
 
-    // 删除操作保持幂等：槽位本来为空时不抛出异常
-    public static void Delete(int slot = 0)
+    public static bool TryGetSavedTime(int slot, out DateTime savedAtLocal)
     {
-        string path = GetPath(slot);
-        if (File.Exists(path))
+        savedAtLocal = default(DateTime);
+        if (!TryLoad(slot, out SaveData data))
         {
-            File.Delete(path);
+            return false;
+        }
+
+        if (!DateTime.TryParse(
+                data.savedAtUtc,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.RoundtripKind,
+                out DateTime savedAtUtc))
+        {
+            return false;
+        }
+
+        savedAtLocal = savedAtUtc.ToLocalTime();
+        return true;
+    }
+
+    public static bool IsValidData(SaveData data)
+    {
+        if (data == null || string.IsNullOrWhiteSpace(data.sceneName) || string.IsNullOrWhiteSpace(data.savedAtUtc))
+        {
+            return false;
+        }
+
+        return DateTime.TryParse(
+            data.savedAtUtc,
+            CultureInfo.InvariantCulture,
+            DateTimeStyles.RoundtripKind,
+            out _);
+    }
+
+    public static void Delete(int slot)
+    {
+        if (!IsValidSlot(slot))
+        {
+            return;
+        }
+
+        TryDelete(GetPath(slot));
+    }
+
+    private static void TryDelete(string path)
+    {
+        try
+        {
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
+        catch (Exception exception)
+        {
+            Debug.LogWarning($"[SaveSystem] 文件清理失败: {exception.Message}");
         }
     }
 }
