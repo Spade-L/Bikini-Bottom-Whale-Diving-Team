@@ -67,7 +67,7 @@ public class PlayerInteractionPromptController : MonoBehaviour
 
     public static void RefreshSource(IInteractionPromptSource source)
     {
-        if (source == null || Instance == null)
+        if (Instance == null)
         {
             return;
         }

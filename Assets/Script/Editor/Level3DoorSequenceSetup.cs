@@ -13,9 +13,13 @@ public static class Level3DoorSequenceSetup
     private const string DeliveryDialoguePath = DialogueFolder + "/Dlg_store_shadow_delivery.asset";
     private const string DisappearanceDialoguePath = DialogueFolder + "/Dlg_store_shadow_disappearance.asset";
     private const string ExitReadyDialoguePath = DialogueFolder + "/Dlg_store_exit_ready.asset";
+    private const string MissingToyDialoguePath = DialogueFolder + "/Dlg_store_missing_toy.asset";
+    private const string RedToyDialoguePath = DialogueFolder + "/Dlg_store_red_toy.asset";
+    private const string RedToyCluePath = "Assets/GameData/Clues/level3/Clue_store_red_toy.asset";
     private const string CompletedFlag = "level3_door_sequence_done";
     private const string ResolvedFlag = "level3_store_shadow_resolved";
     private const string ToyDeliveredFlag = "level3_store_toy_delivered";
+    private const string RedToyPickupFlag = "picked_store_red_toy";
 
     private static readonly string[] InvestigationIds =
     {
@@ -80,14 +84,24 @@ public static class Level3DoorSequenceSetup
         DialogueData exitReadyDialogue = ConfigureDialogue(
             ExitReadyDialoguePath,
             new DialogueLine("我", "似乎可以出门了。"));
+        DialogueData missingToyDialogue = ConfigureDialogue(
+            MissingToyDialoguePath,
+            new DialogueLine("？？？", "想出去嘛，只要找到我丢失的东西就可以啦"));
+        DialogueData redToyDialogue = ConfigureDialogue(
+            RedToyDialoguePath,
+            new DialogueLine(string.Empty, "货架旁边放着一只红色的玩偶。"),
+            new DialogueLine("我", "这是它丢失的东西吗？"));
+        ClueData redToyClue = ConfigureRedToyClue();
 
         if (handprintBlockedDialogue == null || doorLockedDialogue == null || revealDialogue == null
-            || deliveryDialogue == null || disappearanceDialogue == null || exitReadyDialogue == null)
+            || deliveryDialogue == null || disappearanceDialogue == null || exitReadyDialogue == null
+            || missingToyDialogue == null || redToyDialogue == null || redToyClue == null)
         {
-            Debug.LogError("[Level3DoorSequenceSetup] 对白资源创建失败，未保存场景。");
+            Debug.LogError("[Level3DoorSequenceSetup] 对白或线索资源创建失败，未保存场景。");
             return;
         }
 
+        GameObject redToy = ConfigureRedToy(redToyClue, redToyDialogue);
         GameObject handBinding = FindSceneObject("插画5 10_0");
         GameObject eyeBinding = FindSceneObject("插画5 11");
         if (handBinding != null) handBinding.SetActive(true);
@@ -103,7 +117,7 @@ public static class Level3DoorSequenceSetup
         SerializedObject serialized = new SerializedObject(sequence);
         SerializedProperty steps = serialized.FindProperty("steps");
         steps.arraySize = 2;
-        ConfigureStep(steps.GetArrayElementAtIndex(0), "sps0", sps0Root, sps0Animator, "sps0", 0.6666667f, false, true);
+        ConfigureStep(steps.GetArrayElementAtIndex(0), "sps0", sps0Root, sps0Animator, "sps0", 0.2f, false, true);
         ConfigureStep(steps.GetArrayElementAtIndex(1), "sps", spsRoot, spsAnimator, "sps", 1.25f, false, false);
 
         SerializedProperty investigations = serialized.FindProperty("requiredInvestigationIds");
@@ -115,9 +129,11 @@ public static class Level3DoorSequenceSetup
 
         serialized.FindProperty("hand").objectReferenceValue = hand;
         serialized.FindProperty("eye").objectReferenceValue = eye;
+        serialized.FindProperty("redToyGameObject").objectReferenceValue = redToy;
         SerializedProperty sequenceOnlyObjects = serialized.FindProperty("sequenceOnlyObjects");
         sequenceOnlyObjects.arraySize = 0;
         serialized.FindProperty("revealDialogue").objectReferenceValue = revealDialogue;
+        serialized.FindProperty("missingToyDialogue").objectReferenceValue = missingToyDialogue;
         serialized.FindProperty("deliveryDialogue").objectReferenceValue = deliveryDialogue;
         serialized.FindProperty("disappearanceDialogue").objectReferenceValue = disappearanceDialogue;
         serialized.FindProperty("exitReadyDialogue").objectReferenceValue = exitReadyDialogue;
@@ -125,6 +141,7 @@ public static class Level3DoorSequenceSetup
         serialized.FindProperty("completedFlag").stringValue = CompletedFlag;
         serialized.FindProperty("resolvedFlag").stringValue = ResolvedFlag;
         serialized.FindProperty("toyDeliveredFlag").stringValue = ToyDeliveredFlag;
+        serialized.FindProperty("redToyPickupFlag").stringValue = RedToyPickupFlag;
         serialized.ApplyModifiedPropertiesWithoutUndo();
         EditorUtility.SetDirty(sequence);
 
@@ -175,6 +192,78 @@ public static class Level3DoorSequenceSetup
         serialized.FindProperty("clearMonologue").objectReferenceValue = null;
         serialized.ApplyModifiedPropertiesWithoutUndo();
         EditorUtility.SetDirty(tracker);
+    }
+
+    private static ClueData ConfigureRedToyClue()
+    {
+        ClueData clue = AssetDatabase.LoadAssetAtPath<ClueData>(RedToyCluePath);
+        if (clue == null)
+        {
+            clue = ScriptableObject.CreateInstance<ClueData>();
+            AssetDatabase.CreateAsset(clue, RedToyCluePath);
+        }
+
+        SerializedObject serialized = new SerializedObject(clue);
+        serialized.FindProperty("clueId").stringValue = "store_red_toy";
+        serialized.FindProperty("title").stringValue = "红色玩偶";
+        serialized.FindProperty("description").stringValue = "一只被单独放在货架旁的红色玩偶。";
+        serialized.FindProperty("icon").objectReferenceValue = null;
+        serialized.FindProperty("surfaceMeaning").stringValue = "它看起来像是某个身影正在寻找的东西。";
+        serialized.FindProperty("trueMeaning").stringValue = "这是黑影丢失的玩偶。";
+        serialized.ApplyModifiedPropertiesWithoutUndo();
+        EditorUtility.SetDirty(clue);
+        return clue;
+    }
+
+    private static GameObject ConfigureRedToy(ClueData redToyClue, DialogueData redToyDialogue)
+    {
+        GameObject shelfToy = FindSceneObject("Toys on the shelf");
+        GameObject redToy = GetOrCreate("Store Red Toy", null);
+        if (shelfToy != null)
+        {
+            SpriteRenderer shelfRenderer = shelfToy.GetComponent<SpriteRenderer>();
+            if (shelfRenderer != null)
+            {
+                SpriteRenderer redRenderer = GetOrAdd<SpriteRenderer>(redToy);
+                redRenderer.sprite = shelfRenderer.sprite;
+                redRenderer.color = new Color(1f, 0.12f, 0.12f, 1f);
+                redRenderer.sortingLayerID = shelfRenderer.sortingLayerID;
+                redRenderer.sortingOrder = shelfRenderer.sortingOrder + 1;
+            }
+
+            redToy.transform.position = shelfToy.transform.position + new Vector3(1.4f, 0.15f, 0f);
+            redToy.transform.localScale = shelfToy.transform.lossyScale * 0.45f;
+        }
+        else
+        {
+            redToy.transform.position = new Vector3(-4.4f, 1.4f, 0f);
+            redToy.transform.localScale = Vector3.one;
+        }
+
+        BoxCollider2D collider = GetOrAdd<BoxCollider2D>(redToy);
+        collider.isTrigger = true;
+        collider.size = new Vector2(1.4f, 1.4f);
+
+        CluePickup2D pickup = GetOrAdd<CluePickup2D>(redToy);
+        SerializedObject serialized = new SerializedObject(pickup);
+        SerializedProperty condition = serialized.FindProperty("appearCondition");
+        condition.FindPropertyRelative("minTimePeriod").intValue = -1;
+        condition.FindPropertyRelative("maxTimePeriod").intValue = -1;
+        SerializedProperty requiredFlags = condition.FindPropertyRelative("requiredFlags");
+        requiredFlags.arraySize = 1;
+        requiredFlags.GetArrayElementAtIndex(0).stringValue = CompletedFlag;
+        condition.FindPropertyRelative("forbiddenFlags").arraySize = 0;
+        condition.FindPropertyRelative("requiredClues").arraySize = 0;
+        serialized.FindProperty("inspectDialogue").objectReferenceValue = redToyDialogue;
+        serialized.FindProperty("clueToGrant").objectReferenceValue = redToyClue;
+        serialized.FindProperty("disappearAfterPickup").boolValue = true;
+        serialized.FindProperty("countsAsInvestigation").boolValue = false;
+        serialized.FindProperty("lockedByFlag").stringValue = string.Empty;
+        serialized.FindProperty("lockedDialogue").objectReferenceValue = null;
+        serialized.ApplyModifiedPropertiesWithoutUndo();
+        EditorUtility.SetDirty(pickup);
+        redToy.SetActive(true);
+        return redToy;
     }
 
     private static DialogueData ConfigureDialogue(string path, params DialogueLine[] dialogueLines)

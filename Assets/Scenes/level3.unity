@@ -3636,7 +3636,7 @@ MonoBehaviour:
     stateName: sps0
     showResultObjectsDuringStep: 0
     hideRootAfterStep: 1
-    duration: 0.6666667
+    duration: 0.2
   - label: sps
     root: {fileID: 1910384464}
     animator: {fileID: 1910384467}

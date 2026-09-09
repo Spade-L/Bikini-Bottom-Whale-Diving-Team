@@ -35,10 +35,12 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
     [Header("演出对象")]
     [SerializeField] private GameObject hand;
     [SerializeField] private GameObject eye;
+    [SerializeField] private GameObject redToyGameObject;
     [SerializeField] private GameObject[] sequenceOnlyObjects;
 
     [Header("演出对白")]
     [SerializeField] private DialogueData revealDialogue;
+    [SerializeField] private DialogueData missingToyDialogue;
     [SerializeField] private DialogueData deliveryDialogue;
     [SerializeField] private DialogueData disappearanceDialogue;
     [SerializeField] private DialogueData exitReadyDialogue;
@@ -51,6 +53,7 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
     [SerializeField] private string completedFlag = "level3_door_sequence_done";
     [SerializeField] private string resolvedFlag = "level3_store_shadow_resolved";
     [SerializeField] private string toyDeliveredFlag = "level3_store_toy_delivered";
+    [SerializeField] private string redToyPickupFlag = "picked_store_red_toy";
 
     [Header("触发与交互")]
     [SerializeField] private GameObject interactionUI;
@@ -65,6 +68,7 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
     private bool subscribedToGameManager;
     private bool completed;
     private bool resolved;
+    private bool exclusiveModeActive;
 
     public bool IsInteractionPromptEligible
     {
@@ -76,7 +80,7 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
                 return false;
             }
 
-            return !completed ? HasAllInvestigations() : HasToyInvestigation();
+            return !completed ? HasAllInvestigations() : !resolved;
         }
     }
 
@@ -105,6 +109,7 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
         PlayerInteractionPromptController.UnregisterSource(this);
         SubscribeGameManager(false);
         InterruptSequence();
+        CluePickup2D.ClearExclusiveInteractionTarget(redToyGameObject);
         HidePrompt();
     }
 
@@ -113,10 +118,13 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
         PlayerInteractionPromptController.UnregisterSource(this);
         SubscribeGameManager(false);
         InterruptSequence();
+        CluePickup2D.ClearExclusiveInteractionTarget(redToyGameObject);
     }
 
     private void Update()
     {
+        UpdateExclusiveInteractionMode();
+
         if (!subscribedToGameManager)
         {
             SubscribeGameManager(true);
@@ -143,6 +151,7 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
 
         if (resolved)
         {
+            CluePickup2D.ClearExclusiveInteractionTarget(redToyGameObject);
             return;
         }
 
@@ -156,11 +165,14 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
             return;
         }
 
-        if (!HasToyInvestigation())
+        if (!HasRedToyPickup())
         {
+            CluePickup2D.SetExclusiveInteractionTarget(redToyGameObject);
+            sequenceCoroutine = StartCoroutine(RemindMissingToy());
             return;
         }
 
+        CluePickup2D.ClearExclusiveInteractionTarget(redToyGameObject);
         sequenceCoroutine = StartCoroutine(DeliverToy());
     }
 
@@ -255,6 +267,19 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
         RefreshPrompt();
     }
 
+    private IEnumerator RemindMissingToy()
+    {
+        HidePrompt();
+        movementLease = GameplayInputLock.AcquireMovementLock();
+        interactionLease = GameplayInputLock.AcquireInteractionLock();
+
+        yield return StartDialogueAndWait(missingToyDialogue);
+
+        ReleaseLocks();
+        sequenceCoroutine = null;
+        RefreshPrompt();
+    }
+
     private IEnumerator DeliverToy()
     {
         HidePrompt();
@@ -315,10 +340,11 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
         return true;
     }
 
-    private bool HasToyInvestigation()
+    private bool HasRedToyPickup()
     {
         return GameManager.Instance != null
-            && GameManager.Instance.HasFlag(InvestigationFlag("store_toy"));
+            && !string.IsNullOrEmpty(redToyPickupFlag)
+            && GameManager.Instance.HasFlag(redToyPickupFlag);
     }
 
     private bool HasValidSteps()
@@ -379,7 +405,27 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
     private void HandleFlagsChanged()
     {
         ApplySavedState();
+        UpdateExclusiveInteractionMode();
         PlayerInteractionPromptController.RefreshSource(this);
+    }
+
+    private void UpdateExclusiveInteractionMode()
+    {
+        bool shouldBeActive = redToyGameObject != null && completed && !resolved && !HasRedToyPickup();
+        if (exclusiveModeActive == shouldBeActive)
+        {
+            return;
+        }
+
+        exclusiveModeActive = shouldBeActive;
+        if (shouldBeActive)
+        {
+            CluePickup2D.SetExclusiveInteractionTarget(redToyGameObject);
+        }
+        else
+        {
+            CluePickup2D.ClearExclusiveInteractionTarget(redToyGameObject);
+        }
     }
 
     private void RefreshPrompt()
