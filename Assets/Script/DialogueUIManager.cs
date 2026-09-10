@@ -82,12 +82,18 @@ public class DialogueUIManager : MonoBehaviour
         }
     }
 
-    public void StartDialogue(DialogueData dialogue, Action onComplete = null)
+    public bool StartDialogue(DialogueData dialogue, Action onComplete = null)
     {
-        // 空对话不打开面板，也不会调用完成回调
+        // 空对话或缺少必要 UI 时明确报告失败，避免调用方误认为对白已完成
         if (dialogue == null || dialogue.lines == null || dialogue.lines.Length == 0)
         {
-            return;
+            return false;
+        }
+
+        if (dialoguePanel == null || dialogueText == null)
+        {
+            Debug.LogError("DialogueUIManager 无法开始对白：dialoguePanel 或 dialogueText 未绑定。", this);
+            return false;
         }
 
         currentDialogue = dialogue;
@@ -95,10 +101,7 @@ public class DialogueUIManager : MonoBehaviour
         onDialogueComplete = onComplete;
 
         // 激活面板后再显示首行，确保 TMP 的可见字符数据可以正确计算
-        if (dialoguePanel != null)
-        {
-            dialoguePanel.SetActive(true);
-        }
+        dialoguePanel.SetActive(true);
 
         if (openSound != null && SfxManager.Instance != null)
         {
@@ -106,6 +109,7 @@ public class DialogueUIManager : MonoBehaviour
         }
 
         ShowCurrentLine();
+        return true;
     }
 
     public void ShowDialogue(string text)

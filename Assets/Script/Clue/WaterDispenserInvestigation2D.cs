@@ -10,12 +10,11 @@ public class WaterDispenserInvestigation2D : MonoBehaviour, IInteractionPromptSo
     [SerializeField] private DialogueData repeatDialogue;
     [SerializeField] private ClueData clueToGrant;
 
-    [Header("场景切换")]
-    [SerializeField] private GameObject classroomRoot;
-    [SerializeField] private GameObject hiddenRoomRoot;
-    [SerializeField] private Vector3 initialPosition = new Vector3(18f, 2f, 0f);
-    [SerializeField] private Vector3 movedPosition = new Vector3(12f, 2f, 0f);
+    [Header("移动")]
+    [SerializeField] private Vector3 initialLocalPosition = new Vector3(18f, 8f, 0f);
+    [SerializeField] private Vector3 movedLocalPosition = new Vector3(12f, 8f, 0f);
     [SerializeField] private string movedFlag = "school_water_dispenser_moved";
+    [SerializeField] private string roomReadyFlag = "school_water_dispenser_room_ready";
 
     [Header("交互 UI")]
     [SerializeField] private GameObject interactionUI;
@@ -45,20 +44,21 @@ public class WaterDispenserInvestigation2D : MonoBehaviour, IInteractionPromptSo
 
     private void Start()
     {
-        ApplyState(IsMoved());
-        RefreshRoomVisibility();
-    }
-
-    // 销毁时解除事件关系
-    private void OnDestroy()
-    {
-        PlayerInteractionPromptController.UnregisterSource(this);
-        HidePrompt();
+        ApplyState(IsRoomReady());
     }
 
     private void OnDisable()
     {
+        overlappingPlayerColliders.Clear();
         PlayerInteractionPromptController.UnregisterSource(this);
+        CluePickup2D.ClearExclusiveInteractionTarget(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        PlayerInteractionPromptController.UnregisterSource(this);
+        CluePickup2D.ClearExclusiveInteractionTarget(gameObject);
+        HidePrompt();
     }
 
     private void Update()
@@ -86,23 +86,30 @@ public class WaterDispenserInvestigation2D : MonoBehaviour, IInteractionPromptSo
             return;
         }
 
+        bool completingFirst = !HasCompletedFirstInteraction();
+        bool completingMove = !completingFirst && !IsRoomReady();
+        DialogueData dialogue = completingFirst
+            ? firstDialogue
+            : completingMove ? revealDialogue : repeatDialogue;
+
         HidePrompt();
         dialoguePlaying = true;
-        DialogueData dialogue = IsMoved() ? repeatDialogue : firstDialogue;
         if (dialogue == null)
         {
-            FinishInteraction();
+            FinishInteraction(completingFirst, completingMove);
             return;
         }
 
-        DialogueUIManager.Instance.StartDialogue(dialogue, FinishInteraction);
+        DialogueUIManager.Instance.StartDialogue(
+            dialogue,
+            () => FinishInteraction(completingFirst, completingMove));
     }
 
-    private void FinishInteraction()
+    private void FinishInteraction(bool completingFirst, bool completingMove)
     {
         dialoguePlaying = false;
 
-        if (!IsMoved())
+        if (completingFirst)
         {
             if (clueToGrant != null && GameManager.Instance != null)
             {
@@ -114,28 +121,21 @@ public class WaterDispenserInvestigation2D : MonoBehaviour, IInteractionPromptSo
                 GameManager.Instance.AddInvestigation();
                 GameManager.Instance.SetFlag(movedFlag);
             }
+        }
+        else if (completingMove)
+        {
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.SetFlag(roomReadyFlag);
+            }
 
-            // 移动前清除旧位置的重叠状态；玩家必须重新进入移动后的饮水机碰撞体才显示暗室
             overlappingPlayerColliders.Clear();
+            CluePickup2D.ClearExclusiveInteractionTarget(gameObject);
             PlayerInteractionPromptController.UnregisterSource(this);
             HidePrompt();
             ApplyState(true);
-            RefreshRoomVisibility();
-
-            if (revealDialogue != null)
-            {
-                dialoguePlaying = true;
-                DialogueUIManager.Instance.StartDialogue(revealDialogue, FinishRevealDialogue);
-                return;
-            }
         }
 
-        ShowPromptIfInRange();
-    }
-
-    private void FinishRevealDialogue()
-    {
-        dialoguePlaying = false;
         ShowPromptIfInRange();
     }
 
@@ -147,57 +147,45 @@ public class WaterDispenserInvestigation2D : MonoBehaviour, IInteractionPromptSo
         }
     }
 
-    private bool IsMoved()
+    private bool HasCompletedFirstInteraction()
     {
         return GameManager.Instance != null && GameManager.Instance.HasFlag(movedFlag);
     }
 
+    private bool IsRoomReady()
+    {
+        return GameManager.Instance != null && GameManager.Instance.HasFlag(roomReadyFlag);
+    }
+
     private void ApplyState(bool moved)
     {
-        transform.position = moved ? movedPosition : initialPosition;
+        transform.localPosition = moved ? movedLocalPosition : initialLocalPosition;
     }
 
-    private void RefreshRoomVisibility()
-    {
-        bool showHiddenRoom = IsMoved() && playerInRange;
-
-        if (classroomRoot != null)
-        {
-            classroomRoot.SetActive(!showHiddenRoom);
-        }
-
-        if (hiddenRoomRoot != null)
-        {
-            hiddenRoomRoot.SetActive(showHiddenRoom);
-        }
-    }
-
-    // 进入触发区域后记录对象
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag(playerTag))
         {
             bool wasInRange = playerInRange;
             overlappingPlayerColliders.Add(other);
-            RefreshRoomVisibility();
             if (!wasInRange)
             {
                 PlayerInteractionPromptController.RegisterSource(this);
+                CluePickup2D.SetExclusiveInteractionTarget(gameObject);
             }
             PlayerInteractionPromptController.RefreshSource(this);
         }
     }
 
-    // 离开触发区域后清除记录
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag(playerTag))
         {
             overlappingPlayerColliders.Remove(other);
-            RefreshRoomVisibility();
             if (!playerInRange)
             {
                 PlayerInteractionPromptController.UnregisterSource(this);
+                CluePickup2D.ClearExclusiveInteractionTarget(gameObject);
             }
             PlayerInteractionPromptController.RefreshSource(this);
         }

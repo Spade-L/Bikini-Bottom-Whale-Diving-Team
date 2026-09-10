@@ -24,26 +24,51 @@ public static class Level2SceneSetup
         classroom.SetActive(true);
         hiddenRoom.SetActive(false);
 
-        GameObject dispenser = GetOrCreate("Water Dispenser", null);
-        dispenser.transform.position = new Vector3(18f, 2f, 0f);
+        GameObject dispenser = FindSceneObject("插画5 5_0");
+        if (dispenser == null)
+        {
+            Debug.LogError("[Level2SceneSetup] 找不到饮水机对象：插画5 5_0。");
+            return;
+        }
+
         BoxCollider2D dispenserCollider = GetOrAdd<BoxCollider2D>(dispenser);
         dispenserCollider.isTrigger = true;
-        dispenserCollider.size = new Vector2(1.5f, 2f);
         WaterDispenserInvestigation2D dispenserLogic = GetOrAdd<WaterDispenserInvestigation2D>(dispenser);
         Set(dispenserLogic, "firstDialogue", Load<DialogueData>(DialogueDir + "Dlg_school_water_dispenser.asset"));
         Set(dispenserLogic, "revealDialogue", Load<DialogueData>(DialogueDir + "Dlg_school_water_dispenser_reveal.asset"));
         Set(dispenserLogic, "repeatDialogue", Load<DialogueData>(DialogueDir + "Dlg_school_water_dispenser_repeat.asset"));
         Set(dispenserLogic, "clueToGrant", Load<ClueData>(ClueDir + "Clue_school_water_dispenser.asset"));
-        Set(dispenserLogic, "classroomRoot", classroom);
-        Set(dispenserLogic, "hiddenRoomRoot", hiddenRoom);
-        Set(dispenserLogic, "initialPosition", new Vector3(18f, 2f, 0f));
-        Set(dispenserLogic, "movedPosition", new Vector3(12f, 2f, 0f));
+        Set(dispenserLogic, "initialLocalPosition", new Vector3(18f, 8f, 0f));
+        Set(dispenserLogic, "movedLocalPosition", new Vector3(12f, 8f, 0f));
         Set(dispenserLogic, "movedFlag", "school_water_dispenser_moved");
+        Set(dispenserLogic, "roomReadyFlag", "school_water_dispenser_room_ready");
+
+        GameObject hiddenRoomEntrance = FindSceneObject("hidden_room_files");
+        if (hiddenRoomEntrance != null)
+        {
+            System.Type transitionType = System.Type.GetType("HiddenRoomTransition2D, Assembly-CSharp");
+            if (transitionType != null)
+            {
+                Component transition = hiddenRoomEntrance.GetComponent(transitionType);
+                if (transition == null)
+                {
+                    transition = Undo.AddComponent(hiddenRoomEntrance, transitionType);
+                }
+                Set(transition, "classroomRoot", classroom);
+                Set(transition, "hiddenRoomRoot", hiddenRoom);
+                Set(transition, "requiredFlag", "school_water_dispenser_room_ready");
+            }
+
+            CluePickup2D entranceClue = hiddenRoomEntrance.GetComponent<CluePickup2D>();
+            if (entranceClue != null)
+            {
+                entranceClue.enabled = false;
+            }
+        }
 
         CreateClue("Rank Paper", classroom, new Vector3(16.5f, 1.5f, 0f), "school_paper_rank");
         CreateClue("Broken Counseling Paper", classroom, new Vector3(10f, 1.5f, 0f), "school_paper_counseling");
         CreateClue("Notice Board", classroom, new Vector3(7f, 3f, 0f), "school_notice_board");
-        CreateClue("Cleaning Tools", classroom, new Vector3(4f, 1.5f, 0f), "school_cleaning_tools");
         CreateClue("Hidden Room Files", hiddenRoom, new Vector3(12f, 3f, 0f), "school_hidden_room_files");
 
         EditorSceneManager.MarkSceneDirty(scene);

@@ -26,7 +26,6 @@ public class SettingsOverlayController : MonoBehaviour
     private System.IDisposable interactionLock;
     private bool isOpen;
     private bool listenersRegistered;
-    private int gameplaySceneIndex = 1;
 
     public bool IsOpen => isOpen;
 
@@ -69,7 +68,8 @@ public class SettingsOverlayController : MonoBehaviour
     {
         Scene scene = SceneManager.GetActiveScene();
         return scene.IsValid()
-            && scene.buildIndex == gameplaySceneIndex
+            && scene.isLoaded
+            && scene.buildIndex >= 0
             && !scene.name.Equals("Menu", System.StringComparison.OrdinalIgnoreCase)
             && !scene.name.Equals("MainMenu", System.StringComparison.OrdinalIgnoreCase);
     }

@@ -5,7 +5,30 @@ using UnityEngine.UI;
 
 public class ClueJournalUI : MonoBehaviour
 {
-    [Header("面板")]
+    private static readonly List<ClueJournalUI> instances = new List<ClueJournalUI>();
+    private static bool endingDisabled;
+
+    public static bool IsEndingDisabled => endingDisabled;
+
+    public static void SetEndingDisabled(bool disabled)
+    {
+        endingDisabled = disabled;
+        if (disabled)
+        {
+            for (int i = instances.Count - 1; i >= 0; i--)
+            {
+                if (instances[i] == null) instances.RemoveAt(i);
+                else instances[i].CloseJournal();
+            }
+        }
+    }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetEndingState()
+    {
+        endingDisabled = false;
+        instances.Clear();
+    }
     [SerializeField] private GameObject journalPanel;
     [SerializeField] private KeyCode toggleKey = KeyCode.Tab;
 
@@ -27,13 +50,10 @@ public class ClueJournalUI : MonoBehaviour
     private ClueData selectedClue;
     private bool displayTextDirty = true;
 
-    // 初始关闭面板，避免场景加载时短暂显示未构建的详情
     private void Start()
     {
-        if (journalPanel != null)
-        {
-            journalPanel.SetActive(false);
-        }
+        if (!instances.Contains(this)) instances.Add(this);
+        CloseJournal();
 
         if (GameManager.Instance != null)
         {
@@ -41,19 +61,24 @@ public class ClueJournalUI : MonoBehaviour
         }
     }
 
-    // Unity 销毁时撤销对全局事件的监听
     private void OnDestroy()
     {
+        instances.Remove(this);
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnFlagsChanged -= HandleFlagsChanged;
         }
     }
 
+    public void CloseJournal()
+    {
+        if (journalPanel != null) journalPanel.SetActive(false);
+    }
+
     // 输入轮询只处理按下瞬间，避免按住按键导致面板在连续帧内反复开关
     private void Update()
     {
-        if (!Input.GetKeyDown(toggleKey))
+        if (endingDisabled || !Input.GetKeyDown(toggleKey))
         {
             return;
         }

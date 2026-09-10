@@ -152,20 +152,56 @@ public class GameManager : MonoBehaviour
 
     public bool HasCollectedAllPreRooftopClues()
     {
-        if (clueDatabase == null || clueDatabase.TrueEndingRequiredClues == null)
+        bool hasDatabaseCheck = clueDatabase != null
+            && clueDatabase.TrueEndingRequiredClues != null
+            && clueDatabase.TrueEndingRequiredClues.Count > 0;
+
+        if (hasDatabaseCheck)
         {
-            return false;
+            System.Collections.Generic.List<string> missingClues = null;
+            foreach (ClueData clue in clueDatabase.TrueEndingRequiredClues)
+            {
+                if (clue != null && !HasClue(clue.ClueId))
+                {
+                    if (missingClues == null) missingClues = new System.Collections.Generic.List<string>();
+                    missingClues.Add(clue.ClueId);
+                }
+            }
+
+            if (missingClues == null)
+            {
+                return true;
+            }
+
+            Debug.LogWarning($"[GameManager] 真结局缺少关键线索: {string.Join(", ", missingClues)}");
         }
 
-        foreach (ClueData clue in clueDatabase.TrueEndingRequiredClues)
+        string[] requiredSceneFlags =
         {
-            if (clue != null && !HasClue(clue.ClueId))
+            "scene_cleared_home",
+            "scene_cleared_school",
+            "scene_cleared_store",
+            "scene_cleared_alley",
+            "scene_cleared_playground"
+        };
+
+        System.Collections.Generic.List<string> missingSceneFlags = null;
+        foreach (string flag in requiredSceneFlags)
+        {
+            if (!HasFlag(flag))
             {
-                return false;
+                if (missingSceneFlags == null) missingSceneFlags = new System.Collections.Generic.List<string>();
+                missingSceneFlags.Add(flag);
             }
         }
 
-        return clueDatabase.TrueEndingRequiredClues.Count > 0;
+        if (missingSceneFlags != null)
+        {
+            Debug.LogWarning($"[GameManager] 真结局缺少场景通关 Flag: {string.Join(", ", missingSceneFlags)}");
+            return false;
+        }
+
+        return true;
     }
 
     // 空线索与重复 Id 都不产生事件，保证收集提示和相关 UI 只出现一次
@@ -210,6 +246,8 @@ public class GameManager : MonoBehaviour
 
     public void ResetRuntimeState()
     {
+        GameplayInputLock.ReleaseAll();
+        ClueJournalUI.SetEndingDisabled(false);
         flags.Clear();
         collectedClueIds.Clear();
         CurrentTimePeriod = 0;

@@ -44,6 +44,8 @@ public class SceneClueTracker : MonoBehaviour
     // 黑幕后可选播放的结算独白
     [Tooltip("黑幕后播放的独白（可空）")]
     [SerializeField] private DialogueData clearMonologue;
+    [Tooltip("结局门接管后停止普通场景清场演出")]
+    [SerializeField] private EndingGate endingGate;
 
     private string ClearedFlag => $"scene_cleared_{sceneId}";
 
@@ -161,6 +163,10 @@ public class SceneClueTracker : MonoBehaviour
     {
         // 已通关的场景不重复启动演出协程
         GameManager gm = GameManager.Instance;
+        if (endingGate != null && endingGate.HasTakenOverEnding)
+        {
+            return;
+        }
         if (gm == null || gm.HasFlag(ClearedFlag) || clearSequencePlaying)
         {
             return;
@@ -182,24 +188,73 @@ public class SceneClueTracker : MonoBehaviour
         }
     }
 
+    private bool ShouldStopForEnding()
+    {
+        return endingGate != null && endingGate.HasTakenOverEnding;
+    }
+
+    private bool AbortClearSequenceForEnding()
+    {
+        if (!ShouldStopForEnding()) return false;
+
+        if (brotherShadow != null)
+        {
+            brotherShadow.SetActive(false);
+        }
+
+        if (blackout != null)
+        {
+            blackout.alpha = 0f;
+            blackout.gameObject.SetActive(false);
+        }
+
+        clearSequencePlaying = false;
+        return true;
+    }
+
     // 依次执行等待、影子、黑幕、状态更新和独白
     private IEnumerator PlayClearSequence()
     {
+        if (AbortClearSequenceForEnding())
+        {
+            yield break;
+        }
+
         while (DialogueUIManager.Instance != null && DialogueUIManager.Instance.IsDialogueOpen)
         {
+            if (AbortClearSequenceForEnding())
+            {
+                yield break;
+            }
+
             yield return null;
         }
 
         // 等回溯闪回演出结束，避免叠加
         while (InvestigationDirector.Instance != null && InvestigationDirector.Instance.IsPlayingFlashback)
         {
+            if (AbortClearSequenceForEnding())
+            {
+                yield break;
+            }
+
             yield return null;
+        }
+
+        if (AbortClearSequenceForEnding())
+        {
+            yield break;
         }
 
         if (brotherShadow != null)
         {
             brotherShadow.SetActive(true);
             yield return new WaitForSeconds(shadowDuration);
+        }
+
+        if (AbortClearSequenceForEnding())
+        {
+            yield break;
         }
 
         // 黑幕
@@ -209,13 +264,33 @@ public class SceneClueTracker : MonoBehaviour
             blackout.gameObject.SetActive(true);
             yield return FadeBlackout(0f, 1f);
 
+            if (AbortClearSequenceForEnding())
+            {
+                yield break;
+            }
+
             if (brotherShadow != null)
             {
                 brotherShadow.SetActive(false);
             }
 
-            // 保持黑幕，为场景内状态变化预留时间
-            yield return new WaitForSeconds(blackoutHoldDuration);
+            // 保持黑幕，为场景内状态变化预留时间；期间仍允许最终结局接管
+            float holdElapsed = 0f;
+            while (holdElapsed < Mathf.Max(0f, blackoutHoldDuration))
+            {
+                if (AbortClearSequenceForEnding())
+                {
+                    yield break;
+                }
+
+                holdElapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            if (AbortClearSequenceForEnding())
+            {
+                yield break;
+            }
 
             // 通关 Flag 在黑幕中设置——场景门/物件在黑幕里完成变化
             GameManager.Instance.SetFlag(ClearedFlag);

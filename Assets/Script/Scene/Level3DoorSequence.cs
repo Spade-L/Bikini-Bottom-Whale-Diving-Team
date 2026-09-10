@@ -69,6 +69,7 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
     private bool completed;
     private bool resolved;
     private bool exclusiveModeActive;
+    private bool sequencePriorityActive;
 
     public bool IsInteractionPromptEligible
     {
@@ -109,7 +110,9 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
         PlayerInteractionPromptController.UnregisterSource(this);
         SubscribeGameManager(false);
         InterruptSequence();
+        CluePickup2D.ClearExclusiveInteractionTarget(gameObject);
         CluePickup2D.ClearExclusiveInteractionTarget(redToyGameObject);
+        sequencePriorityActive = false;
         HidePrompt();
     }
 
@@ -118,7 +121,9 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
         PlayerInteractionPromptController.UnregisterSource(this);
         SubscribeGameManager(false);
         InterruptSequence();
+        CluePickup2D.ClearExclusiveInteractionTarget(gameObject);
         CluePickup2D.ClearExclusiveInteractionTarget(redToyGameObject);
+        sequencePriorityActive = false;
     }
 
     private void Update()
@@ -411,6 +416,20 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
 
     private void UpdateExclusiveInteractionMode()
     {
+        bool shouldPrioritizeSequence = !completed && playerInRange && HasAllInvestigations();
+        if (sequencePriorityActive != shouldPrioritizeSequence)
+        {
+            sequencePriorityActive = shouldPrioritizeSequence;
+            if (shouldPrioritizeSequence)
+            {
+                CluePickup2D.SetExclusiveInteractionTarget(gameObject);
+            }
+            else
+            {
+                CluePickup2D.ClearExclusiveInteractionTarget(gameObject);
+            }
+        }
+
         bool shouldBeActive = redToyGameObject != null && completed && !resolved && !HasRedToyPickup();
         if (exclusiveModeActive == shouldBeActive)
         {

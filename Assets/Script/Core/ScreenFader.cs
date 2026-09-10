@@ -16,6 +16,7 @@ public class ScreenFader : MonoBehaviour
 
     // CanvasGroup 同时驱动透明度和输入拦截；isFading 供外部暂停移动
     private CanvasGroup group;
+    private Image overlayImage;
     private bool isFading;
 
     // 比场景对象更早建立，确保首场景也有从黑场进入的效果
@@ -72,13 +73,31 @@ public class ScreenFader : MonoBehaviour
     public void FadeOutThen(Action onComplete, float duration = -1f)
     {
         StopAllCoroutines();
+        if (overlayImage != null) overlayImage.color = Color.black;
         StartCoroutine(FadeRoutine(group.alpha, 1f, duration > 0f ? duration : defaultDuration, onComplete));
+    }
+
+    public void FadeToWhiteThen(Action onComplete, float duration = -1f)
+    {
+        StopAllCoroutines();
+        if (overlayImage != null) overlayImage.color = Color.white;
+        StartCoroutine(FadeRoutine(group.alpha, 1f, duration > 0f ? duration : defaultDuration, onComplete));
+    }
+
+    public void SetOverlaySortingOrder(int sortingOrder)
+    {
+        Canvas canvas = group == null ? null : group.GetComponent<Canvas>();
+        if (canvas != null)
+        {
+            canvas.sortingOrder = sortingOrder;
+        }
     }
 
     /// <summary>渐黑 → 全黑时执行回调（切换 UI）→ 渐亮。</summary>
     public void FadeOutIn(Action atBlack, float duration = -1f)
     {
         StopAllCoroutines();
+        if (overlayImage != null) overlayImage.color = Color.black;
         StartCoroutine(FadeOutInRoutine(atBlack, duration > 0f ? duration : defaultDuration));
     }
 
@@ -127,10 +146,10 @@ public class ScreenFader : MonoBehaviour
         var imageGo = new GameObject("Black");
         imageGo.transform.SetParent(canvasGo.transform, false);
 
-        var image = imageGo.AddComponent<Image>();
-        image.color = Color.black;
+        overlayImage = imageGo.AddComponent<Image>();
+        overlayImage.color = Color.black;
 
-        RectTransform rt = image.rectTransform;
+        RectTransform rt = overlayImage.rectTransform;
         rt.anchorMin = Vector2.zero;
         rt.anchorMax = Vector2.one;
         rt.offsetMin = Vector2.zero;

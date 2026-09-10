@@ -59,4 +59,11 @@ public static class GameplayInputLock
         interactionLocks.Clear();
         nextLockId = 0;
     }
+
+    public static void ReleaseAll()
+    {
+        movementLocks.Clear();
+        interactionLocks.Clear();
+        nextLockId = 0;
+    }
 }
