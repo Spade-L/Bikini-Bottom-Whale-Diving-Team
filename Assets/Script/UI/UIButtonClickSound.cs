@@ -2,10 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
+// 定义 UIButtonClickSound 类型
 public class UIButtonClickSound : MonoBehaviour
 {
     // Inspector 中配置按钮点击时播放的音频资源
     [Header("点击音效")]
+// 保存 clickClip 引用
     [SerializeField] private AudioClip clickClip;
     // 将播放音量限制在 Unity 标准归一化范围内
     [Range(0f, 1f)]
@@ -22,6 +24,7 @@ public class UIButtonClickSound : MonoBehaviour
     // 未配置 SfxManager 时静默跳过；clickClip 是否有效由音频管理器处理
     private void PlayClick()
     {
+// 判断当前条件
         if (SfxManager.Instance != null)
         {
             SfxManager.Instance.Play(clickClip, volume);

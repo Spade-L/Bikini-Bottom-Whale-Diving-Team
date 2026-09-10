@@ -39,6 +39,7 @@ public class SceneIntro : MonoBehaviour
         // 等待对话系统就绪且允许打开新的对话
         while (DialogueUIManager.Instance == null || !DialogueUIManager.Instance.CanOpenDialogue)
         {
+// 等待下一步
             yield return null;
         }
 

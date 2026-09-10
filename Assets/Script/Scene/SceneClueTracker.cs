@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
+// 定义 SceneClueTracker 类型
 public class SceneClueTracker : MonoBehaviour
 {
     // 用于生成场景通关状态的唯一标识
@@ -33,9 +34,11 @@ public class SceneClueTracker : MonoBehaviour
     [SerializeField] private GameObject brotherShadow;
     // 影子保持可见的时间长度
     [Tooltip("影子展示秒数")]
+// 配置 shadowDuration 数值
     [SerializeField] private float shadowDuration = 2f;
     // 承载全屏淡入淡出效果的画布组
     [Tooltip("全屏黑幕 CanvasGroup")]
+// 保存 blackout 引用
     [SerializeField] private CanvasGroup blackout;
     // 黑幕从透明到不透明或反向变化的用时
     [SerializeField] private float blackoutFadeDuration = 0.6f;
@@ -43,10 +46,13 @@ public class SceneClueTracker : MonoBehaviour
     [SerializeField] private float blackoutHoldDuration = 1f;
     // 黑幕后可选播放的结算独白
     [Tooltip("黑幕后播放的独白（可空）")]
+// 保存 clearMonologue 引用
     [SerializeField] private DialogueData clearMonologue;
     [Tooltip("结局门接管后停止普通场景清场演出")]
+// 保存 endingGate 数据
     [SerializeField] private EndingGate endingGate;
 
+// 保存 ClearedFlag 数据
     private string ClearedFlag => $"scene_cleared_{sceneId}";
 
     private bool clearSequencePlaying;
@@ -56,12 +62,14 @@ public class SceneClueTracker : MonoBehaviour
     {
         if (brotherShadow != null)
         {
+// 切换显示状态
             brotherShadow.SetActive(false);
         }
 
         // 黑幕初始为透明且隐藏，避免遮挡场景加载画面
         if (blackout != null)
         {
+// 更新当前状态
             blackout.alpha = 0f;
             blackout.gameObject.SetActive(false);
         }
@@ -70,6 +78,7 @@ public class SceneClueTracker : MonoBehaviour
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnClueCollected += HandleClueCollected;
+// 更新当前逻辑
             GameManager.Instance.OnFlagsChanged += HandleFlagsChanged;
         }
 
@@ -82,10 +91,12 @@ public class SceneClueTracker : MonoBehaviour
     // Unity 销毁时撤销对全局事件的监听
     private void OnDestroy()
     {
+// 更新当前状态
         clearSequencePlaying = false;
 
         if (GameManager.Instance != null)
         {
+// 更新当前逻辑
             GameManager.Instance.OnClueCollected -= HandleClueCollected;
             GameManager.Instance.OnFlagsChanged -= HandleFlagsChanged;
         }
@@ -98,14 +109,17 @@ public class SceneClueTracker : MonoBehaviour
         GameManager gm = GameManager.Instance;
         if (gm == null || keyClues == null)
         {
+// 返回当前结果
             return 0;
         }
 
         int count = 0;
+// 遍历全部元素
         foreach (ClueData clue in keyClues)
         {
             if (clue != null && gm.HasClue(clue.ClueId))
             {
+// 更新当前逻辑
                 count++;
             }
         }
@@ -113,18 +127,22 @@ public class SceneClueTracker : MonoBehaviour
         return count;
     }
 
+// 定义 CountRequiredClues 方法
     private int CountRequiredClues()
     {
         if (keyClues == null)
         {
+// 返回当前结果
             return 0;
         }
 
         int count = 0;
+// 遍历全部元素
         foreach (ClueData clue in keyClues)
         {
             if (clue != null && !string.IsNullOrEmpty(clue.ClueId))
             {
+// 更新当前逻辑
                 count++;
             }
         }
@@ -132,11 +150,13 @@ public class SceneClueTracker : MonoBehaviour
         return count;
     }
 
+// 定义 RefreshProgressUI 方法
     private void RefreshProgressUI()
     {
         // UI 与线索配置齐全时，按格式显示当前收集数量
         if (progressText != null && keyClues != null)
         {
+// 更新界面文本
             progressText.text = string.Format(progressFormat, CountCollected(), CountRequiredClues());
         }
     }
@@ -146,12 +166,14 @@ public class SceneClueTracker : MonoBehaviour
     {
         // 收集任意线索后刷新显示，并检查是否刚好集齐
         RefreshProgressUI();
+// 执行 TryTriggerClear
         TryTriggerClear();
     }
 
     // Flag 批量变化后检查真相分支，避免每个 Flag 重复计算
     private void HandleFlagsChanged()
     {
+// 判断当前条件
         if (requireTruthRevealed)
         {
             TryTriggerClear();
@@ -163,10 +185,12 @@ public class SceneClueTracker : MonoBehaviour
     {
         // 已通关的场景不重复启动演出协程
         GameManager gm = GameManager.Instance;
+// 判断当前条件
         if (endingGate != null && endingGate.HasTakenOverEnding)
         {
             return;
         }
+// 空引用时直接退出
         if (gm == null || gm.HasFlag(ClearedFlag) || clearSequencePlaying)
         {
             return;
@@ -188,26 +212,32 @@ public class SceneClueTracker : MonoBehaviour
         }
     }
 
+// 定义 ShouldStopForEnding 方法
     private bool ShouldStopForEnding()
     {
+// 返回当前结果
         return endingGate != null && endingGate.HasTakenOverEnding;
     }
 
     private bool AbortClearSequenceForEnding()
     {
+// 判断当前条件
         if (!ShouldStopForEnding()) return false;
 
         if (brotherShadow != null)
         {
+// 切换显示状态
             brotherShadow.SetActive(false);
         }
 
         if (blackout != null)
         {
+// 更新当前状态
             blackout.alpha = 0f;
             blackout.gameObject.SetActive(false);
         }
 
+// 更新当前状态
         clearSequencePlaying = false;
         return true;
     }
@@ -217,43 +247,52 @@ public class SceneClueTracker : MonoBehaviour
     {
         if (AbortClearSequenceForEnding())
         {
+// 保存 break 数据
             yield break;
         }
 
         while (DialogueUIManager.Instance != null && DialogueUIManager.Instance.IsDialogueOpen)
         {
+// 判断当前条件
             if (AbortClearSequenceForEnding())
             {
                 yield break;
             }
 
+// 等待下一步
             yield return null;
         }
 
         // 等回溯闪回演出结束，避免叠加
         while (InvestigationDirector.Instance != null && InvestigationDirector.Instance.IsPlayingFlashback)
         {
+// 判断当前条件
             if (AbortClearSequenceForEnding())
             {
                 yield break;
             }
 
+// 等待下一步
             yield return null;
         }
 
+// 判断当前条件
         if (AbortClearSequenceForEnding())
         {
             yield break;
         }
 
+// 判断当前条件
         if (brotherShadow != null)
         {
             brotherShadow.SetActive(true);
+// 等待下一步
             yield return new WaitForSeconds(shadowDuration);
         }
 
         if (AbortClearSequenceForEnding())
         {
+// 保存 break 数据
             yield break;
         }
 
@@ -264,11 +303,13 @@ public class SceneClueTracker : MonoBehaviour
             blackout.gameObject.SetActive(true);
             yield return FadeBlackout(0f, 1f);
 
+// 判断当前条件
             if (AbortClearSequenceForEnding())
             {
                 yield break;
             }
 
+// 判断当前条件
             if (brotherShadow != null)
             {
                 brotherShadow.SetActive(false);
@@ -278,17 +319,21 @@ public class SceneClueTracker : MonoBehaviour
             float holdElapsed = 0f;
             while (holdElapsed < Mathf.Max(0f, blackoutHoldDuration))
             {
+// 判断当前条件
                 if (AbortClearSequenceForEnding())
                 {
                     yield break;
                 }
 
+// 更新当前逻辑
                 holdElapsed += Time.deltaTime;
                 yield return null;
             }
 
+// 判断当前条件
             if (AbortClearSequenceForEnding())
             {
+// 保存 break 数据
                 yield break;
             }
 
@@ -299,6 +344,7 @@ public class SceneClueTracker : MonoBehaviour
             yield return FadeBlackout(1f, 0f);
             blackout.gameObject.SetActive(false);
         }
+// 处理其他分支
         else
         {
             // 未配置黑幕时仍必须写入通关 Flag
@@ -311,6 +357,7 @@ public class SceneClueTracker : MonoBehaviour
             DialogueUIManager.Instance.StartDialogue(clearMonologue);
         }
 
+// 更新当前状态
         clearSequencePlaying = false;
     }
 
@@ -321,13 +368,16 @@ public class SceneClueTracker : MonoBehaviour
         if (blackoutFadeDuration <= 0f)
         {
             blackout.alpha = to;
+// 保存 break 数据
             yield break;
         }
 
         float elapsed = 0f;
+// 等待条件变化
         while (elapsed < blackoutFadeDuration)
         {
             elapsed += Time.deltaTime;
+// 更新当前状态
             blackout.alpha = Mathf.Lerp(from, to, elapsed / blackoutFadeDuration);
             yield return null;
         }

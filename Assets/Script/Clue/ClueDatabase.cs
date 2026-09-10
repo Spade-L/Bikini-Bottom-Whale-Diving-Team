@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// 调用 CreateAssetMenu
 [CreateAssetMenu(fileName = "ClueDatabase", menuName = "游戏数据/线索数据库")]
 public class ClueDatabase : ScriptableObject
 {
+// 保存 allClues 引用
     [SerializeField] private List<ClueData> allClues = new List<ClueData>();
 
     // 真结局所需的前天台核心线索；补充线索可登记但不必然提高结局门槛
@@ -13,16 +15,20 @@ public class ClueDatabase : ScriptableObject
     public IReadOnlyList<ClueData> AllClues => allClues;
     public IReadOnlyList<ClueData> TrueEndingRequiredClues => trueEndingRequiredClues;
 
+// 定义 FindById 方法
     public ClueData FindById(string clueId)
     {
+// 遍历全部元素
         foreach (ClueData clue in allClues)
         {
+// 判断当前条件
             if (clue != null && clue.ClueId == clueId)
             {
                 return clue;
             }
         }
 
+// 输出调试信息
         Debug.LogWarning($"[ClueDatabase] 找不到线索: {clueId}");
         return null;
     }

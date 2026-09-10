@@ -11,10 +11,12 @@ public class SceneMusic : MonoBehaviour
     [Header("播放设置")]
     // 控制播放列表的目标音量
     [Range(0f, 1f)]
+// 配置 volume 数值
     [SerializeField] private float volume = 0.8f;
     [Tooltip("切换音乐时的淡入淡出秒数")]
     // 停止或切换音乐所用的淡化时长
     [SerializeField] private float fadeDuration = 1f;
+// 说明当前配置
     [Tooltip("勾选 = 本场景静音（淡出上个场景的音乐）")]
     // 勾选时忽略曲目列表并停止音乐
     [SerializeField] private bool silence = false;
@@ -32,6 +34,7 @@ public class SceneMusic : MonoBehaviour
         {
             MusicManager.Instance.StopMusic(fadeDuration);
         }
+// 处理其他分支
         else
         {
             // 将本场景曲目列表及播放参数交给全局管理器
