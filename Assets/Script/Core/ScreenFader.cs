@@ -12,6 +12,9 @@ public class ScreenFader : MonoBehaviour
     /// <summary>渐变进行中（PlayerMovement2D 用它锁移动）。</summary>
     public static bool IsFading => Instance != null && Instance.isFading;
 
+    // 黑幕或白幕仍覆盖屏幕时隐藏交互提示
+    public static bool IsCovering => Instance != null && Instance.group != null && Instance.group.alpha > 0.01f;
+
     // 未显式传入时使用的单程渐变时长
     [SerializeField] private float defaultDuration = 0.9f;
 
@@ -205,7 +208,7 @@ public class ScreenFader : MonoBehaviour
         var canvas = canvasGo.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
 // 同步 BuildOverlay 的内部状态
-        canvas.sortingOrder = 9999;
+        canvas.sortingOrder = 32760;
 
 // 同步 BuildOverlay 的内部状态（BuildOverlay）
         group = canvasGo.AddComponent<CanvasGroup>();

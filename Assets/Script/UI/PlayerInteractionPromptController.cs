@@ -255,6 +255,7 @@ public class PlayerInteractionPromptController : MonoBehaviour
 // 记录 UpdatePromptVisibility 的当前状态
         bool globallyUsable = promptPositionValid
             && !ScreenFader.IsFading
+            && !ScreenFader.IsCovering
 // 推进 UpdatePromptVisibility 的当前步骤
             && !GameplayInputLock.IsInteractionLocked
             && (DialogueUIManager.Instance == null || DialogueUIManager.Instance.CanOpenDialogue);

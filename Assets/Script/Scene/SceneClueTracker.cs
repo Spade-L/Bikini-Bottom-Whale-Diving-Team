@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -56,6 +57,9 @@ public class SceneClueTracker : MonoBehaviour
     private string ClearedFlag => $"scene_cleared_{sceneId}";
 
     private bool clearSequencePlaying;
+// 黑幕期间阻止移动与交互
+    private IDisposable movementLease;
+    private IDisposable interactionLease;
 
     // 读取初始依赖并同步首帧状态
     private void Start()
@@ -93,6 +97,7 @@ public class SceneClueTracker : MonoBehaviour
     {
 // 同步 OnDestroy 的内部状态
         clearSequencePlaying = false;
+        ReleaseBlackoutLocks();
 
         if (GameManager.Instance != null)
         {
@@ -224,6 +229,7 @@ public class SceneClueTracker : MonoBehaviour
     {
 // 检查 AbortClearSequenceForEnding 的前置条件
         if (!ShouldStopForEnding()) return false;
+        ReleaseBlackoutLocks();
 
         if (brotherShadow != null)
         {
@@ -300,7 +306,8 @@ public class SceneClueTracker : MonoBehaviour
         // 黑幕
         if (blackout != null)
         {
-            // 激活画布后，从透明淡入至全黑
+            // 激活画布前锁住交互，确保 F 提示不会出现在黑幕上
+            AcquireBlackoutLocks();
             blackout.gameObject.SetActive(true);
             yield return FadeBlackout(0f, 1f);
 
@@ -344,6 +351,7 @@ public class SceneClueTracker : MonoBehaviour
             // 状态更新完成后淡回游戏画面并隐藏画布
             yield return FadeBlackout(1f, 0f);
             blackout.gameObject.SetActive(false);
+            ReleaseBlackoutLocks();
         }
 // 处理 PlayClearSequence 的备用分支
         else
@@ -360,6 +368,22 @@ public class SceneClueTracker : MonoBehaviour
 
 // 同步 PlayClearSequence 的内部状态
         clearSequencePlaying = false;
+    }
+
+// 获取黑幕期间的输入锁
+    private void AcquireBlackoutLocks()
+    {
+        movementLease ??= GameplayInputLock.AcquireMovementLock();
+        interactionLease ??= GameplayInputLock.AcquireInteractionLock();
+    }
+
+// 黑幕消失后释放输入锁
+    private void ReleaseBlackoutLocks()
+    {
+        movementLease?.Dispose();
+        interactionLease?.Dispose();
+        movementLease = null;
+        interactionLease = null;
     }
 
     // 处理 FadeBlackout 对应逻辑

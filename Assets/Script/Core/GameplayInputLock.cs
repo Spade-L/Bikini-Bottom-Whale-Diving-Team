@@ -45,7 +45,8 @@ public static class GameplayInputLock
 
 // 记录 Dispose 的当前状态
     public static bool IsMovementLocked => movementLocks.Count > 0;
-    public static bool IsInteractionLocked => interactionLocks.Count > 0;
+// 转场遮罩未完全透明时禁止场景交互
+    public static bool IsInteractionLocked => interactionLocks.Count > 0 || ScreenFader.IsFading || ScreenFader.IsCovering;
 
 // 处理 AcquireMovementLock 对应逻辑
     public static IDisposable AcquireMovementLock()
