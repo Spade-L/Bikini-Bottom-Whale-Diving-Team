@@ -1,29 +1,29 @@
 using System.Collections;
 using UnityEngine;
 
-// 调用 RequireComponent
+// 使用 当前脚本 所需功能
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement2D : MonoBehaviour
 {
 // 配置 移动设置 分组
     [Header("移动设置")]
     [SerializeField] private float moveSpeed = 4f;
-// 记录 allowDiagonalMovement 状态
+// 记录 PlayerMovement2D 的当前状态
     [SerializeField] private bool allowDiagonalMovement = false;
     [Header("动画设置（可选）")]
-// 保存 animator 数据
+// 同步 PlayerMovement2D 的相关数据
     [SerializeField] private Animator animator;
     [SerializeField] private string walkDownState = "前进";
-// 保存 walkUpState 数据
+// 同步 PlayerMovement2D 的相关数据（PlayerMovement2D 后续步骤）
     [SerializeField] private string walkUpState = "背身";
     [SerializeField] private string walkLeftState = "左走";
-// 保存 walkRightState 数据
+// 同步 PlayerMovement2D 的相关数据（PlayerMovement2D 后续步骤）（19）
     [SerializeField] private string walkRightState = "右走";
     [Header("待机静止帧（停下时按最后朝向显示）")]
-// 保存 idleDown 数据
+// 同步 PlayerMovement2D 的相关数据（PlayerMovement2D 后续步骤）（22）
     [SerializeField] private Sprite idleDown;
     [SerializeField] private Sprite idleUp;
-// 保存 idleLeft 数据
+// 同步 PlayerMovement2D 的相关数据（PlayerMovement2D 后续步骤）（25）
     [SerializeField] private Sprite idleLeft;
     [SerializeField] private Sprite idleRight;
 // 配置 行走脚步声（循环） 分组
@@ -32,159 +32,159 @@ public class PlayerMovement2D : MonoBehaviour
 // 限制当前数值范围
     [Range(0f, 1f)] [SerializeField] private float footstepVolume = 0.5f;
 
-// 保存 rb 数据
+// 同步 PlayerMovement2D 的相关数据（PlayerMovement2D 后续步骤）（34）
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
-// 保存 footstepSource 数据
+// 同步 PlayerMovement2D 的相关数据（PlayerMovement2D 后续步骤）（37）
     private AudioSource footstepSource;
     private Vector2 moveInput;
-// 保存 lastMoveDirection 数据
+// 同步 PlayerMovement2D 的相关数据（PlayerMovement2D 后续步骤）（40）
     private Vector2 lastMoveDirection = Vector2.down;
     private string currentWalkState;
-// 记录 endingMovementActive 状态
+// 记录 PlayerMovement2D 的当前状态（PlayerMovement2D 后续步骤）
     private bool endingMovementActive;
     private Vector2 endingTarget;
-// 配置 endingSpeed 数值
+// 设置 PlayerMovement2D 的配置数值
     private float endingSpeed;
     private float endingTolerance;
-// 记录 endingMovementFinished 状态
+// 记录 PlayerMovement2D 的当前状态（PlayerMovement2D 后续步骤）（49）
     private bool endingMovementFinished;
     private Collider2D[] endingMovementColliders;
 
-// 定义 Awake 方法
+// 初始化组件引用和运行状态
     private void Awake()
     {
-// 更新当前状态
+// 同步 Awake 的状态
         rb = GetComponent<Rigidbody2D>();
         endingMovementColliders = GetComponentsInChildren<Collider2D>(true);
-// 更新当前状态
+// 同步 Awake 的内部状态
         rb.gravityScale = 0f;
         rb.freezeRotation = true;
-// 更新当前状态
+// 同步 Awake 的内部状态（Awake）
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (animator == null) animator = GetComponent<Animator>();
-// 更新当前状态
+// 同步 Awake 的内部状态（Awake）（footstepSource）
         footstepSource = gameObject.AddComponent<AudioSource>();
         footstepSource.clip = footstepLoop;
-// 更新当前状态
+// 在 Awake 中继续当前处理
         footstepSource.loop = true;
         footstepSource.playOnAwake = false;
-// 更新当前状态
+// 在 Awake 中继续当前处理（Awake 后续步骤）
         footstepSource.spatialBlend = 0f;
         footstepSource.volume = GetEffectiveFootstepVolume();
     }
 
-// 定义 Start 方法
+// 读取初始依赖并同步首帧状态
     private void Start()
     {
-// 判断当前条件
+// 检查 Start 的前置条件
         if (SettingsManager.Instance != null) SettingsManager.Instance.SfxVolumeChanged += OnSfxVolumeChanged;
         if (animator != null) animator.enabled = false;
-// 执行 ApplyIdleSprite
+// 推进 Start 中的必要步骤
         ApplyIdleSprite();
     }
 
-// 定义 Update 方法
+// 每帧检查输入与状态变化
     private void Update()
     {
-// 判断当前条件
+// 检查 Update 的前置条件
         if (endingMovementActive)
         {
-// 返回当前结果
+// 返回 Update 的处理结果
             return;
         }
 
-// 执行 ReadMovementInput
+// 推进 Update 中的必要步骤
         ReadMovementInput();
         UpdateAnimator();
-// 执行 UpdateFootsteps
+// 推进 Update 中的必要步骤（Update）
         UpdateFootsteps();
     }
 
-// 定义 FixedUpdate 方法
+// 按物理帧推进移动与碰撞
     private void FixedUpdate()
     {
-// 判断当前条件
+// 检查 FixedUpdate 的前置条件
         if (endingMovementActive)
         {
-// 定义 MoveTowards 方法
+// 完成 FixedUpdate 的主要职责
             Vector2 next = Vector2.MoveTowards(rb.position, endingTarget, endingSpeed * Time.fixedDeltaTime);
             rb.MovePosition(next);
-// 判断当前条件
+// 检查 FixedUpdate 的前置条件（FixedUpdate）
             if (Vector2.Distance(next, endingTarget) <= endingTolerance)
             {
-// 调用 MovePosition
+// 使用 FixedUpdate 所需功能
                 rb.MovePosition(endingTarget);
                 endingMovementActive = false;
-// 更新当前状态
+// 同步 FixedUpdate 的内部状态
                 endingMovementFinished = true;
                 moveInput = Vector2.zero;
-// 执行 StopEndingMovement
+// 推进 FixedUpdate 中的必要步骤
                 StopEndingMovement();
             }
-// 返回当前结果
+// 返回 FixedUpdate 的处理结果
             return;
         }
 
-// 调用 MovePosition
+// 使用 FixedUpdate 所需功能（FixedUpdate）
         rb.MovePosition(rb.position + moveInput * moveSpeed * Time.fixedDeltaTime);
     }
 
-    /// <summary>按指定朝向缓慢走到结局演出目标，不读取玩家输入。</summary>
+    // 处理 MoveToEndingTarget 对应逻辑
     public IEnumerator MoveToEndingTarget(Vector3 target, Vector2 direction, float speedMultiplier = 0.5f, float timeout = 8f, float tolerance = 0.03f)
     {
-// 执行 SetEndingCollisionsEnabled
+// 推进 MoveToEndingTarget 中的必要步骤
         SetEndingCollisionsEnabled(false);
         direction = direction.sqrMagnitude > 0.001f ? direction.normalized : Vector2.down;
-// 更新当前状态
+// 同步 MoveToEndingTarget 的内部状态
         lastMoveDirection = direction;
         endingTarget = target;
-// 判断当前条件
+// 检查 MoveToEndingTarget 的前置条件
         if (animator != null) animator.speed = Mathf.Max(0.01f, speedMultiplier);
         endingSpeed = Mathf.Max(0.01f, moveSpeed * speedMultiplier);
-// 更新当前状态
+// 同步 MoveToEndingTarget 的内部状态（MoveToEndingTarget）
         endingTolerance = Mathf.Max(0.001f, tolerance);
         endingMovementFinished = false;
-// 更新当前状态
+// 同步 MoveToEndingTarget 的内部状态（MoveToEndingTarget）（endingMovementActive）
         endingMovementActive = true;
         moveInput = direction;
-// 执行 PlayWalkState
+// 推进 MoveToEndingTarget 中的必要步骤（MoveToEndingTarget）
         PlayWalkState(direction);
 
-// 配置 elapsed 数值
+// 设置 MoveToEndingTarget 的配置数值
         float elapsed = 0f;
         while (!endingMovementFinished && elapsed < Mathf.Max(0.1f, timeout))
         {
-// 更新当前逻辑
+// 推进 MoveToEndingTarget 的当前步骤
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-// 判断当前条件
+// 检查 MoveToEndingTarget 的前置条件（MoveToEndingTarget）
         if (endingMovementActive)
         {
-// 更新当前状态
+// 在 MoveToEndingTarget 中继续当前处理
             endingMovementActive = false;
             moveInput = Vector2.zero;
-// 执行 StopEndingMovement
+// 在 MoveToEndingTarget 中处理 StopEndingMovement
             StopEndingMovement();
         }
     }
 
-// 定义 SetEndingIdleLeft 方法
+// 设置 SetEndingIdleLeft 的目标状态
     public void SetEndingIdleLeft()
     {
-// 更新当前状态
+// 同步 SetEndingIdleLeft 的内部状态
         lastMoveDirection = Vector2.left;
         moveInput = Vector2.zero;
-// 执行 StopEndingMovement
+// 推进 SetEndingIdleLeft 中的必要步骤
         StopEndingMovement();
     }
 
-// 定义 SetEndingSprite 方法
+// 设置 SetEndingSprite 的目标状态
     public void SetEndingSprite(Sprite sprite)
     {
-// 执行 StopEndingMovement
+// 推进 SetEndingSprite 中的必要步骤
         StopEndingMovement();
         if (spriteRenderer != null && sprite != null)
         {
@@ -194,97 +194,97 @@ public class PlayerMovement2D : MonoBehaviour
         }
     }
 
-// 定义 StopEndingMovement 方法
+// 停止 StopEndingMovement 对应流程
     private void StopEndingMovement()
     {
-// 判断当前条件
+// 检查 StopEndingMovement 的前置条件
         if (footstepSource != null && footstepSource.isPlaying) footstepSource.Stop();
         if (animator != null)
         {
-// 更新当前状态
+// 同步 StopEndingMovement 的内部状态
             animator.speed = 1f;
             animator.enabled = false;
-// 更新当前状态
+// 同步 StopEndingMovement 的内部状态（StopEndingMovement）
             currentWalkState = null;
         }
-// 执行 ApplyIdleSprite
+// 推进 StopEndingMovement 中的必要步骤
         ApplyIdleSprite();
         SetEndingCollisionsEnabled(true);
     }
 
-// 定义 SetEndingCollisionsEnabled 方法
+// 设置 SetEndingCollisionsEnabled 的目标状态
     private void SetEndingCollisionsEnabled(bool enabled)
     {
-// 空引用时直接退出
+// SetEndingCollisionsEnabled 缺少引用时提前结束
         if (endingMovementColliders == null) return;
         foreach (Collider2D collider in endingMovementColliders)
         {
-// 判断当前条件
+// 检查 SetEndingCollisionsEnabled 的前置条件
             if (collider != null) collider.enabled = enabled;
         }
     }
 
-// 定义 PlayWalkState 方法
+// 播放 PlayWalkState 对应演出
     private void PlayWalkState(Vector2 direction)
     {
-// 空引用时直接退出
+// 缺少必要引用时退出 PlayWalkState
         if (animator == null) return;
         string state = ResolveWalkState(direction);
-// 判断当前条件
+// 检查 PlayWalkState 的前置条件
         if (!animator.enabled) { animator.enabled = true; currentWalkState = null; }
         animator.Play(state, 0, 0f);
-// 更新当前状态
+// 同步 PlayWalkState 的内部状态
         currentWalkState = state;
     }
 
-// 定义 IsMovementLocked 方法
+// 判断 IsMovementLocked 对应条件
     private bool IsMovementLocked()
     {
-// 判断当前条件
+// 检查 IsMovementLocked 的前置条件
         if (GameplayInputLock.IsMovementLocked) return true;
         if (DialogueUIManager.Instance != null && DialogueUIManager.Instance.IsDialogueOpen) return true;
-// 判断当前条件
+// 检查 IsMovementLocked 的前置条件（IsMovementLocked）
         if (InvestigationDirector.Instance != null && InvestigationDirector.Instance.IsPlayingFlashback) return true;
         return ScreenFader.IsFading;
     }
 
-// 定义 ReadMovementInput 方法
+// 处理 ReadMovementInput 对应逻辑
     private void ReadMovementInput()
     {
-// 判断当前条件
+// 检查 ReadMovementInput 的前置条件
         if (IsMovementLocked()) { moveInput = Vector2.zero; return; }
         float horizontal = Input.GetAxisRaw("Horizontal");
-// 定义 GetAxisRaw 方法
+// 缓存 ReadMovementInput 所需引用
         float vertical = Input.GetAxisRaw("Vertical");
         if (!allowDiagonalMovement)
         {
-// 判断当前条件
+// 检查 ReadMovementInput 的前置条件（ReadMovementInput）
             if (Mathf.Abs(horizontal) > 0f) vertical = 0f;
             else if (Mathf.Abs(vertical) > 0f) horizontal = 0f;
         }
-// 更新当前状态
+// 同步 ReadMovementInput 的内部状态
         moveInput = new Vector2(horizontal, vertical).normalized;
         if (moveInput != Vector2.zero) lastMoveDirection = moveInput;
     }
 
-// 定义 UpdateAnimator 方法
+// 刷新 UpdateAnimator 对应状态
     private void UpdateAnimator()
     {
-// 空引用时直接退出
+// 缺少必要引用时退出 UpdateAnimator
         if (animator == null) return;
         if (moveInput != Vector2.zero)
         {
-// 定义 ResolveWalkState 方法
+// 解析 ResolveWalkState 对应结果
             string targetState = ResolveWalkState(moveInput);
             if (!animator.enabled) { animator.enabled = true; currentWalkState = null; }
-// 判断当前条件
+// 检查 UpdateAnimator 的前置条件
             if (targetState != currentWalkState) { animator.Play(targetState, 0, 0f); currentWalkState = targetState; }
             else
             {
-// 定义 IsInTransition 方法
+// 判断 IsInTransition 对应条件
                 bool leavingTarget = animator.IsInTransition(0)
                     ? !animator.GetNextAnimatorStateInfo(0).IsName(targetState)
-// 调用 GetCurrentAnimatorStateInfo
+// 使用 UpdateAnimator 所需功能
                     : !animator.GetCurrentAnimatorStateInfo(0).IsName(targetState);
                 if (leavingTarget) animator.Play(targetState, 0, 0f);
             }
@@ -292,65 +292,65 @@ public class PlayerMovement2D : MonoBehaviour
 // 检查其他条件
         else if (animator.enabled)
         {
-// 更新启用状态
+// 在 UpdateAnimator 中继续当前处理
             animator.enabled = false;
             currentWalkState = null;
-// 执行 ApplyIdleSprite
+// 推进 UpdateAnimator 中的必要步骤
             ApplyIdleSprite();
         }
     }
 
-// 定义 ResolveWalkState 方法
+// 在 UpdateAnimator 中处理 ResolveWalkState
     private string ResolveWalkState(Vector2 direction)
     {
-// 判断当前条件
+// 检查 ResolveWalkState 的前置条件
         if (Mathf.Abs(direction.x) >= Mathf.Abs(direction.y)) return direction.x < 0f ? walkLeftState : walkRightState;
         return direction.y < 0f ? walkDownState : walkUpState;
     }
 
-// 定义 UpdateFootsteps 方法
+// 刷新 UpdateFootsteps 对应状态
     private void UpdateFootsteps()
     {
-// 空引用时直接退出
+// 缺少必要引用时退出 UpdateFootsteps
         if (footstepSource == null || footstepSource.clip == null) return;
         bool moving = moveInput != Vector2.zero;
-// 判断当前条件
+// 检查 UpdateFootsteps 的前置条件
         if (moving && !footstepSource.isPlaying) { footstepSource.volume = GetEffectiveFootstepVolume(); footstepSource.Play(); }
         else if (!moving && footstepSource.isPlaying) footstepSource.Stop();
     }
 
-// 定义 OnSfxVolumeChanged 方法
+// 响应 OnSfxVolumeChanged 生命周期
     private void OnSfxVolumeChanged(float value)
     {
-// 判断当前条件
+// 检查 OnSfxVolumeChanged 的前置条件
         if (footstepSource != null) footstepSource.volume = GetEffectiveFootstepVolume();
     }
 
-// 定义 GetEffectiveFootstepVolume 方法
+// 获取 GetEffectiveFootstepVolume 所需引用
     private float GetEffectiveFootstepVolume()
     {
-// 配置 globalVolume 数值
+// 设置 GetEffectiveFootstepVolume 的配置数值
         float globalVolume = SettingsManager.Instance == null ? 1f : SettingsManager.Instance.SfxVolume;
         return Mathf.Clamp01(footstepVolume * globalVolume);
     }
 
-// 定义 OnDestroy 方法
+// 销毁时释放事件订阅和静态引用
     private void OnDestroy()
     {
-// 判断当前条件
+// 检查 OnDestroy 的前置条件
         if (SettingsManager.Instance != null) SettingsManager.Instance.SfxVolumeChanged -= OnSfxVolumeChanged;
     }
 
-// 定义 ApplyIdleSprite 方法
+// 应用 ApplyIdleSprite 对应设置
     private void ApplyIdleSprite()
     {
-// 空引用时直接退出
+// 缺少必要引用时退出 ApplyIdleSprite
         if (spriteRenderer == null) return;
         Sprite idle;
-// 判断当前条件
+// 检查 ApplyIdleSprite 的前置条件
         if (Mathf.Abs(lastMoveDirection.x) >= Mathf.Abs(lastMoveDirection.y)) idle = lastMoveDirection.x < 0f ? idleLeft : idleRight;
         else idle = lastMoveDirection.y < 0f ? idleDown : idleUp;
-// 判断当前条件
+// 检查 ApplyIdleSprite 的前置条件（ApplyIdleSprite）
         if (idle != null) spriteRenderer.sprite = idle;
     }
 }

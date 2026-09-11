@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// 调用 CreateAssetMenu
+// 使用 当前脚本 所需功能
 [CreateAssetMenu(fileName = "ClueDatabase", menuName = "游戏数据/线索数据库")]
 public class ClueDatabase : ScriptableObject
 {
@@ -15,13 +15,13 @@ public class ClueDatabase : ScriptableObject
     public IReadOnlyList<ClueData> AllClues => allClues;
     public IReadOnlyList<ClueData> TrueEndingRequiredClues => trueEndingRequiredClues;
 
-// 定义 FindById 方法
+// 获取 FindById 所需引用
     public ClueData FindById(string clueId)
     {
 // 遍历全部元素
         foreach (ClueData clue in allClues)
         {
-// 判断当前条件
+// 检查 FindById 的前置条件
             if (clue != null && clue.ClueId == clueId)
             {
                 return clue;

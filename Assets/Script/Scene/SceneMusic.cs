@@ -2,23 +2,23 @@ using UnityEngine;
 
 public class SceneMusic : MonoBehaviour
 {
-    // 本场景可供全局音乐管理器随机播放的曲目
+    // 读取初始依赖并同步首帧状态
     [Header("本场景背景音乐列表（随机循环播放）")]
-    // 相邻场景使用同一列表时可维持播放连续性
+    // 在 SceneMusic 中处理 Start
     [SerializeField] private AudioClip[] musicClips;
 
-    // 以下参数统一传给全局音乐管理器
+    // 在 SceneMusic 中处理 Start（SceneMusic 后续步骤）
     [Header("播放设置")]
-    // 控制播放列表的目标音量
+    // 在 SceneMusic 中处理 Start（SceneMusic 后续步骤）（后续处理 2）
     [Range(0f, 1f)]
-// 配置 volume 数值
+// 在 SceneMusic 中处理 Start（SceneMusic 后续步骤）（后续处理 3）
     [SerializeField] private float volume = 0.8f;
     [Tooltip("切换音乐时的淡入淡出秒数")]
-    // 停止或切换音乐所用的淡化时长
+    // 在 SceneMusic 中处理 Start（SceneMusic 后续步骤）（后续处理 4）
     [SerializeField] private float fadeDuration = 1f;
-// 说明当前配置
+// 在 SceneMusic 中处理 Start（SceneMusic 后续步骤）（后续处理 5）
     [Tooltip("勾选 = 本场景静音（淡出上个场景的音乐）")]
-    // 勾选时忽略曲目列表并停止音乐
+    // 在 SceneMusic 中处理 Start（SceneMusic 后续步骤）（后续处理 6）
     [SerializeField] private bool silence = false;
 
     private void Start()
@@ -34,7 +34,7 @@ public class SceneMusic : MonoBehaviour
         {
             MusicManager.Instance.StopMusic(fadeDuration);
         }
-// 处理其他分支
+// 处理 Start 的备用分支
         else
         {
             // 将本场景曲目列表及播放参数交给全局管理器

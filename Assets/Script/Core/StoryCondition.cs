@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// 更新当前逻辑
+// 推进 当前脚本 的当前步骤
 [System.Serializable]
 public class StoryCondition
 {
@@ -13,40 +13,40 @@ public class StoryCondition
 // 配置 Flag 条件 分组
     [Header("Flag 条件")]
     [Tooltip("必须全部已设置")]
-// 保存 requiredFlags 数据
+// 同步 StoryCondition 的相关数据
     public string[] requiredFlags;
     [Tooltip("任意一个已设置则不满足")]
-// 保存 forbiddenFlags 数据
+// 同步 StoryCondition 的相关数据（StoryCondition 后续步骤）
     public string[] forbiddenFlags;
 
 // 配置 线索条件 分组
     [Header("线索条件")]
     [Tooltip("必须全部已收集（填 ClueId）")]
-// 保存 requiredClues 数据
+// 同步 StoryCondition 的相关数据（StoryCondition 后续步骤）（24）
     public string[] requiredClues;
 
-    // 按时间、Flag、线索顺序短路判定；任一条件未满足即不可用
+    // 判断 IsMet 对应条件
     public bool IsMet()
     {
         // 尚未建立全局状态时不能安全满足任何剧情门槛
         GameManager gm = GameManager.Instance;
         if (gm == null)
         {
-// 返回当前结果
+// 返回 IsMet 的处理结果
             return false;
         }
 
-// 判断当前条件
+// 检查 IsMet 的前置条件
         if (minTimePeriod >= 0 && gm.CurrentTimePeriod < minTimePeriod)
         {
-// 返回当前结果
+// 在 IsMet 中处理 返回 IsMet 的处理结果
             return false;
         }
 
-// 判断当前条件
+// 在 IsMet 中处理 检查 IsMet 的前置条件
         if (maxTimePeriod >= 0 && gm.CurrentTimePeriod > maxTimePeriod)
         {
-// 返回当前结果
+// 返回 IsMet 的处理结果（IsMet）
             return false;
         }
 
@@ -56,10 +56,10 @@ public class StoryCondition
 // 遍历全部元素
             foreach (string flag in requiredFlags)
             {
-// 判断当前条件
+// 检查 IsMet 的前置条件（IsMet）
                 if (!string.IsNullOrEmpty(flag) && !gm.HasFlag(flag))
                 {
-// 返回当前结果
+// 返回 IsMet 的处理结果（IsMet）（return）
                     return false;
                 }
             }
@@ -68,12 +68,12 @@ public class StoryCondition
         // forbiddenFlags 采用“任一阻止”，适合互斥剧情分支
         if (forbiddenFlags != null)
         {
-// 遍历全部元素
+// 在 IsMet 中继续当前处理
             foreach (string flag in forbiddenFlags)
             {
                 if (!string.IsNullOrEmpty(flag) && gm.HasFlag(flag))
                 {
-// 返回当前结果
+// 在 IsMet 中继续当前处理（IsMet 后续步骤）
                     return false;
                 }
             }
@@ -82,18 +82,18 @@ public class StoryCondition
         // 线索要求同样必须全部收集，防止只获得部分证据就解锁后续
         if (requiredClues != null)
         {
-// 遍历全部元素
+// 在 IsMet 中继续当前处理（IsMet 后续步骤）（84）
             foreach (string clueId in requiredClues)
             {
                 if (!string.IsNullOrEmpty(clueId) && !gm.HasClue(clueId))
                 {
-// 返回当前结果
+// 在 IsMet 中继续当前处理（IsMet 后续步骤）（89）
                     return false;
                 }
             }
         }
 
-// 返回当前结果
+// 在 IsMet 中继续当前处理（IsMet 后续步骤）（95）
         return true;
     }
 }

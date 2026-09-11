@@ -1,10 +1,10 @@
 using UnityEngine;
 
-// 调用 CreateAssetMenu
+// 使用 当前脚本 所需功能
 [CreateAssetMenu(fileName = "Dialogue_", menuName = "游戏数据/对话")]
 public class DialogueData : ScriptableObject
 {
-// 更新当前逻辑
+// 推进 DialogueData 的当前步骤
     [System.Serializable]
     public class Line
     {
@@ -16,25 +16,25 @@ public class DialogueData : ScriptableObject
         [Tooltip("表情差分名（normal/worried/shocked…），空 = 用默认立绘")]
         public string expression;
 
-// 说明当前配置
+// 在 Line 中继续当前处理
         [Tooltip("说话人名字。留空时：有立绘则用立绘的 displayName，否则不显示名字栏")]
         public string speakerName;
 
-// 调用 TextArea
+// 使用 Line 所需功能
         [TextArea(2, 5)]
         public string text;
 
-        // 覆写名优先于角色资产显示名；两者为空时 UI 会隐藏名字栏
+        // 解析 ResolveSpeakerName 对应结果
         public string ResolveSpeakerName()
         {
-// 判断当前条件
+// 检查 ResolveSpeakerName 的前置条件
             if (!string.IsNullOrEmpty(speakerName))
             {
-// 返回当前结果
+// 返回 ResolveSpeakerName 的处理结果
                 return speakerName;
             }
 
-// 返回当前结果
+// 在 ResolveSpeakerName 中处理 返回 ResolveSpeakerName 的处理结果
             return character != null ? character.displayName : string.Empty;
         }
     }
@@ -45,29 +45,29 @@ public class DialogueData : ScriptableObject
     // 效果仅在最后一行结束后统一执行，不会在行与行之间提前改变剧情状态
     [Header("播放完毕后的效果")]
     [Tooltip("勾选 = 这段对话是独白，播完后调查次数 +1（阈值事件触发的独白不要勾，避免连锁）")]
-// 记录 countsAsInvestigation 状态
+// 记录 ResolveSpeakerName 的当前状态
     public bool countsAsInvestigation;
 
-// 说明当前配置
+// 在 ResolveSpeakerName 中继续当前处理
     [Tooltip("对话结束后设置这些 Flag")]
     public string[] setFlagsOnComplete;
 
-// 说明当前配置
+// 在 ResolveSpeakerName 中继续当前处理（ResolveSpeakerName 后续步骤）
     [Tooltip("对话结束后推进的时间段数（0 = 不推进）")]
     public int advanceTimeOnComplete;
 
-// 说明当前配置
+// 在 ResolveSpeakerName 中继续当前处理（ResolveSpeakerName 后续步骤）（58）
     [Tooltip("对话结束后获得的线索")]
     public ClueData[] grantCluesOnComplete;
 
-// 定义 ApplyCompletionEffects 方法
+// 应用 ApplyCompletionEffects 对应设置
     public void ApplyCompletionEffects()
     {
-// 保存 gm 数据
+// 同步 ApplyCompletionEffects 的相关数据
         GameManager gm = GameManager.Instance;
         if (gm == null)
         {
-// 返回当前结果
+// 返回 ApplyCompletionEffects 的处理结果
             return;
         }
 
@@ -82,10 +82,10 @@ public class DialogueData : ScriptableObject
             }
         }
 
-// 判断当前条件
+// 检查 ApplyCompletionEffects 的前置条件
         if (grantCluesOnComplete != null)
         {
-// 遍历全部元素
+// 在 ApplyCompletionEffects 中继续当前处理
             foreach (ClueData clue in grantCluesOnComplete)
             {
 // 记录当前线索
@@ -96,7 +96,7 @@ public class DialogueData : ScriptableObject
         // 只接受正数，避免错误配置造成倒退或无意义的时间事件
         if (advanceTimeOnComplete > 0)
         {
-// 调用 AdvanceTime
+// 使用 ApplyCompletionEffects 所需功能
             gm.AdvanceTime(advanceTimeOnComplete);
         }
 

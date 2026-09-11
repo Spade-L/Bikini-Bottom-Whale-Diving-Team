@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-// 定义 ScreenFader 类型
+// 统一处理黑屏、白屏和场景渐变
 public class ScreenFader : MonoBehaviour
 {
     public static ScreenFader Instance { get; private set; }
@@ -18,14 +18,14 @@ public class ScreenFader : MonoBehaviour
     // CanvasGroup 同时驱动透明度和输入拦截；isFading 供外部暂停移动
     private CanvasGroup group;
     private Image overlayImage;
-// 记录 isFading 状态
+// 记录 ScreenFader 的当前状态
     private bool isFading;
 
-    // 比场景对象更早建立，确保首场景也有从黑场进入的效果
+    // 在场景加载前创建常驻管理器
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void AutoCreate()
     {
-// 空引用时直接退出
+// AutoCreate 缺少引用时提前结束
         if (Instance == null)
         {
 // 添加所需组件
@@ -33,6 +33,7 @@ public class ScreenFader : MonoBehaviour
         }
     }
 
+    // 初始化组件引用和运行状态
     private void Awake()
     {
         // 防止启动回调与场景预置对象同时存在时生成两层遮罩
@@ -43,35 +44,36 @@ public class ScreenFader : MonoBehaviour
             return;
         }
 
-// 更新当前状态
+// 同步 Awake 的状态
         Instance = this;
         DontDestroyOnLoad(gameObject);
-// 执行 BuildOverlay
+// 推进 Awake 中的必要步骤
         BuildOverlay();
 
-// 更新当前状态
+// 同步 Awake 的内部状态
         group.alpha = 1f; // 游戏启动画面从黑渐亮
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    // Start 在覆盖层建好后执行首帧入场淡入
+    // 读取初始依赖并同步首帧状态
     private void Start()
     {
         StartCoroutine(FadeRoutine(1f, 0f, defaultDuration, null));
     }
 
-    // 仅由当前单例取消订阅，避免旧重复实例误清理有效监听
+    // 销毁时释放事件订阅和静态引用
     private void OnDestroy()
     {
-// 判断当前条件
+// 检查 OnDestroy 的前置条件
         if (Instance == this)
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
-// 更新当前状态
+// 同步 OnDestroy 的内部状态
             Instance = null;
         }
     }
 
+    // 响应 OnSceneLoaded 生命周期
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // 新场景就绪：从全黑渐亮（无论切场景前有没有渐黑，都保证入场效果一致）
@@ -81,26 +83,26 @@ public class ScreenFader : MonoBehaviour
         StartCoroutine(FadeRoutine(1f, 0f, defaultDuration, null));
     }
 
-// 定义 FadeOutThen 方法
+// 处理 FadeOutThen 对应逻辑
     public void FadeOutThen(Action onComplete, float duration = -1f)
     {
         StopAllCoroutines();
-// 判断当前条件
+// 检查 FadeOutThen 的前置条件
         if (overlayImage != null) overlayImage.color = Color.black;
         StartCoroutine(FadeRoutine(group.alpha, 1f, duration > 0f ? duration : defaultDuration, onComplete));
     }
 
-// 定义 FadeToWhiteThen 方法
+// 处理 FadeToWhiteThen 对应逻辑
     public void FadeToWhiteThen(Action onComplete, float duration = -1f)
     {
-// 执行 StopAllCoroutines
+// 推进 FadeToWhiteThen 中的必要步骤
         StopAllCoroutines();
         if (overlayImage != null) overlayImage.color = Color.white;
-// 启动当前协程
+// 在 FadeToWhiteThen 中继续当前处理
         StartCoroutine(FadeRoutine(group.alpha, 1f, duration > 0f ? duration : defaultDuration, onComplete));
     }
 
-// 从全黑保持不透明渐变到全白
+// 处理 FadeBlackToWhiteThen 对应逻辑
     public void FadeBlackToWhiteThen(Action onComplete, float duration = -1f)
     {
         StopAllCoroutines();
@@ -113,7 +115,7 @@ public class ScreenFader : MonoBehaviour
         StartCoroutine(FadeColorRoutine(Color.black, Color.white, actualDuration, onComplete));
     }
 
-// 颜色渐变期间保持遮罩不透明
+// 处理 FadeColorRoutine 对应逻辑
     private IEnumerator FadeColorRoutine(Color from, Color to, float duration, Action onComplete)
     {
         isFading = true;
@@ -133,66 +135,66 @@ public class ScreenFader : MonoBehaviour
         group.blocksRaycasts = true;
         onComplete?.Invoke();
     }
-// 定义 SetOverlaySortingOrder 方法
+// 设置 SetOverlaySortingOrder 的目标状态
     public void SetOverlaySortingOrder(int sortingOrder)
     {
         Canvas canvas = group == null ? null : group.GetComponent<Canvas>();
-// 判断当前条件
+// 检查 SetOverlaySortingOrder 的前置条件
         if (canvas != null)
         {
-// 更新当前状态
+// 同步 SetOverlaySortingOrder 的内部状态
             canvas.sortingOrder = sortingOrder;
         }
     }
 
-    /// <summary>渐黑 → 全黑时执行回调（切换 UI）→ 渐亮。</summary>
+    // 处理 FadeOutIn 对应逻辑
     public void FadeOutIn(Action atBlack, float duration = -1f)
     {
-// 执行 StopAllCoroutines
+// 推进 FadeOutIn 中的必要步骤
         StopAllCoroutines();
         if (overlayImage != null) overlayImage.color = Color.black;
-// 启动当前协程
+// 在 FadeOutIn 中继续当前处理
         StartCoroutine(FadeOutInRoutine(atBlack, duration > 0f ? duration : defaultDuration));
     }
 
-    // 回调固定在完全不透明时执行，避免 UI 切换帧被玩家看见
+    // 处理 FadeOutInRoutine 对应逻辑
     private IEnumerator FadeOutInRoutine(Action atBlack, float duration)
     {
         yield return FadeRoutine(group.alpha, 1f, duration, null);
-// 调用 Invoke
+// 使用 FadeOutInRoutine 所需功能
         atBlack?.Invoke();
         yield return FadeRoutine(1f, 0f, duration, null);
     }
 
-    // 每帧更新透明度；先锁定输入和移动，完成后再按最终透明度决定是否放行
+    // 处理 FadeRoutine 对应逻辑
     private IEnumerator FadeRoutine(float from, float to, float duration, Action onComplete)
     {
-// 更新当前状态
+// 同步 FadeRoutine 的内部状态
         isFading = true;
         group.blocksRaycasts = true;
 
-// 配置 elapsed 数值
+// 设置 FadeRoutine 的配置数值
         float elapsed = 0f;
         while (elapsed < duration)
         {
-// 更新当前逻辑
+// 推进 FadeRoutine 的当前步骤
             elapsed += Time.deltaTime;
             group.alpha = Mathf.Lerp(from, to, elapsed / duration);
 // 等待下一步
             yield return null;
         }
 
-// 更新当前状态
+// 同步 FadeRoutine 的内部状态（FadeRoutine）
         group.alpha = to;
         isFading = false;
-// 更新当前状态
+// 同步 FadeRoutine 的内部状态（FadeRoutine）（group）
         group.blocksRaycasts = to > 0.01f; // 停在全黑时继续挡点击，透明后放行
 
-// 调用 Invoke
+// 使用 FadeRoutine 所需功能
         onComplete?.Invoke();
     }
 
-    // 运行时构造全屏 Canvas，避免每个场景维护重复的转场预制体
+    // 处理 BuildOverlay 对应逻辑
     private void BuildOverlay()
     {
 // 保存 canvasGo 引用
@@ -202,10 +204,10 @@ public class ScreenFader : MonoBehaviour
 // 保存 canvas 引用
         var canvas = canvasGo.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-// 更新当前状态
+// 同步 BuildOverlay 的内部状态
         canvas.sortingOrder = 9999;
 
-// 更新当前状态
+// 同步 BuildOverlay 的内部状态（BuildOverlay）
         group = canvasGo.AddComponent<CanvasGroup>();
         group.interactable = false;
 
@@ -213,17 +215,17 @@ public class ScreenFader : MonoBehaviour
         var imageGo = new GameObject("Black");
         imageGo.transform.SetParent(canvasGo.transform, false);
 
-// 更新当前状态
+// 同步 BuildOverlay 的内部状态（BuildOverlay）（overlayImage）
         overlayImage = imageGo.AddComponent<Image>();
         overlayImage.color = Color.black;
 
-// 保存 rt 数据
+// 同步 BuildOverlay 的相关数据
         RectTransform rt = overlayImage.rectTransform;
         rt.anchorMin = Vector2.zero;
-// 更新当前状态
+// 同步 BuildOverlay 的内部状态（BuildOverlay）（rt）
         rt.anchorMax = Vector2.one;
         rt.offsetMin = Vector2.zero;
-// 更新当前状态
+// 在 BuildOverlay 中继续当前处理
         rt.offsetMax = Vector2.zero;
     }
 }

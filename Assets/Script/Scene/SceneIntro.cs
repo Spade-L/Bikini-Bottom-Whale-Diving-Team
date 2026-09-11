@@ -18,6 +18,7 @@ public class SceneIntro : MonoBehaviour
     // 用场景标识构造存档 Flag，区分各场景的首次开场
     private string IntroFlag => $"intro_{sceneId}";
 
+    // 读取初始依赖并同步首帧状态
     private IEnumerator Start()
     {
         // 留出场景加载后的初始缓冲时间

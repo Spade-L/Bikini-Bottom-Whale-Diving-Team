@@ -2167,7 +2167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc6d5bdae46c91f4e9c4072f9e47375d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickClip: {fileID: 8300000, guid: 6997fd59624f9784aae62499644f42c4, type: 3}
+  clickClip: {fileID: 8300000, guid: bca9458f2464c7642a86fa3e004ae11e, type: 3}
   volume: 1
 --- !u!1 &4434708071617930398
 GameObject:
@@ -2580,7 +2580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc6d5bdae46c91f4e9c4072f9e47375d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickClip: {fileID: 8300000, guid: 6997fd59624f9784aae62499644f42c4, type: 3}
+  clickClip: {fileID: 8300000, guid: bca9458f2464c7642a86fa3e004ae11e, type: 3}
   volume: 1
 --- !u!1 &4690630521673570735
 GameObject:
@@ -2857,7 +2857,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc6d5bdae46c91f4e9c4072f9e47375d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickClip: {fileID: 8300000, guid: 6997fd59624f9784aae62499644f42c4, type: 3}
+  clickClip: {fileID: 8300000, guid: bca9458f2464c7642a86fa3e004ae11e, type: 3}
   volume: 1
 --- !u!1 &4981818843337920005
 GameObject:
@@ -3546,7 +3546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc6d5bdae46c91f4e9c4072f9e47375d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickClip: {fileID: 8300000, guid: 6997fd59624f9784aae62499644f42c4, type: 3}
+  clickClip: {fileID: 8300000, guid: bca9458f2464c7642a86fa3e004ae11e, type: 3}
   volume: 1
 --- !u!1 &5996077576190510573
 GameObject:

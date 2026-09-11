@@ -3,7 +3,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-// 定义 DialogueUIManager 类型
+// 管理对话显示、逐字播放和完成回调
 public class DialogueUIManager : MonoBehaviour
 {
     public static DialogueUIManager Instance { get; private set; }
@@ -11,7 +11,7 @@ public class DialogueUIManager : MonoBehaviour
     // 所有 UI 引用均需在 Inspector 配置；缺失引用会降级跳过对应显示
     [Header("对话框 UI")]
     [SerializeField] private GameObject dialoguePanel;
-// 保存 dialogueText 数据
+// 同步 DialogueUIManager 的相关数据
     [SerializeField] private TMP_Text dialogueText;
     [SerializeField] private TMP_Text speakerNameText;
 // 保存 continueIndicator 引用
@@ -24,13 +24,13 @@ public class DialogueUIManager : MonoBehaviour
 // 配置 主角立绘（说话人为「我」时自动使用） 分组
     [Header("主角立绘（说话人为「我」时自动使用）")]
     [Tooltip("男主角（哥哥线）立绘资产")]
-// 保存 protagonistMale 数据
+// 同步 DialogueUIManager 的相关数据（DialogueUIManager 后续步骤）
     [SerializeField] private CharacterData protagonistMale;
     [Tooltip("女主角（姐姐线）立绘资产，未设置 gender_female flag 时用男主角")]
-// 保存 protagonistFemale 数据
+// 同步 DialogueUIManager 的相关数据（DialogueUIManager 后续步骤）（29）
     [SerializeField] private CharacterData protagonistFemale;
     [Tooltip("触发主角立绘的说话人名字")]
-// 保存 protagonistSpeakerName 数据
+// 同步 DialogueUIManager 的相关数据（DialogueUIManager 后续步骤）（32）
     [SerializeField] private string protagonistSpeakerName = "我";
 
 // 配置 打字机 分组
@@ -43,34 +43,34 @@ public class DialogueUIManager : MonoBehaviour
 // 保存 openSound 引用
     [SerializeField] private AudioClip openSound;
     [Range(0f, 1f)]
-// 配置 openSoundVolume 数值
+// 设置 DialogueUIManager 的配置数值
     [SerializeField] private float openSoundVolume = 1f;
 
 // 配置 输入 分组
     [Header("输入")]
     [SerializeField] private KeyCode advanceKey = KeyCode.F;
-// 配置 reopenInputDelay 数值
+// 设置 DialogueUIManager 的配置数值（DialogueUIManager 后续步骤）
     [SerializeField] private float reopenInputDelay = 0.1f;
 
     // 每段对话的运行时游标；不会写回 ScriptableObject 资产
     private DialogueData currentDialogue;
     private int currentLineIndex;
-// 保存 typingCoroutine 数据
+// 同步 DialogueUIManager 的相关数据（DialogueUIManager 后续步骤）（57）
     private Coroutine typingCoroutine;
     private bool isTyping;
-// 保存 onDialogueComplete 数据
+// 同步 DialogueUIManager 的相关数据（DialogueUIManager 后续步骤）（60）
     private Action onDialogueComplete;
 
     // 关闭时间配合冷却，避免推进最后一行的按键穿透到场景交互
     public bool IsDialogueOpen => dialoguePanel != null && dialoguePanel.activeSelf;
     public bool CanOpenDialogue => !IsDialogueOpen && Time.time >= LastClosedTime + reopenInputDelay;
-// 更新当前逻辑
+// 推进 DialogueUIManager 的当前步骤
     public float LastClosedTime { get; private set; } = -999f;
 
-    // 单例初始化发生在 Start 前，供同帧初始化的交互组件查询
+    // 初始化组件引用和运行状态
     private void Awake()
     {
-// 判断当前条件
+// 检查 Awake 的前置条件
         if (Instance != null && Instance != this)
         {
 // 清理当前对象
@@ -83,26 +83,26 @@ public class DialogueUIManager : MonoBehaviour
         HidePanel();
     }
 
-    // 输入只在面板打开时消费；打字和换行共享同一推进键
+    // 每帧检查输入与状态变化
     private void Update()
     {
 // 检测按键输入
         if (!IsDialogueOpen || !Input.GetKeyDown(advanceKey))
         {
-// 返回当前结果
+// 返回 Update 的处理结果
             return;
         }
 
-// 判断当前条件
+// 检查 Update 的前置条件
         if (isTyping)
         {
-// 执行 SkipTyping
+// 推进 Update 中的必要步骤
             SkipTyping();
         }
-// 处理其他分支
+// 处理 Update 的备用分支
         else
         {
-// 执行 AdvanceLine
+// 推进 Update 中的必要步骤（Update）
             AdvanceLine();
         }
     }
@@ -112,7 +112,7 @@ public class DialogueUIManager : MonoBehaviour
         // 空对话或缺少必要 UI 时明确报告失败，避免调用方误认为对白已完成
         if (dialogue == null || dialogue.lines == null || dialogue.lines.Length == 0)
         {
-// 返回当前结果
+// 返回 StartDialogue 的处理结果
             return false;
         }
 
@@ -123,37 +123,37 @@ public class DialogueUIManager : MonoBehaviour
             return false;
         }
 
-// 更新当前状态
+// 同步 StartDialogue 的状态
         currentDialogue = dialogue;
         currentLineIndex = 0;
-// 更新当前状态
+// 同步 StartDialogue 的内部状态
         onDialogueComplete = onComplete;
 
         // 激活面板后再显示首行，确保 TMP 的可见字符数据可以正确计算
         dialoguePanel.SetActive(true);
 
-// 判断当前条件
+// 检查 StartDialogue 的前置条件
         if (openSound != null && SfxManager.Instance != null)
         {
-// 调用 Play
+// 使用 StartDialogue 所需功能
             SfxManager.Instance.Play(openSound, openSoundVolume);
         }
 
         ShowCurrentLine();
-// 返回当前结果
+// 返回 StartDialogue 的处理结果（StartDialogue）
         return true;
     }
 
-// 定义 ShowDialogue 方法
+// 显示 ShowDialogue 对应界面
     public void ShowDialogue(string text)
     {
         DialogueData temp = ScriptableObject.CreateInstance<DialogueData>();
-// 更新当前状态
+// 同步 ShowDialogue 的内部状态
         temp.lines = new[] { new DialogueData.Line { text = text } };
         StartDialogue(temp);
     }
 
-// 定义 ShowCurrentLine 方法
+// 显示 ShowCurrentLine 对应界面
     private void ShowCurrentLine()
     {
 // 保存 line 引用
@@ -162,10 +162,10 @@ public class DialogueUIManager : MonoBehaviour
         // 名字与正文均在展示时解析令牌，故同一资产可随剧情状态显示不同称谓
         if (speakerNameText != null)
         {
-// 定义 ResolveSpeakerName 方法
+// 解析 ResolveSpeakerName 对应结果
             string name = TextTokens.Resolve(line.ResolveSpeakerName());
             bool hasName = !string.IsNullOrEmpty(name);
-// 切换显示状态
+// 切换 ShowCurrentLine 的显示状态
             speakerNameText.gameObject.SetActive(hasName);
             speakerNameText.text = hasName ? name : string.Empty;
         }
@@ -173,10 +173,10 @@ public class DialogueUIManager : MonoBehaviour
         // 立绘为空时主动隐藏 Image，避免上一行的图片残留
         if (portraitImage != null)
         {
-// 保存 character 数据
+// 同步 ShowCurrentLine 的相关数据
             CharacterData character = ResolveCharacter(line);
             Sprite portrait = character != null
-// 调用 GetPortrait
+// 使用 ShowCurrentLine 所需功能
                 ? character.GetPortrait(line.expression)
                 : null;
 // 更新显示图像
@@ -187,14 +187,14 @@ public class DialogueUIManager : MonoBehaviour
         // 开始新行时隐藏提示，只有全文显示完才提示玩家继续
         if (continueIndicator != null)
         {
-// 切换显示状态
+// 切换 ShowCurrentLine 的显示状态（ShowCurrentLine 后续步骤）
             continueIndicator.SetActive(false);
         }
 
-// 判断当前条件
+// 检查 ShowCurrentLine 的前置条件
         if (typingCoroutine != null)
         {
-// 执行 StopCoroutine
+// 推进 ShowCurrentLine 中的必要步骤
             StopCoroutine(typingCoroutine);
         }
 
@@ -202,37 +202,37 @@ public class DialogueUIManager : MonoBehaviour
         typingCoroutine = StartCoroutine(TypeLine(TextTokens.Resolve(line.text)));
     }
 
-// 定义 ResolveCharacter 方法
+// 解析 ResolveCharacter 对应结果
     private CharacterData ResolveCharacter(DialogueData.Line line)
     {
         if (line.character != null)
         {
-// 返回当前结果
+// 返回 ResolveCharacter 的处理结果
             return line.character;
         }
 
-// 判断当前条件
+// 检查 ResolveCharacter 的前置条件
         if (line.speakerName == protagonistSpeakerName)
         {
             bool female = GameManager.Instance != null
-// 调用 HasFlag
+// 使用 ResolveCharacter 所需功能
                 && GameManager.Instance.HasFlag(TextTokens.FemaleFlag);
             return female && protagonistFemale != null ? protagonistFemale : protagonistMale;
         }
 
-// 返回当前结果
+// 返回 ResolveCharacter 的处理结果（ResolveCharacter）
         return null;
     }
 
-// 定义 TypeLine 方法
+// 处理 TypeLine 对应逻辑
     private IEnumerator TypeLine(string text)
     {
         isTyping = true;
-// 更新界面文本
+// 更新 TypeLine 的界面文本
         dialogueText.text = text;
         dialogueText.maxVisibleCharacters = 0;
 
-// 调用 ForceMeshUpdate
+// 使用 TypeLine 所需功能
         dialogueText.ForceMeshUpdate();
         int totalChars = dialogueText.textInfo.characterCount;
 
@@ -242,93 +242,93 @@ public class DialogueUIManager : MonoBehaviour
 // 等待条件变化
         while (dialogueText.maxVisibleCharacters < totalChars)
         {
-// 更新当前逻辑
+// 推进 TypeLine 的当前步骤
             visibleCount += charsPerSecond * Time.deltaTime;
             dialogueText.maxVisibleCharacters = Mathf.Min(totalChars, Mathf.FloorToInt(visibleCount));
 // 等待下一步
             yield return null;
         }
 
-// 执行 FinishTyping
+// 推进 TypeLine 中的必要步骤
         FinishTyping();
     }
 
-// 定义 SkipTyping 方法
+// 处理 SkipTyping 对应逻辑
     private void SkipTyping()
     {
         if (typingCoroutine != null)
         {
-// 执行 StopCoroutine
+// 推进 SkipTyping 中的必要步骤
             StopCoroutine(typingCoroutine);
             typingCoroutine = null;
         }
 
-// 更新当前状态
+// 同步 SkipTyping 的内部状态
         dialogueText.maxVisibleCharacters = int.MaxValue;
         FinishTyping();
     }
 
-// 定义 FinishTyping 方法
+// 处理 FinishTyping 对应逻辑
     private void FinishTyping()
     {
-// 更新当前状态
+// 同步 FinishTyping 的内部状态
         isTyping = false;
         typingCoroutine = null;
 
-// 判断当前条件
+// 检查 FinishTyping 的前置条件
         if (continueIndicator != null)
         {
-// 切换显示状态
+// 切换 FinishTyping 的显示状态
             continueIndicator.SetActive(true);
         }
     }
 
-// 定义 AdvanceLine 方法
+// 处理 AdvanceLine 对应逻辑
     private void AdvanceLine()
     {
-// 更新当前逻辑
+// 推进 AdvanceLine 的当前步骤
         currentLineIndex++;
 
         if (currentLineIndex < currentDialogue.lines.Length)
         {
-// 执行 ShowCurrentLine
+// 推进 AdvanceLine 中的必要步骤
             ShowCurrentLine();
         }
         else
         {
-// 执行 EndDialogue
+// 推进 AdvanceLine 中的必要步骤（AdvanceLine）
             EndDialogue();
         }
     }
 
-// 定义 EndDialogue 方法
+// 处理 EndDialogue 对应逻辑
     private void EndDialogue()
     {
         DialogueData finished = currentDialogue;
-// 保存 callback 数据
+// 同步 EndDialogue 的相关数据
         Action callback = onDialogueComplete;
 
-// 更新当前状态
+// 同步 EndDialogue 的内部状态
         currentDialogue = null;
         onDialogueComplete = null;
-// 执行 HidePanel
+// 推进 EndDialogue 中的必要步骤
         HidePanel();
 
-// 调用 ApplyCompletionEffects
+// 使用 EndDialogue 所需功能
         finished.ApplyCompletionEffects();
         callback?.Invoke();
     }
 
-// 定义 HidePanel 方法
+// 隐藏 HidePanel 对应界面
     private void HidePanel()
     {
-// 判断当前条件
+// 检查 HidePanel 的前置条件
         if (dialoguePanel != null)
         {
             dialoguePanel.SetActive(false);
         }
 
-// 更新当前状态
+// 同步 HidePanel 的内部状态
         LastClosedTime = Time.time;
     }
 }

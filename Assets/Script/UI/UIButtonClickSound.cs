@@ -2,29 +2,29 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
-// 定义 UIButtonClickSound 类型
+// 统一处理按钮点击音效
 public class UIButtonClickSound : MonoBehaviour
 {
-    // Inspector 中配置按钮点击时播放的音频资源
+    // 初始化组件引用和运行状态
     [Header("点击音效")]
-// 保存 clickClip 引用
+// 在 UIButtonClickSound 中处理 Awake
     [SerializeField] private AudioClip clickClip;
-    // 将播放音量限制在 Unity 标准归一化范围内
+    // 在 UIButtonClickSound 中处理 Awake（UIButtonClickSound 后续步骤）
     [Range(0f, 1f)]
-    // 默认以原始音量播放，便于 Inspector 按按钮单独调整
+    // 在 UIButtonClickSound 中处理 Awake（UIButtonClickSound 后续步骤）（后续处理 2）
     [SerializeField] private float volume = 1f;
 
-    // Awake 早于 Start 执行，确保按钮在首帧交互前已注册音效回调
+    // 在 UIButtonClickSound 中处理 Awake（UIButtonClickSound 后续步骤）（后续处理 3）
     private void Awake()
     {
         // RequireComponent 会在添加脚本时补齐 Button；此处无需空值分支
         GetComponent<Button>().onClick.AddListener(PlayClick);
     }
 
-    // 未配置 SfxManager 时静默跳过；clickClip 是否有效由音频管理器处理
+    // 播放 PlayClick 对应演出
     private void PlayClick()
     {
-// 判断当前条件
+// 检查 PlayClick 的前置条件
         if (SfxManager.Instance != null)
         {
             SfxManager.Instance.Play(clickClip, volume);

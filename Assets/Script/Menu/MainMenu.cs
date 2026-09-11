@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-// 定义 MainMenu 类型
+// 管理主菜单按钮、性别选择和场景进入
 public class MainMenu : MonoBehaviour
 {
 // 配置 场景设置 分组
@@ -30,126 +30,126 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject settingsBImage;
     [SerializeField] private SettingsOverlayController settingsOverlay;
 
-// 记录 transitionInProgress 状态
+// 记录 MainMenu 的当前状态
     private bool transitionInProgress;
 
-// 定义 Start 方法
+// 读取初始依赖并同步首帧状态
     private void Start()
     {
-// 判断当前条件
+// 检查 Start 的前置条件
         if (genderSelectPanel != null)
         {
-// 切换显示状态
+// 切换 Start 的显示状态
             genderSelectPanel.SetActive(false);
         }
 
-// 执行 HideButtonFeedbackImages
+// 推进 Start 中的必要步骤
         HideButtonFeedbackImages();
     }
 
-    /// <summary>开始按钮：先显示按下图，停留 0.5 秒后弹出性别选择。</summary>
+    // 处理 StartGame 对应逻辑
     public void StartGame()
     {
-// 执行 BeginButtonFeedback
+// 推进 StartGame 中的必要步骤
         BeginButtonFeedback(startBImage, StartGameAfterFeedback);
     }
 
-    /// <summary>从主菜单打开存档页面，只允许读取存档。</summary>
+    // 处理 OpenSave 对应逻辑
     public void OpenSave()
     {
-// 执行 BeginButtonFeedback
+// 推进 OpenSave 中的必要步骤
         BeginButtonFeedback(saveBImage, () =>
         {
-// 保存 target 数据
+// 同步 OpenSave 的相关数据
             SaveMenuController target = SaveMenuController.Instance;
             if (target != null)
             {
-// 调用 Open
+// 使用 OpenSave 所需功能
                 target.Open(true);
             }
-// 处理其他分支
+// 处理 OpenSave 的备用分支
             else
             {
 // 输出调试信息
                 Debug.LogWarning("主菜单：未找到存档页面控制器。");
             }
-// 更新当前逻辑
+// 推进 OpenSave 的当前步骤
         });
     }
 
-    /// <summary>设置按钮的安全占位入口。未配置真实设置界面前不打开猜测的面板。</summary>
+    // 处理 OpenSettings 对应逻辑
     public void OpenSettings()
     {
-// 执行 BeginButtonFeedback
+// 推进 OpenSettings 中的必要步骤
         BeginButtonFeedback(settingsBImage, () =>
         {
-// 保存 target 数据
+// 同步 OpenSettings 的相关数据
             SettingsOverlayController target = settingsOverlay != null
                 ? settingsOverlay
-// 更新当前逻辑
+// 推进 OpenSettings 的当前步骤
                 : SettingsOverlayController.Instance;
             if (target != null)
             {
-// 调用 Open
+// 使用 OpenSettings 所需功能
                 target.Open();
             }
-// 处理其他分支
+// 处理 OpenSettings 的备用分支
             else
             {
-// 输出调试信息
+// 在 OpenSettings 中继续当前处理
                 Debug.LogWarning("主菜单：未找到设置页面控制器。");
             }
-// 更新当前逻辑
+// 推进 OpenSettings 的当前步骤（OpenSettings）
         });
     }
 
-// 定义 HideButtonFeedbackImages 方法
+// 隐藏 HideButtonFeedbackImages 对应界面
     private void HideButtonFeedbackImages()
     {
-// 判断当前条件
+// 检查 HideButtonFeedbackImages 的前置条件
         if (startBImage != null)
         {
-// 切换显示状态
+// 切换 HideButtonFeedbackImages 的显示状态
             startBImage.SetActive(false);
         }
 
-// 判断当前条件
+// 检查 HideButtonFeedbackImages 的前置条件（HideButtonFeedbackImages）
         if (saveBImage != null)
         {
-// 切换显示状态
+// 切换 HideButtonFeedbackImages 的显示状态（HideButtonFeedbackImages 后续步骤）
             saveBImage.SetActive(false);
         }
 
-// 判断当前条件
+// 检查 HideButtonFeedbackImages 的前置条件（HideButtonFeedbackImages）（if）
         if (settingsBImage != null)
         {
-// 切换显示状态
+// 切换 HideButtonFeedbackImages 的显示状态（HideButtonFeedbackImages 后续步骤）（125）
             settingsBImage.SetActive(false);
         }
     }
 
     private void StartGameAfterFeedback()
     {
-// 判断当前条件
+// 检查 StartGameAfterFeedback 的前置条件
         if (genderSelectPanel != null)
         {
-// 执行 ShowPanelWithFade
+// 推进 StartGameAfterFeedback 中的必要步骤
             ShowPanelWithFade(true);
         }
-// 处理其他分支
+// 处理 StartGameAfterFeedback 的备用分支
         else
         {
-// 执行 StartAsMale
+// 推进 StartGameAfterFeedback 中的必要步骤（StartGameAfterFeedback）
             StartAsMale();
         }
     }
 
     private void BeginButtonFeedback(GameObject feedbackImage, Action afterDelay)
     {
-// 判断当前条件
+// 检查 BeginButtonFeedback 的前置条件
         if (transitionInProgress)
         {
-// 返回当前结果
+// 返回 BeginButtonFeedback 的处理结果
             return;
         }
 
@@ -157,18 +157,18 @@ public class MainMenu : MonoBehaviour
         StartCoroutine(ButtonFeedbackRoutine(feedbackImage, afterDelay));
     }
 
-// 定义 ButtonFeedbackRoutine 方法
+// 处理 ButtonFeedbackRoutine 对应逻辑
     private IEnumerator ButtonFeedbackRoutine(GameObject feedbackImage, Action afterDelay)
     {
         transitionInProgress = true;
-// 执行 SetTopLevelButtonsInteractable
+// 推进 ButtonFeedbackRoutine 中的必要步骤
         SetTopLevelButtonsInteractable(false);
         HideButtonFeedbackImages();
 
-// 判断当前条件
+// 检查 ButtonFeedbackRoutine 的前置条件
         if (feedbackImage != null)
         {
-// 切换显示状态
+// 切换 ButtonFeedbackRoutine 的显示状态
             feedbackImage.SetActive(true);
         }
 
@@ -182,120 +182,120 @@ public class MainMenu : MonoBehaviour
         // Start 的面板切换或场景淡出完成前保持锁定，避免重复反馈和重复转场
         while (isActiveAndEnabled && ScreenFader.IsFading)
         {
-// 等待下一步
+// 在 ButtonFeedbackRoutine 中继续当前处理
             yield return null;
         }
 
-// 判断当前条件
+// 检查 ButtonFeedbackRoutine 的前置条件（ButtonFeedbackRoutine）
         if (!isActiveAndEnabled)
         {
-// 保存 break 数据
+// 无法继续时结束 ButtonFeedbackRoutine
             yield break;
         }
 
         // 存档页面属于独立模态层：菜单按钮保持禁用，直到页面关闭
         while (isActiveAndEnabled && SaveMenuController.Instance != null && SaveMenuController.Instance.IsOpen)
         {
-// 等待下一步
+// 在 ButtonFeedbackRoutine 中继续当前处理（ButtonFeedbackRoutine 后续步骤）
             yield return null;
         }
 
         if (!isActiveAndEnabled)
         {
-// 保存 break 数据
+// 在 ButtonFeedbackRoutine 中处理 无法继续时结束 ButtonFeedbackRoutine
             yield break;
         }
 
-// 执行 HideButtonFeedbackImages
+// 推进 ButtonFeedbackRoutine 中的必要步骤（ButtonFeedbackRoutine）
         HideButtonFeedbackImages();
         SetTopLevelButtonsInteractable(true);
-// 更新当前状态
+// 同步 ButtonFeedbackRoutine 的状态
         transitionInProgress = false;
     }
 
-// 定义 SetTopLevelButtonsInteractable 方法
+// 设置 SetTopLevelButtonsInteractable 的目标状态
     private void SetTopLevelButtonsInteractable(bool interactable)
     {
-// 判断当前条件
+// 检查 SetTopLevelButtonsInteractable 的前置条件
         if (startButton != null)
         {
-// 更新当前状态
+// 同步 SetTopLevelButtonsInteractable 的内部状态
             startButton.interactable = interactable;
         }
 
-// 判断当前条件
+// 检查 SetTopLevelButtonsInteractable 的前置条件（SetTopLevelButtonsInteractable）
         if (saveButton != null)
         {
-// 更新当前状态
+// 同步 SetTopLevelButtonsInteractable 的内部状态（SetTopLevelButtonsInteractable）
             saveButton.interactable = interactable;
         }
 
         if (settingsButton != null)
         {
-// 更新当前状态
+// 同步 SetTopLevelButtonsInteractable 的内部状态（SetTopLevelButtonsInteractable）（settingsButton）
             settingsButton.interactable = interactable;
         }
     }
 
-    /// <summary>「寻找哥哥」按钮（玩家为男性）。</summary>
+    // 处理 StartAsMale 对应逻辑
     public void StartAsMale()
     {
-// 更新当前状态
+// 同步 StartAsMale 的内部状态
         GameManager.PendingFemaleSelection = false;
         GameManager.Instance?.ResetRuntimeState();
-// 执行 LoadGameScene
+// 推进 StartAsMale 中的必要步骤
         LoadGameScene();
     }
 
-    /// <summary>「寻找姐姐」按钮（玩家为女性）。</summary>
+    // 处理 StartAsFemale 对应逻辑
     public void StartAsFemale()
     {
-// 更新当前状态
+// 同步 StartAsFemale 的内部状态
         GameManager.PendingFemaleSelection = true;
         GameManager.Instance?.ResetRuntimeState();
-// 执行 LoadGameScene
+// 推进 StartAsFemale 中的必要步骤
         LoadGameScene();
     }
 
-    /// <summary>性别面板的返回按钮。</summary>
+    // 判断 CancelGenderSelect 对应条件
     public void CancelGenderSelect()
     {
-// 判断当前条件
+// 检查 CancelGenderSelect 的前置条件
         if (transitionInProgress)
         {
-// 返回当前结果
+// 返回 CancelGenderSelect 的处理结果
             return;
         }
 
-// 执行 ShowPanelWithFade
+// 推进 CancelGenderSelect 中的必要步骤
         ShowPanelWithFade(false);
     }
 
-// 定义 ShowPanelWithFade 方法
+// 显示 ShowPanelWithFade 对应界面
     private void ShowPanelWithFade(bool show)
     {
         if (genderSelectPanel == null)
         {
-// 返回当前结果
+// 返回 ShowPanelWithFade 的处理结果
             return;
         }
 
-// 记录 alreadyLocked 状态
+// 记录 ShowPanelWithFade 的当前状态
         bool alreadyLocked = transitionInProgress;
         transitionInProgress = true;
-// 执行 SetTopLevelButtonsInteractable
+// 推进 ShowPanelWithFade 中的必要步骤
         SetTopLevelButtonsInteractable(false);
 
 // 检查转场状态
         if (ScreenFader.Instance != null)
         {
-// 切换显示状态
+// 切换 ShowPanelWithFade 的显示状态
             ScreenFader.Instance.FadeOutIn(() => genderSelectPanel.SetActive(show), 0.3f);
         }
-// 处理其他分支
+// 处理 ShowPanelWithFade 的备用分支
         else
         {
-// 切换显示状态
+// 切换 ShowPanelWithFade 的显示状态（ShowPanelWithFade 后续步骤）
             genderSelectPanel.SetActive(show);
         }
 
@@ -307,30 +307,30 @@ public class MainMenu : MonoBehaviour
         }
     }
 
-// 定义 ReleaseTransitionAfterFade 方法
+// 处理 ReleaseTransitionAfterFade 对应逻辑
     private IEnumerator ReleaseTransitionAfterFade()
     {
-// 等待下一步
+// 在 ReleaseTransitionAfterFade 中继续当前处理
         yield return WaitForFadeToFinish();
 
-// 判断当前条件
+// 检查 ReleaseTransitionAfterFade 的前置条件
         if (!isActiveAndEnabled)
         {
             yield break;
         }
 
-// 执行 SetTopLevelButtonsInteractable
+// 推进 ReleaseTransitionAfterFade 中的必要步骤
         SetTopLevelButtonsInteractable(true);
         transitionInProgress = false;
     }
 
-// 定义 WaitForFadeToFinish 方法
+// 处理 WaitForFadeToFinish 对应逻辑
     private IEnumerator WaitForFadeToFinish()
     {
-// 空引用时直接退出
+// WaitForFadeToFinish 缺少引用时提前结束
         if (ScreenFader.Instance == null)
         {
-// 保存 break 数据
+// 无法继续时结束 WaitForFadeToFinish
             yield break;
         }
 
@@ -338,49 +338,49 @@ public class MainMenu : MonoBehaviour
         yield return null;
         while (isActiveAndEnabled && !ScreenFader.IsFading)
         {
-// 等待下一步
+// 在 WaitForFadeToFinish 中继续当前处理
             yield return null;
         }
 
 // 等待条件变化
         while (isActiveAndEnabled && ScreenFader.IsFading)
         {
-// 等待下一步
+// 在 WaitForFadeToFinish 中继续当前处理（WaitForFadeToFinish 后续步骤）
             yield return null;
         }
     }
 
-// 定义 LoadGameScene 方法
+// 加载 LoadGameScene 对应数据
     private void LoadGameScene()
     {
-// 检查转场状态
+// 在 LoadGameScene 中继续当前处理
         if (ScreenFader.IsFading)
         {
-// 返回当前结果
+// 返回 LoadGameScene 的处理结果
             return;
         }
 
-// 更新当前状态
+// 同步 LoadGameScene 的内部状态
         transitionInProgress = true;
         SetTopLevelButtonsInteractable(false);
 
-// 检查转场状态
+// 在 LoadGameScene 中继续当前处理（LoadGameScene 后续步骤）
         if (ScreenFader.Instance != null)
         {
 // 执行场景切换
             ScreenFader.Instance.FadeOutThen(() => SceneManager.LoadScene(gameSceneIndex));
         }
-// 处理其他分支
+// 处理 LoadGameScene 的备用分支
         else
         {
-// 执行场景切换
+// 在 LoadGameScene 中继续当前处理（LoadGameScene 后续步骤）（375）
             SceneManager.LoadScene(gameSceneIndex);
         }
     }
 
     public void QuitGame()
     {
-// 调用 Quit
+// 使用 QuitGame 所需功能
         Application.Quit();
         Debug.Log("游戏已退出");
     }

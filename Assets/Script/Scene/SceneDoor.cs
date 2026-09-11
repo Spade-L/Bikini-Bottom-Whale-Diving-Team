@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(BoxCollider2D))]
-// 定义 SceneDoor 类型
+// 控制场景门条件、过场和目标场景切换
 public class SceneDoor : MonoBehaviour, IInteractionPromptSource
 {
     // Inspector 中指定的目标场景名称
@@ -41,57 +41,57 @@ public class SceneDoor : MonoBehaviour, IInteractionPromptSource
     private bool isTransitioning;
     private bool interactionSuppressed;
 
-// 更新当前逻辑
+// 推进 SceneDoor 的当前步骤
     public bool IsInteractionPromptEligible
     {
         get
         {
-// 判断当前条件
+// 检查 SceneDoor 的前置条件
             if (!isActiveAndEnabled || !playerInRange || isTransitioning || interactionSuppressed)
             {
                 return false;
             }
 
-// 返回当前结果
+// 返回 SceneDoor 的处理结果
             return openCondition.IsMet() || lockedDialogue != null;
         }
     }
 
-    // 初始化门的触发器与提示状态
+    // 初始化组件引用和运行状态
     private void Awake()
     {
-// 获取组件引用
+// 获取 Awake 的组件引用
         GetComponent<BoxCollider2D>().isTrigger = true;
         PlayerInteractionPromptController.RefreshSource(this);
     }
 
-// 定义 OnDestroy 方法
+// 销毁时释放事件订阅和静态引用
     private void OnDestroy()
     {
         PlayerInteractionPromptController.UnregisterSource(this);
     }
 
-// 定义 OnDisable 方法
+// 禁用时取消订阅并清理临时状态
     private void OnDisable()
     {
         PlayerInteractionPromptController.UnregisterSource(this);
     }
 
-// 定义 Update 方法
+// 每帧检查输入与状态变化
     private void Update()
     {
         if (GameplayInputLock.IsInteractionLocked)
         {
-// 更新当前状态
+// 同步 Update 的状态
             interactionSuppressed = true;
             PlayerInteractionPromptController.RefreshSource(this);
-// 返回当前结果
+// 返回 Update 的处理结果
             return;
         }
 
         if (interactionSuppressed)
         {
-// 更新当前状态
+// 同步 Update 的内部状态
             interactionSuppressed = false;
             PlayerInteractionPromptController.RefreshSource(this);
         }
@@ -125,46 +125,47 @@ public class SceneDoor : MonoBehaviour, IInteractionPromptSource
         {
             // 先上锁，避免对话期间重复按键注册多个回调
             isTransitioning = true;
-// 调用 RefreshSource
+// 使用 Update 所需功能
             PlayerInteractionPromptController.RefreshSource(this);
             // 对话完成后由回调统一调用加载方法
             DialogueUIManager.Instance.StartDialogue(enterDialogue, LoadTargetScene);
         }
-// 处理其他分支
+// 处理 Update 的备用分支
         else
         {
             // 无进门对白时也先锁定，避免同一帧重复加载场景
             isTransitioning = true;
-// 调用 RefreshSource
+// 使用 Update 所需功能（Update）
             PlayerInteractionPromptController.RefreshSource(this);
             LoadTargetScene();
         }
     }
 
-    // 在满足门条件后负责执行实际场景加载
+    // 加载 LoadTargetScene 对应数据
     private void LoadTargetScene()
     {
         if (exitPresentation != null)
         {
-// 调用 Play
+// 使用 LoadTargetScene 所需功能
             exitPresentation.Play(LoadTargetSceneAfterPresentation);
             return;
         }
 
-// 执行 LoadTargetSceneAfterPresentation
+// 推进 LoadTargetScene 中的必要步骤
         LoadTargetSceneAfterPresentation();
     }
 
+    // 加载 LoadTargetSceneAfterPresentation 对应数据
     private void LoadTargetSceneAfterPresentation()
     {
         // 目标名为空时保留当前场景并解除转场锁
         if (string.IsNullOrEmpty(targetSceneName))
         {
             Debug.LogWarning($"[SceneDoor] {name} 未设置目标场景名");
-// 更新当前状态
+// 同步 LoadTargetSceneAfterPresentation 的内部状态
             isTransitioning = false;
             PlayerInteractionPromptController.RefreshSource(this);
-// 返回当前结果
+// 返回 LoadTargetSceneAfterPresentation 的处理结果
             return;
         }
 
@@ -176,30 +177,30 @@ public class SceneDoor : MonoBehaviour, IInteractionPromptSource
         }
         else
         {
-// 执行场景切换
+// 在 LoadTargetSceneAfterPresentation 中继续当前处理
             SceneManager.LoadScene(targetSceneName);
         }
     }
 
-    // 玩家进入门的触发区域时开启交互
+    // 玩家进入范围后登记可交互状态
     private void OnTriggerEnter2D(Collider2D other)
     {
-// 判断当前条件
+// 检查 OnTriggerEnter2D 的前置条件
         if (other.CompareTag(playerTag))
         {
             playerInRange = true;
-// 调用 RegisterSource
+// 使用 OnTriggerEnter2D 所需功能
             PlayerInteractionPromptController.RegisterSource(this);
             PlayerInteractionPromptController.RefreshSource(this);
         }
     }
 
-    // 玩家离开门的触发区域时关闭交互
+    // 玩家离开范围后移除可交互状态
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag(playerTag))
         {
-// 更新当前状态
+// 同步 OnTriggerExit2D 的内部状态
             playerInRange = false;
             PlayerInteractionPromptController.UnregisterSource(this);
         }

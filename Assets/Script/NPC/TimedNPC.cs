@@ -1,17 +1,17 @@
 using UnityEngine;
 
-// 调用 RequireComponent
+// 使用 当前脚本 所需功能
 [RequireComponent(typeof(BoxCollider2D))]
 public class TimedNPC : MonoBehaviour, IInteractionPromptSource
 {
-// 更新当前逻辑
+// 推进 TimedNPC 的当前步骤
     [System.Serializable]
     public class NPCState
     {
 // 说明当前配置
         [Tooltip("仅供编辑器辨认，如“第一章·担忧”")]
         public string editorLabel;
-// 定义 StoryCondition 方法
+// 完成 NPCState 的主要职责
         public StoryCondition condition = new StoryCondition();
         public DialogueData dialogue;
     }
@@ -23,7 +23,7 @@ public class TimedNPC : MonoBehaviour, IInteractionPromptSource
 // 配置 整体出现条件（可留默认 = 一直出现） 分组
     [Header("整体出现条件（可留默认 = 一直出现）")]
     [Tooltip("不满足则 NPC 隐藏。例：forbiddenFlags 填 lock_npc_talk，调查 18 次后路人消失")]
-// 保存 appearCondition 数据
+// 同步 NPCState 的相关数据
     [SerializeField] private StoryCondition appearCondition = new StoryCondition();
 
 // 配置 状态列表（后面的优先级更高） 分组
@@ -33,10 +33,10 @@ public class TimedNPC : MonoBehaviour, IInteractionPromptSource
 // 配置 离开设定（-1 = 永不离开） 分组
     [Header("离开设定（-1 = 永不离开）")]
     [Tooltip("时间段到达此值时，NPC 离开")]
-// 配置 departTimePeriod 数值
+// 设置 NPCState 的配置数值
     [SerializeField] private int departTimePeriod = -1;
     [Tooltip("此 Flag 已设置则 NPC 不会离开（玩家干涉成功）")]
-// 保存 rescueFlag 数据
+// 同步 NPCState 的相关数据（NPCState 后续步骤）
     [SerializeField] private string rescueFlag;
     [Tooltip("NPC 离开后播放一次的告别对话（可选，需要场景中有其他触发方式则留空）")]
 // 保存 fallbackDialogue 引用
@@ -45,175 +45,175 @@ public class TimedNPC : MonoBehaviour, IInteractionPromptSource
 // 配置 交互 UI 分组
     [Header("交互 UI")]
     [SerializeField] private GameObject interactionUI;
-// 保存 playerTag 数据
+// 同步 NPCState 的相关数据（NPCState 后续步骤）（47）
     [SerializeField] private string playerTag = "Player";
 
-// 记录 playerInRange 状态
+// 记录 NPCState 的当前状态
     private bool playerInRange;
     private bool interactionSuppressed;
 
-// 更新当前逻辑
+// 推进 NPCState 的当前步骤
     public bool IsInteractionPromptEligible
     {
-// 更新当前逻辑
+// 推进 NPCState 的当前步骤（NPCState）
         get
         {
-// 返回当前结果
+// 返回 NPCState 的处理结果
             return isActiveAndEnabled
                 && playerInRange
-// 更新当前逻辑
+// 推进 NPCState 的当前步骤（NPCState）（interactionSuppressed）
                 && !interactionSuppressed
                 && ResolveCurrentDialogue() != null;
         }
     }
 
-// 保存 DepartedFlag 数据
+// 同步 NPCState 的相关数据（NPCState 后续步骤）（69）
     private string DepartedFlag => $"departed_{npcId}";
 
-// 定义 Awake 方法
+// 初始化组件引用和运行状态
     private void Awake()
     {
-// 获取组件引用
+// 获取 Awake 的组件引用
         GetComponent<BoxCollider2D>().isTrigger = true;
         HidePrompt();
     }
 
-// 定义 Start 方法
+// 读取初始依赖并同步首帧状态
     private void Start()
     {
-// 判断当前条件
+// 检查 Start 的前置条件
         if (GameManager.Instance != null)
         {
-// 更新当前逻辑
+// 推进 Start 的当前步骤
             GameManager.Instance.OnTimeAdvanced += HandleStateMayChange;
             GameManager.Instance.OnFlagsChanged += HandleFlagsChanged;
         }
 
-// 执行 RefreshPresence
+// 推进 Start 中的必要步骤
         RefreshPresence();
     }
 
-// 定义 OnDestroy 方法
+// 销毁时释放事件订阅和静态引用
     private void OnDestroy()
     {
-// 调用 UnregisterSource
+// 使用 OnDestroy 所需功能
         PlayerInteractionPromptController.UnregisterSource(this);
 
-// 判断当前条件
+// 检查 OnDestroy 的前置条件
         if (GameManager.Instance != null)
         {
-// 更新当前逻辑
+// 推进 OnDestroy 的当前步骤
             GameManager.Instance.OnTimeAdvanced -= HandleStateMayChange;
             GameManager.Instance.OnFlagsChanged -= HandleFlagsChanged;
         }
     }
 
-// 定义 OnDisable 方法
+// 禁用时取消订阅并清理临时状态
     private void OnDisable()
     {
-// 调用 UnregisterSource
+// 使用 OnDisable 所需功能
         PlayerInteractionPromptController.UnregisterSource(this);
     }
 
-    // 时间变化
+    // 响应 HandleStateMayChange 状态变化
     private void HandleStateMayChange(int _)
     {
-// 执行 RefreshPresence
+// 推进 HandleStateMayChange 中的必要步骤
         RefreshPresence();
         PlayerInteractionPromptController.RefreshSource(this);
     }
 
-// 定义 HandleFlagsChanged 方法
+// 剧情标记变化后同步当前界面与交互
     private void HandleFlagsChanged()
     {
-// 执行 RefreshPresence
+// 推进 HandleFlagsChanged 中的必要步骤
         RefreshPresence();
         PlayerInteractionPromptController.RefreshSource(this);
     }
 
-// 定义 RefreshPresence 方法
+// 刷新 RefreshPresence 对应状态
     private void RefreshPresence()
     {
-// 保存 gm 数据
+// 同步 RefreshPresence 的相关数据
         GameManager gm = GameManager.Instance;
         if (gm == null)
         {
-// 返回当前结果
+// 返回 RefreshPresence 的处理结果
             return;
         }
 
-// 定义 HasFlag 方法
+// 判断 HasFlag 对应条件
         bool rescued = !string.IsNullOrEmpty(rescueFlag) && gm.HasFlag(rescueFlag);
         bool shouldDepart = departTimePeriod >= 0
-// 更新当前逻辑
+// 推进 RefreshPresence 的当前步骤
             && gm.CurrentTimePeriod >= departTimePeriod
             && !rescued;
 
-// 判断当前条件
+// 检查 RefreshPresence 的前置条件
         if (shouldDepart && !gm.HasFlag(DepartedFlag))
         {
 // 更新剧情标记
             gm.SetFlag(DepartedFlag);
         }
 
-// 定义 IsMet 方法
+// 判断 IsMet 对应条件
         gameObject.SetActive(!gm.HasFlag(DepartedFlag) && appearCondition.IsMet());
     }
 
-// 定义 GetActiveState 方法
+// 获取 GetActiveState 所需引用
     private NPCState GetActiveState()
     {
-// 空引用时直接退出
+// GetActiveState 缺少引用时提前结束
         if (states == null)
         {
-// 返回当前结果
+// 返回 GetActiveState 的处理结果
             return null;
         }
 
-// 保存 active 数据
+// 同步 GetActiveState 的相关数据
         NPCState active = null;
         foreach (NPCState state in states)
         {
-// 判断当前条件
+// 检查 GetActiveState 的前置条件
             if (state != null && state.condition.IsMet())
             {
-// 更新当前状态
+// 同步 GetActiveState 的状态
                 active = state; // 后面的覆盖前面的
             }
         }
 
-// 返回当前结果
+// 返回 GetActiveState 的处理结果（GetActiveState）
         return active;
     }
 
-// 定义 ResolveCurrentDialogue 方法
+// 解析 ResolveCurrentDialogue 对应结果
     private DialogueData ResolveCurrentDialogue()
     {
-// 返回当前结果
+// 返回 ResolveCurrentDialogue 的处理结果
         return GetActiveState()?.dialogue ?? fallbackDialogue;
     }
 
-// 定义 Update 方法
+// 每帧检查输入与状态变化
     private void Update()
     {
-// 判断当前条件
+// 检查 Update 的前置条件
         if (GameplayInputLock.IsInteractionLocked)
         {
-// 更新当前状态
+// 同步 Update 的内部状态
             interactionSuppressed = true;
             HidePrompt();
-// 返回当前结果
+// 返回 Update 的处理结果
             return;
         }
 
-// 判断当前条件
+// 检查 Update 的前置条件（Update）
         if (interactionSuppressed)
         {
-// 更新当前状态
+// 同步 Update 的内部状态（Update）
             interactionSuppressed = false;
             if (playerInRange)
             {
-// 执行 ShowPrompt
+// 推进 Update 中的必要步骤
                 ShowPrompt();
             }
         }
@@ -221,75 +221,75 @@ public class TimedNPC : MonoBehaviour, IInteractionPromptSource
 // 检测按键输入
         if (!playerInRange || !Input.GetKeyDown(KeyCode.F))
         {
-// 返回当前结果
+// 返回 Update 的处理结果（Update）
             return;
         }
 
-// 空引用时直接退出
+// 缺少必要引用时退出 Update
         if (DialogueUIManager.Instance == null || !DialogueUIManager.Instance.CanOpenDialogue)
         {
-// 返回当前结果
+// 返回 Update 的处理结果（Update）（return）
             return;
         }
 
-// 定义 ResolveCurrentDialogue 方法
+// 解析 ResolveCurrentDialogue 对应结果（Update）
         DialogueData dialogue = ResolveCurrentDialogue();
 
-// 判断当前条件
+// 检查 Update 的前置条件（Update）（if）
         if (dialogue != null)
         {
-// 执行 HidePrompt
+// 推进 Update 中的必要步骤（Update）
             HidePrompt();
             DialogueUIManager.Instance.StartDialogue(dialogue, () =>
             {
-// 判断当前条件
+// 在 Update 中继续当前处理
                 if (playerInRange && gameObject.activeSelf)
                 {
-// 执行 ShowPrompt
+// 在 Update 中处理 ShowPrompt
                     ShowPrompt();
                 }
-// 更新当前逻辑
+// 推进 Update 的当前步骤
             });
         }
     }
 
-// 定义 OnTriggerEnter2D 方法
+// 玩家进入范围后登记可交互状态
     private void OnTriggerEnter2D(Collider2D other)
     {
-// 判断当前条件
+// 检查 OnTriggerEnter2D 的前置条件
         if (other.CompareTag(playerTag))
         {
-// 更新当前状态
+// 同步 OnTriggerEnter2D 的内部状态
             playerInRange = true;
             PlayerInteractionPromptController.RegisterSource(this);
-// 调用 RefreshSource
+// 使用 OnTriggerEnter2D 所需功能
             PlayerInteractionPromptController.RefreshSource(this);
         }
     }
 
-// 定义 OnTriggerExit2D 方法
+// 玩家离开范围后移除可交互状态
     private void OnTriggerExit2D(Collider2D other)
     {
-// 判断当前条件
+// 检查 OnTriggerExit2D 的前置条件
         if (other.CompareTag(playerTag))
         {
-// 更新当前状态
+// 同步 OnTriggerExit2D 的内部状态
             playerInRange = false;
             PlayerInteractionPromptController.UnregisterSource(this);
         }
     }
 
-// 定义 ShowPrompt 方法
+// 显示 ShowPrompt 对应界面
     private void ShowPrompt()
     {
-// 调用 RefreshSource
+// 使用 ShowPrompt 所需功能
         PlayerInteractionPromptController.RefreshSource(this);
     }
 
-// 定义 HidePrompt 方法
+// 隐藏 HidePrompt 对应界面
     private void HidePrompt()
     {
-// 调用 RefreshSource
+// 使用 HidePrompt 所需功能
         PlayerInteractionPromptController.RefreshSource(this);
     }
 }

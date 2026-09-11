@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// 调用 RequireComponent
+// 使用 当前脚本 所需功能
 [RequireComponent(typeof(BoxCollider2D))]
 public class WaterDispenserInvestigation2D : MonoBehaviour, IInteractionPromptSource
 {
@@ -17,92 +17,92 @@ public class WaterDispenserInvestigation2D : MonoBehaviour, IInteractionPromptSo
 // 配置 移动 分组
     [Header("移动")]
     [SerializeField] private Vector3 initialLocalPosition = new Vector3(18f, 8f, 0f);
-// 保存 movedLocalPosition 数据
+// 同步 WaterDispenserInvestigation2D 的相关数据
     [SerializeField] private Vector3 movedLocalPosition = new Vector3(12f, 8f, 0f);
     [SerializeField] private string movedFlag = "school_water_dispenser_moved";
-// 保存 roomReadyFlag 数据
+// 同步 WaterDispenserInvestigation2D 的相关数据（WaterDispenserInvestigation2D 后续步骤）
     [SerializeField] private string roomReadyFlag = "school_water_dispenser_room_ready";
 
 // 配置 交互 UI 分组
     [Header("交互 UI")]
     [SerializeField] private GameObject interactionUI;
-// 保存 playerTag 数据
+// 同步 WaterDispenserInvestigation2D 的相关数据（WaterDispenserInvestigation2D 后续步骤）（28）
     [SerializeField] private string playerTag = "Player";
 
-// 保存 overlappingPlayerColliders 数据
+// 同步 WaterDispenserInvestigation2D 的相关数据（WaterDispenserInvestigation2D 后续步骤）（31）
     private readonly HashSet<Collider2D> overlappingPlayerColliders = new HashSet<Collider2D>();
     private bool playerInRange => overlappingPlayerColliders.Count > 0;
-// 记录 dialoguePlaying 状态
+// 记录 WaterDispenserInvestigation2D 的当前状态
     private bool dialoguePlaying;
     private bool interactionSuppressed;
 
-// 更新当前逻辑
+// 推进 WaterDispenserInvestigation2D 的当前步骤
     public bool IsInteractionPromptEligible
     {
-// 更新当前逻辑
+// 在 WaterDispenserInvestigation2D 中处理 推进 WaterDispenserInvestigation2D 的当前步骤
         get
         {
-// 返回当前结果
+// 返回 WaterDispenserInvestigation2D 的处理结果
             return isActiveAndEnabled
                 && playerInRange
-// 更新当前逻辑
+// 推进 WaterDispenserInvestigation2D 的当前步骤（WaterDispenserInvestigation2D）
                 && !dialoguePlaying
                 && !interactionSuppressed;
         }
     }
 
-// 定义 Awake 方法
+// 初始化组件引用和运行状态
     private void Awake()
     {
-// 获取组件引用
+// 获取 Awake 的组件引用
         GetComponent<BoxCollider2D>().isTrigger = true;
         HidePrompt();
     }
 
-// 定义 Start 方法
+// 读取初始依赖并同步首帧状态
     private void Start()
     {
-// 执行 ApplyState
+// 推进 Start 中的必要步骤
         ApplyState(IsRoomReady());
     }
 
-// 定义 OnDisable 方法
+// 禁用时取消订阅并清理临时状态
     private void OnDisable()
     {
-// 调用 Clear
+// 使用 OnDisable 所需功能
         overlappingPlayerColliders.Clear();
         PlayerInteractionPromptController.UnregisterSource(this);
-// 调用 ClearExclusiveInteractionTarget
+// 使用 OnDisable 所需功能（OnDisable）
         CluePickup2D.ClearExclusiveInteractionTarget(gameObject);
     }
 
-// 定义 OnDestroy 方法
+// 销毁时释放事件订阅和静态引用
     private void OnDestroy()
     {
-// 调用 UnregisterSource
+// 使用 OnDestroy 所需功能
         PlayerInteractionPromptController.UnregisterSource(this);
         CluePickup2D.ClearExclusiveInteractionTarget(gameObject);
-// 执行 HidePrompt
+// 推进 OnDestroy 中的必要步骤
         HidePrompt();
     }
 
-// 定义 Update 方法
+// 每帧检查输入与状态变化
     private void Update()
     {
-// 判断当前条件
+// 检查 Update 的前置条件
         if (GameplayInputLock.IsInteractionLocked)
         {
-// 更新当前状态
+// 同步 Update 的状态
             interactionSuppressed = true;
             HidePrompt();
-// 返回当前结果
+// 返回 Update 的处理结果
             return;
         }
 
-// 判断当前条件
+// 在 Update 中处理 检查 Update 的前置条件
         if (interactionSuppressed)
         {
-// 更新当前状态
+// 同步 Update 的内部状态
             interactionSuppressed = false;
             ShowPromptIfInRange();
         }
@@ -110,33 +110,33 @@ public class WaterDispenserInvestigation2D : MonoBehaviour, IInteractionPromptSo
 // 检测按键输入
         if (!playerInRange || dialoguePlaying || !Input.GetKeyDown(KeyCode.F))
         {
-// 返回当前结果
+// 返回 Update 的处理结果（Update）
             return;
         }
 
-// 空引用时直接退出
+// Update 缺少引用时提前结束
         if (DialogueUIManager.Instance == null || !DialogueUIManager.Instance.CanOpenDialogue)
         {
-// 返回当前结果
+// 返回 Update 的处理结果（Update）（return）
             return;
         }
 
-// 定义 HasCompletedFirstInteraction 方法
+// 判断 HasCompletedFirstInteraction 对应条件
         bool completingFirst = !HasCompletedFirstInteraction();
         bool completingMove = !completingFirst && !IsRoomReady();
 // 保存 dialogue 引用
         DialogueData dialogue = completingFirst
             ? firstDialogue
-// 更新当前逻辑
+// 推进 Update 的当前步骤
             : completingMove ? revealDialogue : repeatDialogue;
 
-// 执行 HidePrompt
+// 推进 Update 中的必要步骤
         HidePrompt();
         dialoguePlaying = true;
-// 空引用时直接退出
+// 缺少必要引用时退出 Update
         if (dialogue == null)
         {
-// 执行 FinishInteraction
+// 推进 Update 中的必要步骤（Update）
             FinishInteraction(completingFirst, completingMove);
             return;
         }
@@ -144,27 +144,27 @@ public class WaterDispenserInvestigation2D : MonoBehaviour, IInteractionPromptSo
 // 开始当前对话
         DialogueUIManager.Instance.StartDialogue(
             dialogue,
-// 调用 FinishInteraction
+// 使用 Update 所需功能
             () => FinishInteraction(completingFirst, completingMove));
     }
 
-// 定义 FinishInteraction 方法
+// 处理 FinishInteraction 对应逻辑
     private void FinishInteraction(bool completingFirst, bool completingMove)
     {
-// 更新当前状态
+// 同步 FinishInteraction 的内部状态
         dialoguePlaying = false;
 
-// 判断当前条件
+// 检查 FinishInteraction 的前置条件
         if (completingFirst)
         {
-// 判断当前条件
+// 检查 FinishInteraction 的前置条件（FinishInteraction）
             if (clueToGrant != null && GameManager.Instance != null)
             {
 // 记录当前线索
                 GameManager.Instance.CollectClue(clueToGrant);
             }
 
-// 判断当前条件
+// 检查 FinishInteraction 的前置条件（FinishInteraction）（if）
             if (GameManager.Instance != null)
             {
 // 累加调查次数
@@ -175,110 +175,110 @@ public class WaterDispenserInvestigation2D : MonoBehaviour, IInteractionPromptSo
 // 检查其他条件
         else if (completingMove)
         {
-// 判断当前条件
+// 在 FinishInteraction 中继续当前处理
             if (GameManager.Instance != null)
             {
 // 更新剧情标记
                 GameManager.Instance.SetFlag(roomReadyFlag);
             }
 
-// 调用 Clear
+// 使用 FinishInteraction 所需功能
             overlappingPlayerColliders.Clear();
             CluePickup2D.ClearExclusiveInteractionTarget(gameObject);
-// 调用 UnregisterSource
+// 使用 FinishInteraction 所需功能（FinishInteraction）
             PlayerInteractionPromptController.UnregisterSource(this);
             HidePrompt();
-// 执行 ApplyState
+// 推进 FinishInteraction 中的必要步骤
             ApplyState(true);
         }
 
-// 执行 ShowPromptIfInRange
+// 推进 FinishInteraction 中的必要步骤（FinishInteraction）
         ShowPromptIfInRange();
     }
 
-// 定义 ShowPromptIfInRange 方法
+// 显示 ShowPromptIfInRange 对应界面
     private void ShowPromptIfInRange()
     {
-// 判断当前条件
+// 检查 ShowPromptIfInRange 的前置条件
         if (playerInRange)
         {
-// 执行 ShowPrompt
+// 推进 ShowPromptIfInRange 中的必要步骤
             ShowPrompt();
         }
     }
 
-// 定义 HasCompletedFirstInteraction 方法
+// 在 ShowPromptIfInRange 中处理 HasCompletedFirstInteraction
     private bool HasCompletedFirstInteraction()
     {
-// 返回当前结果
+// 返回 HasCompletedFirstInteraction 的处理结果
         return GameManager.Instance != null && GameManager.Instance.HasFlag(movedFlag);
     }
 
-// 定义 IsRoomReady 方法
+// 判断 IsRoomReady 对应条件
     private bool IsRoomReady()
     {
-// 返回当前结果
+// 返回 IsRoomReady 的处理结果
         return GameManager.Instance != null && GameManager.Instance.HasFlag(roomReadyFlag);
     }
 
-// 定义 ApplyState 方法
+// 应用 ApplyState 对应设置
     private void ApplyState(bool moved)
     {
 // 更新局部位置
         transform.localPosition = moved ? movedLocalPosition : initialLocalPosition;
     }
 
-// 定义 OnTriggerEnter2D 方法
+// 玩家进入范围后登记可交互状态
     private void OnTriggerEnter2D(Collider2D other)
     {
-// 判断当前条件
+// 检查 OnTriggerEnter2D 的前置条件
         if (other.CompareTag(playerTag))
         {
-// 记录 wasInRange 状态
+// 记录 OnTriggerEnter2D 的当前状态
             bool wasInRange = playerInRange;
             overlappingPlayerColliders.Add(other);
-// 判断当前条件
+// 检查 OnTriggerEnter2D 的前置条件（OnTriggerEnter2D）
             if (!wasInRange)
             {
-// 调用 RegisterSource
+// 使用 OnTriggerEnter2D 所需功能
                 PlayerInteractionPromptController.RegisterSource(this);
                 CluePickup2D.SetExclusiveInteractionTarget(gameObject);
             }
-// 调用 RefreshSource
+// 使用 OnTriggerEnter2D 所需功能（OnTriggerEnter2D）
             PlayerInteractionPromptController.RefreshSource(this);
         }
     }
 
-// 定义 OnTriggerExit2D 方法
+// 玩家离开范围后移除可交互状态
     private void OnTriggerExit2D(Collider2D other)
     {
-// 判断当前条件
+// 检查 OnTriggerExit2D 的前置条件
         if (other.CompareTag(playerTag))
         {
-// 调用 Remove
+// 使用 OnTriggerExit2D 所需功能
             overlappingPlayerColliders.Remove(other);
             if (!playerInRange)
             {
-// 调用 UnregisterSource
+// 使用 OnTriggerExit2D 所需功能（OnTriggerExit2D）
                 PlayerInteractionPromptController.UnregisterSource(this);
                 CluePickup2D.ClearExclusiveInteractionTarget(gameObject);
             }
-// 调用 RefreshSource
+// 在 OnTriggerExit2D 中处理 RefreshSource
             PlayerInteractionPromptController.RefreshSource(this);
         }
     }
 
-// 定义 ShowPrompt 方法
+// 显示 ShowPrompt 对应界面
     private void ShowPrompt()
     {
-// 调用 RefreshSource
+// 使用 ShowPrompt 所需功能
         PlayerInteractionPromptController.RefreshSource(this);
     }
 
-// 定义 HidePrompt 方法
+// 隐藏 HidePrompt 对应界面
     private void HidePrompt()
     {
-// 调用 RefreshSource
+// 使用 HidePrompt 所需功能
         PlayerInteractionPromptController.RefreshSource(this);
     }
 }

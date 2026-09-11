@@ -2,24 +2,24 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-// 调用 RequireComponent
+// 使用 当前脚本 所需功能
 [RequireComponent(typeof(BoxCollider2D))]
 public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
 {
-// 更新当前逻辑
+// 推进 Level3DoorSequence 的当前步骤
     [Serializable]
     private class SequenceStep
     {
-// 保存 label 数据
+// 同步 SequenceStep 的相关数据
         public string label;
         public GameObject root;
-// 保存 animator 数据
+// 同步 SequenceStep 的相关数据（SequenceStep 后续步骤）
         public Animator animator;
         public string stateName;
-// 记录 showResultObjectsDuringStep 状态
+// 记录 SequenceStep 的当前状态
         public bool showResultObjectsDuringStep;
         public bool hideRootAfterStep = true;
-// 配置 duration 数值
+// 设置 SequenceStep 的配置数值
         [Min(0.01f)] public float duration = 1f;
     }
 
@@ -30,19 +30,19 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
 // 配置 六个便利店调查条件 分组
     [Header("六个便利店调查条件")]
     [Tooltip("填写 ClueData.ClueId；组件检查 investigated_<id> Flag，不改变核心线索列表。")]
-// 保存 requiredInvestigationIds 数据
+// 同步 SequenceStep 的相关数据（SequenceStep 后续步骤）（32）
     [SerializeField] private string[] requiredInvestigationIds =
     {
-// 更新当前逻辑
+// 推进 SequenceStep 的当前步骤
         "store_note",
         "store_poster",
-// 更新当前逻辑
+// 推进 SequenceStep 的当前步骤（SequenceStep）
         "store_vegetables",
         "store_handprint",
-// 更新当前逻辑
+// 推进 SequenceStep 的当前步骤（SequenceStep）（store_fruit）
         "store_fruit",
         "store_toy"
-// 更新当前逻辑
+// 推进 SequenceStep 的当前步骤（SequenceStep）（Header）
     };
 
 // 配置 演出对象 分组
@@ -80,141 +80,141 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
 // 配置 存档 Flag 分组
     [Header("存档 Flag")]
     [SerializeField] private string completedFlag = "level3_door_sequence_done";
-// 保存 resolvedFlag 数据
+// 同步 SequenceStep 的相关数据（SequenceStep 后续步骤）（82）
     [SerializeField] private string resolvedFlag = "level3_store_shadow_resolved";
     [SerializeField] private string toyDeliveredFlag = "level3_store_toy_delivered";
-// 保存 redToyPickupFlag 数据
+// 同步 SequenceStep 的相关数据（SequenceStep 后续步骤）（85）
     [SerializeField] private string redToyPickupFlag = "picked_store_red_toy";
 
 // 配置 触发与交互 分组
     [Header("触发与交互")]
     [SerializeField] private GameObject interactionUI;
-// 保存 playerTag 数据
+// 同步 SequenceStep 的相关数据（SequenceStep 后续步骤）（91）
     [SerializeField] private string playerTag = "Player";
     [SerializeField] private KeyCode interactionKey = KeyCode.F;
 
-// 保存 sequenceCoroutine 数据
+// 同步 SequenceStep 的相关数据（SequenceStep 后续步骤）（95）
     private Coroutine sequenceCoroutine;
     private IDisposable movementLease;
-// 保存 interactionLease 数据
+// 同步 SequenceStep 的相关数据（SequenceStep 后续步骤）（98）
     private IDisposable interactionLease;
     private bool playerInRange;
-// 记录 inputSuppressed 状态
+// 记录 SequenceStep 的当前状态（SequenceStep 后续步骤）
     private bool inputSuppressed;
     private bool subscribedToGameManager;
-// 记录 completed 状态
+// 记录 SequenceStep 的当前状态（SequenceStep 后续步骤）（104）
     private bool completed;
     private bool resolved;
-// 记录 exclusiveModeActive 状态
+// 记录 SequenceStep 的当前状态（SequenceStep 后续步骤）（107）
     private bool exclusiveModeActive;
     private bool sequencePriorityActive;
 // 记录红色身影 BGM 是否占用中
     private bool redFigureBgmActive;
 
-// 更新当前逻辑
+// 推进 SequenceStep 的当前步骤（SequenceStep）（public）
     public bool IsInteractionPromptEligible
     {
-// 更新当前逻辑
+// 推进 SequenceStep 的当前步骤（SequenceStep）（get）
         get
         {
-// 判断当前条件
+// 检查 SequenceStep 的前置条件
             if (!isActiveAndEnabled || !playerInRange || sequenceCoroutine != null
                 || inputSuppressed || resolved)
             {
-// 返回当前结果
+// 返回 SequenceStep 的处理结果
                 return false;
             }
 
-// 返回当前结果
+// 在 SequenceStep 中处理 返回 SequenceStep 的处理结果
             return !completed ? HasAllInvestigations() : !resolved;
         }
     }
 
-// 定义 InvestigationFlag 方法
+// 处理 InvestigationFlag 对应逻辑
     private string InvestigationFlag(string clueId) => $"investigated_{clueId}";
 
-// 定义 Awake 方法
+// 初始化组件引用和运行状态
     private void Awake()
     {
-// 获取组件引用
+// 获取 Awake 的组件引用
         GetComponent<BoxCollider2D>().isTrigger = true;
         ApplySavedState();
-// 执行 HidePrompt
+// 推进 Awake 中的必要步骤
         HidePrompt();
     }
 
-// 定义 Start 方法
+// 读取初始依赖并同步首帧状态
     private void Start()
     {
-// 执行 ApplySavedState
+// 推进 Start 中的必要步骤
         ApplySavedState();
     }
 
-// 定义 OnEnable 方法
+// 启用时订阅事件并恢复状态
     private void OnEnable()
     {
-// 执行 ApplySavedState
+// 推进 OnEnable 中的必要步骤
         ApplySavedState();
         SubscribeGameManager(true);
     }
 
-// 定义 OnDisable 方法
+// 禁用时取消订阅并清理临时状态
     private void OnDisable()
     {
-// 调用 UnregisterSource
+// 使用 OnDisable 所需功能
         PlayerInteractionPromptController.UnregisterSource(this);
         SubscribeGameManager(false);
-// 执行 InterruptSequence
+// 推进 OnDisable 中的必要步骤
         InterruptSequence();
         CluePickup2D.ClearExclusiveInteractionTarget(gameObject);
-// 调用 ClearExclusiveInteractionTarget
+// 使用 OnDisable 所需功能（OnDisable）
         CluePickup2D.ClearExclusiveInteractionTarget(redToyGameObject);
         sequencePriorityActive = false;
-// 执行 HidePrompt
+// 推进 OnDisable 中的必要步骤（OnDisable）
         HidePrompt();
     }
 
-// 定义 OnDestroy 方法
+// 销毁时释放事件订阅和静态引用
     private void OnDestroy()
     {
-// 调用 UnregisterSource
+// 使用 OnDestroy 所需功能
         PlayerInteractionPromptController.UnregisterSource(this);
         SubscribeGameManager(false);
-// 执行 InterruptSequence
+// 推进 OnDestroy 中的必要步骤
         InterruptSequence();
         CluePickup2D.ClearExclusiveInteractionTarget(gameObject);
-// 调用 ClearExclusiveInteractionTarget
+// 使用 OnDestroy 所需功能（OnDestroy）
         CluePickup2D.ClearExclusiveInteractionTarget(redToyGameObject);
         sequencePriorityActive = false;
     }
 
-// 定义 Update 方法
+// 每帧检查输入与状态变化
     private void Update()
     {
-// 执行 UpdateExclusiveInteractionMode
+// 推进 Update 中的必要步骤
         UpdateExclusiveInteractionMode();
 
-// 判断当前条件
+// 检查 Update 的前置条件
         if (!subscribedToGameManager)
         {
-// 执行 SubscribeGameManager
+// 推进 Update 中的必要步骤（Update）
             SubscribeGameManager(true);
         }
 
-// 判断当前条件
+// 检查 Update 的前置条件（Update）
         if (GameplayInputLock.IsInteractionLocked)
         {
-// 更新当前状态
+// 同步 Update 的状态
             inputSuppressed = true;
             HidePrompt();
-// 返回当前结果
+// 返回 Update 的处理结果
             return;
         }
 
-// 判断当前条件
+// 检查 Update 的前置条件（Update）（if）
         if (inputSuppressed)
         {
-// 更新当前状态
+// 同步 Update 的内部状态
             inputSuppressed = false;
             RefreshPrompt();
         }
@@ -223,136 +223,136 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
         if (!playerInRange || sequenceCoroutine != null || !Input.GetKeyDown(interactionKey)
             || (DialogueUIManager.Instance != null && !DialogueUIManager.Instance.CanOpenDialogue))
         {
-// 返回当前结果
+// 返回 Update 的处理结果（Update）
             return;
         }
 
-// 判断当前条件
+// 在 Update 中继续当前处理
         if (resolved)
         {
-// 调用 ClearExclusiveInteractionTarget
+// 使用 Update 所需功能
             CluePickup2D.ClearExclusiveInteractionTarget(redToyGameObject);
             return;
         }
 
-// 判断当前条件
+// 在 Update 中继续当前处理（Update 后续步骤）
         if (!completed)
         {
-// 判断当前条件
+// 在 Update 中继续当前处理（Update 后续步骤）（240）
             if (HasAllInvestigations())
             {
 // 启动当前协程
                 sequenceCoroutine = StartCoroutine(PlaySequence());
             }
 
-// 返回当前结果
+// 返回 Update 的处理结果（Update）（return）
             return;
         }
 
-// 判断当前条件
+// 在 Update 中继续当前处理（Update 后续步骤）（251）
         if (!HasRedToyPickup())
         {
-// 调用 SetExclusiveInteractionTarget
+// 使用 Update 所需功能（Update）
             CluePickup2D.SetExclusiveInteractionTarget(redToyGameObject);
             sequenceCoroutine = StartCoroutine(RemindMissingToy());
-// 返回当前结果
+// 在 Update 中继续当前处理（Update 后续步骤）（257）
             return;
         }
 
-// 调用 ClearExclusiveInteractionTarget
+// 在 Update 中处理 ClearExclusiveInteractionTarget
         CluePickup2D.ClearExclusiveInteractionTarget(redToyGameObject);
         sequenceCoroutine = StartCoroutine(DeliverToy());
     }
 
-// 定义 OnTriggerEnter2D 方法
+// 玩家进入范围后登记可交互状态
     private void OnTriggerEnter2D(Collider2D other)
     {
-// 判断当前条件
+// 检查 OnTriggerEnter2D 的前置条件
         if (other.CompareTag(playerTag))
         {
-// 更新当前状态
+// 同步 OnTriggerEnter2D 的内部状态
             playerInRange = true;
             PlayerInteractionPromptController.RegisterSource(this);
-// 调用 RefreshSource
+// 使用 OnTriggerEnter2D 所需功能
             PlayerInteractionPromptController.RefreshSource(this);
         }
     }
 
-// 定义 OnTriggerExit2D 方法
+// 玩家离开范围后移除可交互状态
     private void OnTriggerExit2D(Collider2D other)
     {
-// 判断当前条件
+// 检查 OnTriggerExit2D 的前置条件
         if (other.CompareTag(playerTag))
         {
-// 更新当前状态
+// 同步 OnTriggerExit2D 的内部状态
             playerInRange = false;
             PlayerInteractionPromptController.UnregisterSource(this);
         }
     }
 
-// 定义 PlaySequence 方法
+// 按步骤播放门前黑影完整演出
     private IEnumerator PlaySequence()
     {
-// 执行 HidePrompt
+// 推进 PlaySequence 中的必要步骤
         HidePrompt();
 
-// 判断当前条件
+// 检查 PlaySequence 的前置条件
         if (!HasAllInvestigations() || !HasValidSteps())
         {
-// 判断当前条件
+// 检查 PlaySequence 的前置条件（PlaySequence）
             if (!HasValidSteps())
             {
 // 输出调试信息
                 Debug.LogError("[Level3DoorSequence] 必须按顺序配置且仅配置 sps0、sps 两个有效步骤，演出未启动。", this);
             }
 
-// 更新当前状态
+// 同步 PlaySequence 的内部状态
             sequenceCoroutine = null;
             RefreshPrompt();
-// 保存 break 数据
+// 无法继续时结束 PlaySequence
             yield break;
         }
 
-// 更新当前状态
+// 同步 PlaySequence 的内部状态（PlaySequence）
         movementLease = GameplayInputLock.AcquireMovementLock();
         interactionLease = GameplayInputLock.AcquireInteractionLock();
-// 执行 SetAllStepsVisible
+// 推进 PlaySequence 中的必要步骤（PlaySequence）
         SetAllStepsVisible(false);
         SetSequenceOnlyObjectsVisible(false);
-// 执行 SetResultObjectsVisible
+// 在 PlaySequence 中处理 SetResultObjectsVisible
         SetResultObjectsVisible(false);
 
 // 遍历全部元素
         foreach (SequenceStep step in steps)
         {
-// 空引用时直接退出
+// PlaySequence 缺少引用时提前结束
             if (step == null)
             {
-// 更新当前逻辑
+// 推进 PlaySequence 的当前步骤
                 continue;
             }
 
-// 判断当前条件
+// 检查 PlaySequence 的前置条件（PlaySequence）（if）
 // 红色身影出现时暂停普通 BGM
             if (string.Equals(step.label, "sps", StringComparison.Ordinal)) StartRedFigureBgm();
 
             if (step.root != null)
             {
-// 切换显示状态
+// 切换 PlaySequence 的显示状态
                 step.root.SetActive(true);
             }
 
-// 判断当前条件
+// 在 PlaySequence 中继续当前处理
             if (step.showResultObjectsDuringStep)
             {
-// 执行 SetResultObjectsVisible
+// 在 PlaySequence 中处理 SetResultObjectsVisible（PlaySequence 后续步骤）
                 SetResultObjectsVisible(true);
             }
 
-// 判断当前条件
+// 在 PlaySequence 中继续当前处理（PlaySequence 后续步骤）
             if (step.animator != null && !string.IsNullOrEmpty(step.stateName))
             {
-// 调用 Play
+// 使用 PlaySequence 所需功能
                 step.animator.Play(step.stateName, 0, 0f);
                 step.animator.Update(0f);
             }
@@ -360,405 +360,405 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
 // 等待下一步
             yield return new WaitForSecondsRealtime(Mathf.Max(0.01f, step.duration));
 
-// 判断当前条件
+// 在 PlaySequence 中继续当前处理（PlaySequence 后续步骤）（362）
             if (step.hideRootAfterStep && step.root != null)
             {
-// 切换显示状态
+// 切换 PlaySequence 的显示状态（PlaySequence 后续步骤）
                 step.root.SetActive(false);
             }
 
-// 判断当前条件
+// 在 PlaySequence 中继续当前处理（PlaySequence 后续步骤）（369）
             if (step.showResultObjectsDuringStep)
             {
-// 执行 SetResultObjectsVisible
+// 在 PlaySequence 中处理 SetResultObjectsVisible（PlaySequence 后续步骤）（后续处理 2）
                 SetResultObjectsVisible(false);
             }
         }
 
-// 执行 SetResultObjectsVisible
+// 在 PlaySequence 中处理 SetResultObjectsVisible（PlaySequence 后续步骤）（后续处理 3）
         SetResultObjectsVisible(true);
         completed = true;
-// 执行 SetSequenceOnlyObjectsVisible
+// 在 PlaySequence 中处理 SetSequenceOnlyObjectsVisible
         SetSequenceOnlyObjectsVisible(false);
         SetStepRootVisible(0, false);
-// 执行 SetStepRootVisible
+// 在 PlaySequence 中处理 SetStepRootVisible
         SetStepRootVisible(1, true);
         GameManager.Instance?.SetFlag(completedFlag);
 
-// 等待下一步
+// 在 PlaySequence 中继续当前处理（PlaySequence 后续步骤）（387）
         yield return StartDialogueAndWait(revealDialogue);
         StopRedFigureBgm();
 
-// 执行 ReleaseLocks
+// 在 PlaySequence 中处理 ReleaseLocks
         ReleaseLocks();
         sequenceCoroutine = null;
-// 执行 RefreshPrompt
+// 在 PlaySequence 中处理 RefreshPrompt
         RefreshPrompt();
     }
 
-// 定义 RemindMissingToy 方法
+// 提示玩家尚未取得红色玩具
     private IEnumerator RemindMissingToy()
     {
-// 执行 HidePrompt
+// 推进 RemindMissingToy 中的必要步骤
         HidePrompt();
         movementLease = GameplayInputLock.AcquireMovementLock();
-// 更新当前状态
+// 同步 RemindMissingToy 的内部状态
         interactionLease = GameplayInputLock.AcquireInteractionLock();
 
-// 等待下一步
+// 在 RemindMissingToy 中继续当前处理
         yield return StartDialogueAndWait(missingToyDialogue);
 
-// 执行 ReleaseLocks
+// 推进 RemindMissingToy 中的必要步骤（RemindMissingToy）
         ReleaseLocks();
         sequenceCoroutine = null;
-// 执行 RefreshPrompt
+// 在 RemindMissingToy 中处理 RefreshPrompt
         RefreshPrompt();
     }
 
-// 定义 DeliverToy 方法
+// 播放交付玩具与身影消失流程
     private IEnumerator DeliverToy()
     {
-// 执行 HidePrompt
+// 推进 DeliverToy 中的必要步骤
         HidePrompt();
         movementLease = GameplayInputLock.AcquireMovementLock();
-// 更新当前状态
+// 同步 DeliverToy 的内部状态
         interactionLease = GameplayInputLock.AcquireInteractionLock();
 
-// 等待下一步
+// 在 DeliverToy 中继续当前处理
         yield return StartDialogueAndWait(deliveryDialogue);
         GameManager.Instance?.SetFlag(toyDeliveredFlag);
-// 等待下一步
+// 在 DeliverToy 中继续当前处理（DeliverToy 后续步骤）
         yield return StartDialogueAndWait(disappearanceDialogue);
 
-// 判断当前条件
+// 检查 DeliverToy 的前置条件
         if (SfxManager.Instance != null && fallingBreakingSound != null)
         {
-// 调用 Play
+// 使用 DeliverToy 所需功能
             SfxManager.Instance.Play(fallingBreakingSound, fallingBreakingVolume);
         }
 
-// 执行 SetResultObjectsVisible
+// 推进 DeliverToy 中的必要步骤（DeliverToy）
         SetResultObjectsVisible(false);
         SetStepRootVisible(1, false);
-// 等待下一步
+// 在 DeliverToy 中继续当前处理（DeliverToy 后续步骤）（442）
         yield return StartDialogueAndWait(exitReadyDialogue);
 
 // 更新剧情标记
         GameManager.Instance?.SetFlag(resolvedFlag);
         resolved = true;
-// 执行 ReleaseLocks
+// 在 DeliverToy 中处理 ReleaseLocks
         ReleaseLocks();
         sequenceCoroutine = null;
-// 执行 RefreshPrompt
+// 在 DeliverToy 中处理 RefreshPrompt
         RefreshPrompt();
     }
 
-// 定义 StartDialogueAndWait 方法
+// 启动对白并等待整段播放完成
     private IEnumerator StartDialogueAndWait(DialogueData dialogue)
     {
-// 空引用时直接退出
+// 缺少必要引用时退出 StartDialogueAndWait
         if (dialogue == null || dialogue.lines == null || dialogue.lines.Length == 0
             || DialogueUIManager.Instance == null)
         {
-// 保存 break 数据
+// 无法继续时结束 StartDialogueAndWait
             yield break;
         }
 
-// 记录 finished 状态
+// 记录 StartDialogueAndWait 的当前状态
         bool finished = false;
         DialogueUIManager.Instance.StartDialogue(dialogue, () => finished = true);
 // 等待条件变化
         while (!finished)
         {
-// 等待下一步
+// 在 StartDialogueAndWait 中继续当前处理
             yield return null;
         }
     }
 
-// 定义 HasAllInvestigations 方法
+// 判断 HasAllInvestigations 对应条件
     private bool HasAllInvestigations()
     {
-// 空引用时直接退出
+// 缺少必要引用时退出 HasAllInvestigations
         if (GameManager.Instance == null || requiredInvestigationIds == null || requiredInvestigationIds.Length == 0)
         {
-// 返回当前结果
+// 返回 HasAllInvestigations 的处理结果
             return false;
         }
 
-// 遍历全部元素
+// 在 HasAllInvestigations 中继续当前处理
         foreach (string clueId in requiredInvestigationIds)
         {
-// 判断当前条件
+// 检查 HasAllInvestigations 的前置条件
             if (string.IsNullOrEmpty(clueId) || !GameManager.Instance.HasFlag(InvestigationFlag(clueId)))
             {
-// 返回当前结果
+// 返回 HasAllInvestigations 的处理结果（HasAllInvestigations）
                 return false;
             }
         }
 
-// 返回当前结果
+// 返回 HasAllInvestigations 的处理结果（HasAllInvestigations）（return）
         return true;
     }
 
-// 定义 HasRedToyPickup 方法
+// 判断 HasRedToyPickup 对应条件
     private bool HasRedToyPickup()
     {
-// 返回当前结果
+// 返回 HasRedToyPickup 的处理结果
         return GameManager.Instance != null
             && !string.IsNullOrEmpty(redToyPickupFlag)
-// 调用 HasFlag
+// 使用 HasRedToyPickup 所需功能
             && GameManager.Instance.HasFlag(redToyPickupFlag);
     }
 
-// 定义 HasValidSteps 方法
+// 判断 HasValidSteps 对应条件
     private bool HasValidSteps()
     {
-// 空引用时直接退出
+// 缺少必要引用时退出 HasValidSteps
         if (steps == null || steps.Length != 2)
         {
-// 返回当前结果
+// 返回 HasValidSteps 的处理结果
             return false;
         }
 
 // 循环处理当前集合
         for (int i = 0; i < steps.Length; i++)
         {
-// 保存 step 数据
+// 同步 HasValidSteps 的相关数据
             SequenceStep step = steps[i];
             string expectedLabel = i == 0 ? "sps0" : "sps";
-// 空引用时直接退出
+// 缺少必要引用时退出 HasValidSteps（HasValidSteps）
             if (step == null || !string.Equals(step.label, expectedLabel, StringComparison.Ordinal)
                 || step.root == null || step.duration < 0.01f)
             {
-// 返回当前结果
+// 返回 HasValidSteps 的处理结果（HasValidSteps）
                 return false;
             }
         }
 
-// 返回当前结果
+// 返回 HasValidSteps 的处理结果（HasValidSteps）（return）
         return true;
     }
 
-// 定义 ApplySavedState 方法
+// 按存档标记重建当前场景状态
     private void ApplySavedState()
     {
-// 保存 gm 数据
+// 同步 ApplySavedState 的相关数据
         GameManager gm = GameManager.Instance;
         completed = gm != null && gm.HasFlag(completedFlag);
-// 更新当前状态
+// 同步 ApplySavedState 的内部状态
         resolved = gm != null && gm.HasFlag(resolvedFlag);
 
-// 执行 SetAllStepsVisible
+// 推进 ApplySavedState 中的必要步骤
         SetAllStepsVisible(false);
         SetSequenceOnlyObjectsVisible(false);
-// 执行 SetResultObjectsVisible
+// 推进 ApplySavedState 中的必要步骤（ApplySavedState）
         SetResultObjectsVisible(completed && !resolved);
         SetStepRootVisible(0, false);
-// 执行 SetStepRootVisible
+// 在 ApplySavedState 中处理 SetStepRootVisible
         SetStepRootVisible(1, completed && !resolved);
         RefreshPrompt();
     }
 
-// 定义 SubscribeGameManager 方法
+// 处理 SubscribeGameManager 对应逻辑
     private void SubscribeGameManager(bool subscribe)
     {
-// 保存 gm 数据
+// 同步 SubscribeGameManager 的相关数据
         GameManager gm = GameManager.Instance;
         if (gm == null || subscribedToGameManager == subscribe)
         {
-// 返回当前结果
+// 返回 SubscribeGameManager 的处理结果
             return;
         }
 
-// 判断当前条件
+// 检查 SubscribeGameManager 的前置条件
         if (subscribe)
         {
-// 更新当前逻辑
+// 推进 SubscribeGameManager 的当前步骤
             gm.OnFlagsChanged += HandleFlagsChanged;
         }
-// 处理其他分支
+// 处理 SubscribeGameManager 的备用分支
         else
         {
-// 更新当前逻辑
+// 推进 SubscribeGameManager 的当前步骤（SubscribeGameManager）
             gm.OnFlagsChanged -= HandleFlagsChanged;
         }
 
-// 更新当前状态
+// 同步 SubscribeGameManager 的内部状态
         subscribedToGameManager = subscribe;
     }
 
-// 定义 HandleFlagsChanged 方法
+// 剧情标记变化后同步当前界面与交互
     private void HandleFlagsChanged()
     {
-// 执行 ApplySavedState
+// 推进 HandleFlagsChanged 中的必要步骤
         ApplySavedState();
         UpdateExclusiveInteractionMode();
-// 调用 RefreshSource
+// 使用 HandleFlagsChanged 所需功能
         PlayerInteractionPromptController.RefreshSource(this);
     }
 
-// 定义 UpdateExclusiveInteractionMode 方法
+// 刷新 UpdateExclusiveInteractionMode 对应状态
     private void UpdateExclusiveInteractionMode()
     {
-// 定义 HasAllInvestigations 方法
+// 判断 HasAllInvestigations 对应条件（UpdateExclusiveInteractionMode）
         bool shouldPrioritizeSequence = !completed && playerInRange && HasAllInvestigations();
         if (sequencePriorityActive != shouldPrioritizeSequence)
         {
-// 更新当前状态
+// 同步 UpdateExclusiveInteractionMode 的内部状态
             sequencePriorityActive = shouldPrioritizeSequence;
             if (shouldPrioritizeSequence)
             {
-// 调用 SetExclusiveInteractionTarget
+// 使用 UpdateExclusiveInteractionMode 所需功能
                 CluePickup2D.SetExclusiveInteractionTarget(gameObject);
             }
-// 处理其他分支
+// 处理 UpdateExclusiveInteractionMode 的备用分支
             else
             {
-// 调用 ClearExclusiveInteractionTarget
+// 使用 UpdateExclusiveInteractionMode 所需功能（UpdateExclusiveInteractionMode）
                 CluePickup2D.ClearExclusiveInteractionTarget(gameObject);
             }
         }
 
-// 定义 HasRedToyPickup 方法
+// 判断 HasRedToyPickup 对应条件（UpdateExclusiveInteractionMode）
         bool shouldBeActive = redToyGameObject != null && completed && !resolved && !HasRedToyPickup();
         if (exclusiveModeActive == shouldBeActive)
         {
-// 返回当前结果
+// 返回 UpdateExclusiveInteractionMode 的处理结果
             return;
         }
 
-// 更新当前状态
+// 同步 UpdateExclusiveInteractionMode 的内部状态（UpdateExclusiveInteractionMode）
         exclusiveModeActive = shouldBeActive;
         if (shouldBeActive)
         {
-// 调用 SetExclusiveInteractionTarget
+// 在 UpdateExclusiveInteractionMode 中处理 SetExclusiveInteractionTarget
             CluePickup2D.SetExclusiveInteractionTarget(redToyGameObject);
         }
-// 处理其他分支
+// 处理 UpdateExclusiveInteractionMode 的备用分支（UpdateExclusiveInteractionMode）
         else
         {
-// 调用 ClearExclusiveInteractionTarget
+// 在 UpdateExclusiveInteractionMode 中处理 ClearExclusiveInteractionTarget
             CluePickup2D.ClearExclusiveInteractionTarget(redToyGameObject);
         }
     }
 
-// 定义 RefreshPrompt 方法
+// 刷新 RefreshPrompt 对应状态
     private void RefreshPrompt()
     {
-// 调用 RefreshSource
+// 使用 RefreshPrompt 所需功能
         PlayerInteractionPromptController.RefreshSource(this);
     }
 
-// 定义 HidePrompt 方法
+// 隐藏 HidePrompt 对应界面
     private void HidePrompt()
     {
-// 调用 RefreshSource
+// 使用 HidePrompt 所需功能
         PlayerInteractionPromptController.RefreshSource(this);
     }
 
-// 定义 StartRedFigureBgm 方法
+// 处理 StartRedFigureBgm 对应逻辑
     private void StartRedFigureBgm()
     {
-// 空引用时直接退出
+// 缺少必要引用时退出 StartRedFigureBgm
         if (redFigureBgmActive || redFigureBgm == null || MusicManager.Instance == null) return;
 // 暂停普通 BGM 并循环播放红色身影音乐
         MusicManager.Instance.PlayInterruptingBgm(this, redFigureBgm, redFigureBgmVolume, redFigureBgmFade);
         redFigureBgmActive = true;
     }
 
-// 定义 StopRedFigureBgm 方法
+// 停止 StopRedFigureBgm 对应流程
     private void StopRedFigureBgm()
     {
-// 空引用时直接退出
+// 缺少必要引用时退出 StopRedFigureBgm
         if (!redFigureBgmActive) return;
 // 从原进度恢复普通 BGM
         MusicManager.Instance?.StopInterruptingBgm(this, redFigureBgmFade);
         redFigureBgmActive = false;
     }
 
-// 定义 InterruptSequence 方法
+// 中断演出并释放全部输入锁
     private void InterruptSequence()
     {
         StopRedFigureBgm();
-// 判断当前条件
+// 检查 InterruptSequence 的前置条件
         if (sequenceCoroutine != null)
         {
-// 执行 StopCoroutine
+// 推进 InterruptSequence 中的必要步骤
             StopCoroutine(sequenceCoroutine);
             sequenceCoroutine = null;
         }
 
-// 执行 ReleaseLocks
+// 推进 InterruptSequence 中的必要步骤（InterruptSequence）
         ReleaseLocks();
         if (!completed || resolved)
         {
-// 执行 SetAllStepsVisible
+// 在 InterruptSequence 中处理 SetAllStepsVisible
             SetAllStepsVisible(false);
             SetSequenceOnlyObjectsVisible(false);
         }
 
-// 判断当前条件
+// 检查 InterruptSequence 的前置条件（InterruptSequence）
         if (resolved)
         {
-// 执行 SetResultObjectsVisible
+// 在 InterruptSequence 中处理 SetResultObjectsVisible
             SetResultObjectsVisible(false);
         }
     }
 
-// 定义 SetStepRootVisible 方法
+// 设置 SetStepRootVisible 的目标状态
     private void SetStepRootVisible(int index, bool visible)
     {
-// 空引用时直接退出
+// 缺少必要引用时退出 SetStepRootVisible
         if (steps == null || index < 0 || index >= steps.Length || steps[index] == null
             || steps[index].root == null)
         {
-// 返回当前结果
+// 返回 SetStepRootVisible 的处理结果
             return;
         }
 
-// 切换显示状态
+// 切换 SetStepRootVisible 的显示状态
         steps[index].root.SetActive(visible);
     }
 
-// 定义 SetAllStepsVisible 方法
+// 设置 SetAllStepsVisible 的目标状态
     private void SetAllStepsVisible(bool visible)
     {
-// 空引用时直接退出
+// 缺少必要引用时退出 SetAllStepsVisible
         if (steps == null) return;
         foreach (SequenceStep step in steps)
         {
-// 判断当前条件
+// 检查 SetAllStepsVisible 的前置条件
             if (step != null && step.root != null) step.root.SetActive(visible);
         }
     }
 
-// 定义 SetSequenceOnlyObjectsVisible 方法
+// 设置 SetSequenceOnlyObjectsVisible 的目标状态
     private void SetSequenceOnlyObjectsVisible(bool visible)
     {
-// 空引用时直接退出
+// 缺少必要引用时退出 SetSequenceOnlyObjectsVisible
         if (sequenceOnlyObjects == null) return;
         foreach (GameObject sequenceObject in sequenceOnlyObjects)
         {
-// 判断当前条件
+// 检查 SetSequenceOnlyObjectsVisible 的前置条件
             if (sequenceObject != null) sequenceObject.SetActive(visible);
         }
     }
 
-// 定义 SetResultObjectsVisible 方法
+// 设置 SetResultObjectsVisible 的目标状态
     private void SetResultObjectsVisible(bool visible)
     {
-// 判断当前条件
+// 检查 SetResultObjectsVisible 的前置条件
         if (hand != null) hand.SetActive(visible);
         if (eye != null) eye.SetActive(visible);
     }
 
-// 定义 ReleaseLocks 方法
+// 处理 ReleaseLocks 对应逻辑
     private void ReleaseLocks()
     {
-// 调用 Dispose
+// 使用 ReleaseLocks 所需功能
         interactionLease?.Dispose();
         interactionLease = null;
-// 调用 Dispose
+// 使用 ReleaseLocks 所需功能（ReleaseLocks）
         movementLease?.Dispose();
         movementLease = null;
     }

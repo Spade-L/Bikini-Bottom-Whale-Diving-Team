@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// 定义 GameManager 类型
+// 保存剧情标记、线索进度和运行时状态
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-// 记录 PendingFemaleSelection 状态
+// 记录 GameManager 的当前状态
     public static bool PendingFemaleSelection;
 
 // 配置 线索数据库（所有 ClueData 都要登记在此） 分组
@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     // 状态只能经公开方法变更，确保变更后的事件通知顺序一致
     public int CurrentTimePeriod { get; private set; }
     public int InvestigationCount { get; private set; }
-// 保存 ClueDatabase 数据
+// 同步 GameManager 的相关数据
     public ClueDatabase ClueDatabase => clueDatabase;
     public IReadOnlyList<string> CollectedClueIds => collectedClueIds;
 
@@ -42,10 +42,10 @@ public class GameManager : MonoBehaviour
     /// <summary>调查次数增加时触发（参数：新的总次数）。</summary>
     public event Action<int> OnInvestigationCountChanged;
 
-    // 单例在首个场景建立；重复实例直接销毁，避免覆盖已恢复的全局状态
+    // 初始化组件引用和运行状态
     private void Awake()
     {
-// 判断当前条件
+// 检查 Awake 的前置条件
         if (Instance != null && Instance != this)
         {
 // 清理当前对象
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-// 更新当前状态
+// 同步 Awake 的状态
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
@@ -66,20 +66,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
-// 定义 HasFlag 方法
+// 判断 HasFlag 对应条件
     public bool HasFlag(string flag)
     {
-// 返回当前结果
+// 返回 HasFlag 的处理结果
         return !string.IsNullOrEmpty(flag) && flags.Contains(flag);
     }
 
-    // 仅在首次加入成功后记录并派发事件，使监听者不会重复响应同一 Flag
+    // 设置 SetFlag 的目标状态
     public void SetFlag(string flag)
     {
-// 判断当前条件
+// 检查 SetFlag 的前置条件
         if (string.IsNullOrEmpty(flag) || !flags.Add(flag))
         {
-// 返回当前结果
+// 返回 SetFlag 的处理结果
             return;
         }
 
@@ -89,18 +89,18 @@ public class GameManager : MonoBehaviour
             Debug.Log($"[GameManager] 设置 Flag: {flag}");
         }
 
-// 调用 Invoke
+// 使用 SetFlag 所需功能
         OnFlagSet?.Invoke(flag);
         OnFlagsChanged?.Invoke();
     }
 
-// 定义 SetFlags 方法
+// 设置 SetFlags 的目标状态
     public void SetFlags(IEnumerable<string> newFlags)
     {
-// 空引用时直接退出
+// SetFlags 缺少引用时提前结束
         if (newFlags == null)
         {
-// 返回当前结果
+// 返回 SetFlags 的处理结果
             return;
         }
 
@@ -108,187 +108,187 @@ public class GameManager : MonoBehaviour
 // 遍历全部元素
         foreach (string flag in newFlags)
         {
-// 判断当前条件
+// 检查 SetFlags 的前置条件
             if (string.IsNullOrEmpty(flag) || !flags.Add(flag))
             {
                 continue;
             }
 
-// 更新当前状态
+// 同步 SetFlags 的内部状态
             changed = true;
             OnFlagSet?.Invoke(flag);
-// 判断当前条件
+// 检查 SetFlags 的前置条件（SetFlags）
             if (logStateChanges)
             {
-// 输出调试信息
+// 在 SetFlags 中继续当前处理
                 Debug.Log($"[GameManager] 设置 Flag: {flag}");
             }
         }
 
-// 判断当前条件
+// 检查 SetFlags 的前置条件（SetFlags）（if）
         if (changed)
         {
-// 调用 Invoke
+// 使用 SetFlags 所需功能
             OnFlagsChanged?.Invoke();
         }
     }
 
     public void AdvanceTime(int periods = 1)
     {
-// 判断当前条件
+// 检查 AdvanceTime 的前置条件
         if (periods <= 0)
         {
-// 返回当前结果
+// 返回 AdvanceTime 的处理结果
             return;
         }
 
         CurrentTimePeriod += periods;
 
-// 判断当前条件
+// 检查 AdvanceTime 的前置条件（AdvanceTime）
         if (logStateChanges)
         {
-// 输出调试信息
+// 在 AdvanceTime 中继续当前处理
             Debug.Log($"[GameManager] 时间推进到时间段 {CurrentTimePeriod}");
         }
 
-// 调用 Invoke
+// 使用 AdvanceTime 所需功能
         OnTimeAdvanced?.Invoke(CurrentTimePeriod);
     }
 
-    // ---------- 调查次数 ----------
+    // 处理 AddInvestigation 对应逻辑
 
     public void AddInvestigation(int amount = 1)
     {
-// 判断当前条件
+// 检查 AddInvestigation 的前置条件
         if (amount <= 0)
         {
-// 返回当前结果
+// 返回 AddInvestigation 的处理结果
             return;
         }
 
         InvestigationCount += amount;
 
-// 判断当前条件
+// 检查 AddInvestigation 的前置条件（AddInvestigation）
         if (logStateChanges)
         {
-// 输出调试信息
+// 在 AddInvestigation 中继续当前处理
             Debug.Log($"[GameManager] 调查次数: {InvestigationCount}");
         }
 
         OnInvestigationCountChanged?.Invoke(InvestigationCount);
     }
 
-// 定义 HasClue 方法
+// 判断 HasClue 对应条件
     public bool HasClue(string clueId)
     {
-// 返回当前结果
+// 返回 HasClue 的处理结果
         return collectedClueIds.Contains(clueId);
     }
 
-// 定义 HasCollectedAllPreRooftopClues 方法
+// 判断 HasCollectedAllPreRooftopClues 对应条件
     public bool HasCollectedAllPreRooftopClues()
     {
         bool hasDatabaseCheck = clueDatabase != null
-// 更新当前逻辑
+// 推进 HasCollectedAllPreRooftopClues 的当前步骤
             && clueDatabase.TrueEndingRequiredClues != null
             && clueDatabase.TrueEndingRequiredClues.Count > 0;
 
-// 判断当前条件
+// 检查 HasCollectedAllPreRooftopClues 的前置条件
         if (hasDatabaseCheck)
         {
-// 保存 missingClues 数据
+// 同步 HasCollectedAllPreRooftopClues 的相关数据
             System.Collections.Generic.List<string> missingClues = null;
             foreach (ClueData clue in clueDatabase.TrueEndingRequiredClues)
             {
-// 判断当前条件
+// 检查 HasCollectedAllPreRooftopClues 的前置条件（HasCollectedAllPreRooftopClues）
                 if (clue != null && !HasClue(clue.ClueId))
                 {
-// 空引用时直接退出
+// 缺少必要引用时退出 HasCollectedAllPreRooftopClues
                     if (missingClues == null) missingClues = new System.Collections.Generic.List<string>();
                     missingClues.Add(clue.ClueId);
                 }
             }
 
-// 空引用时直接退出
+// 缺少必要引用时退出 HasCollectedAllPreRooftopClues（HasCollectedAllPreRooftopClues）
             if (missingClues == null)
             {
-// 返回当前结果
+// 返回 HasCollectedAllPreRooftopClues 的处理结果
                 return true;
             }
 
-// 输出调试信息
+// 在 HasCollectedAllPreRooftopClues 中继续当前处理
             Debug.LogWarning($"[GameManager] 真结局缺少关键线索: {string.Join(", ", missingClues)}");
         }
 
-// 保存 requiredSceneFlags 数据
+// 同步 HasCollectedAllPreRooftopClues 的相关数据（HasCollectedAllPreRooftopClues 后续步骤）
         string[] requiredSceneFlags =
         {
-// 更新当前逻辑
+// 在 HasCollectedAllPreRooftopClues 中处理 推进 HasCollectedAllPreRooftopClues 的当前步骤
             "scene_cleared_home",
             "scene_cleared_school",
-// 更新当前逻辑
+// 推进 HasCollectedAllPreRooftopClues 的当前步骤（HasCollectedAllPreRooftopClues）
             "scene_cleared_store",
             "scene_cleared_alley",
-// 更新当前逻辑
+// 推进 HasCollectedAllPreRooftopClues 的当前步骤（HasCollectedAllPreRooftopClues）（scene_cleared_playground）
             "scene_cleared_playground"
         };
 
-// 保存 missingSceneFlags 数据
+// 同步 HasCollectedAllPreRooftopClues 的相关数据（HasCollectedAllPreRooftopClues 后续步骤）（235）
         System.Collections.Generic.List<string> missingSceneFlags = null;
         foreach (string flag in requiredSceneFlags)
         {
-// 判断当前条件
+// 检查 HasCollectedAllPreRooftopClues 的前置条件（HasCollectedAllPreRooftopClues）（if）
             if (!HasFlag(flag))
             {
-// 空引用时直接退出
+// 缺少必要引用时退出 HasCollectedAllPreRooftopClues（HasCollectedAllPreRooftopClues）（if）
                 if (missingSceneFlags == null) missingSceneFlags = new System.Collections.Generic.List<string>();
                 missingSceneFlags.Add(flag);
             }
         }
 
-// 判断当前条件
+// 在 HasCollectedAllPreRooftopClues 中继续当前处理（HasCollectedAllPreRooftopClues 后续步骤）
         if (missingSceneFlags != null)
         {
-// 输出调试信息
+// 在 HasCollectedAllPreRooftopClues 中继续当前处理（HasCollectedAllPreRooftopClues 后续步骤）（251）
             Debug.LogWarning($"[GameManager] 真结局缺少场景通关 Flag: {string.Join(", ", missingSceneFlags)}");
             return false;
         }
 
-// 返回当前结果
+// 返回 HasCollectedAllPreRooftopClues 的处理结果（HasCollectedAllPreRooftopClues）
         return true;
     }
 
-    // 空线索与重复 Id 都不产生事件，保证收集提示和相关 UI 只出现一次
+    // 处理 CollectClue 对应逻辑
     public void CollectClue(ClueData clue)
     {
-// 空引用时直接退出
+// 缺少必要引用时退出 CollectClue
         if (clue == null || collectedClueIds.Contains(clue.ClueId))
         {
-// 返回当前结果
+// 返回 CollectClue 的处理结果
             return;
         }
 
-// 调用 Add
+// 使用 CollectClue 所需功能
         collectedClueIds.Add(clue.ClueId);
 
-// 判断当前条件
+// 检查 CollectClue 的前置条件
         if (logStateChanges)
         {
-// 输出调试信息
+// 在 CollectClue 中继续当前处理
             Debug.Log($"[GameManager] 收集线索: {clue.ClueId} ({clue.Title})");
         }
 
         OnClueCollected?.Invoke(clue);
     }
 
-// 定义 CaptureSaveData 方法
+// 处理 CaptureSaveData 对应逻辑
     public SaveData CaptureSaveData()
     {
 // 保存 player 引用
         PlayerMovement2D player = FindFirstObjectByType<PlayerMovement2D>();
         if (player == null)
         {
-// 输出调试信息
+// 在 CaptureSaveData 中继续当前处理
             Debug.LogWarning("[GameManager] 当前场景找不到玩家，无法创建存档。");
             return null;
         }
@@ -297,86 +297,86 @@ public class GameManager : MonoBehaviour
         Vector3 position = player.transform.position;
         return new SaveData
         {
-// 更新当前状态
+// 同步 CaptureSaveData 的内部状态
             flags = new List<string>(flags),
             collectedClueIds = new List<string>(collectedClueIds),
-// 更新当前状态
+// 同步 CaptureSaveData 的内部状态（CaptureSaveData）
             timePeriod = CurrentTimePeriod,
             investigationCount = InvestigationCount,
 // 执行场景切换
             sceneName = SceneManager.GetActiveScene().name,
             playerX = position.x,
-// 更新当前状态
+// 同步 CaptureSaveData 的内部状态（CaptureSaveData）（playerY）
             playerY = position.y,
         };
     }
 
-// 定义 ResetRuntimeState 方法
+// 处理 ResetRuntimeState 对应逻辑
     public void ResetRuntimeState()
     {
-// 调用 ReleaseAll
+// 使用 ResetRuntimeState 所需功能
         GameplayInputLock.ReleaseAll();
         ClueJournalUI.SetEndingDisabled(false);
-// 调用 Clear
+// 使用 ResetRuntimeState 所需功能（ResetRuntimeState）
         flags.Clear();
         collectedClueIds.Clear();
-// 更新当前状态
+// 同步 ResetRuntimeState 的内部状态
         CurrentTimePeriod = 0;
         InvestigationCount = 0;
-// 调用 Invoke
+// 在 ResetRuntimeState 中处理 Invoke
         OnFlagsChanged?.Invoke();
         OnTimeAdvanced?.Invoke(CurrentTimePeriod);
-// 调用 Invoke
+// 在 ResetRuntimeState 中处理 Invoke（ResetRuntimeState 后续步骤）
         OnInvestigationCountChanged?.Invoke(InvestigationCount);
     }
 
-// 定义 RestoreSaveData 方法
+// 恢复 RestoreSaveData 对应状态
     public void RestoreSaveData(SaveData data)
     {
-// 空引用时直接退出
+// 缺少必要引用时退出 RestoreSaveData
         if (data == null)
         {
-// 返回当前结果
+// 返回 RestoreSaveData 的处理结果
             return;
         }
 
-// 调用 Clear
+// 使用 RestoreSaveData 所需功能
         flags.Clear();
         collectedClueIds.Clear();
 
-// 判断当前条件
+// 检查 RestoreSaveData 的前置条件
         if (data.flags != null)
         {
-// 遍历全部元素
+// 在 RestoreSaveData 中继续当前处理
             foreach (string flag in data.flags)
             {
-// 判断当前条件
+// 检查 RestoreSaveData 的前置条件（RestoreSaveData）
                 if (!string.IsNullOrEmpty(flag)) flags.Add(flag);
             }
         }
 
-// 判断当前条件
+// 检查 RestoreSaveData 的前置条件（RestoreSaveData）（if）
         if (data.collectedClueIds != null)
         {
-// 遍历全部元素
+// 在 RestoreSaveData 中继续当前处理（RestoreSaveData 后续步骤）
             foreach (string clueId in data.collectedClueIds)
             {
-// 判断当前条件
+// 在 RestoreSaveData 中继续当前处理（RestoreSaveData 后续步骤）（363）
                 if (!string.IsNullOrEmpty(clueId) && !collectedClueIds.Contains(clueId))
                 {
-// 调用 Add
+// 使用 RestoreSaveData 所需功能（RestoreSaveData）
                     collectedClueIds.Add(clueId);
                 }
             }
         }
 
-// 更新当前状态
+// 同步 RestoreSaveData 的内部状态
         CurrentTimePeriod = Mathf.Max(0, data.timePeriod);
         InvestigationCount = Mathf.Max(0, data.investigationCount);
-// 调用 Invoke
+// 在 RestoreSaveData 中处理 Invoke
         OnFlagsChanged?.Invoke();
         OnTimeAdvanced?.Invoke(CurrentTimePeriod);
-// 调用 Invoke
+// 在 RestoreSaveData 中处理 Invoke（RestoreSaveData 后续步骤）
         OnInvestigationCountChanged?.Invoke(InvestigationCount);
     }
 }

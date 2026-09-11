@@ -8,10 +8,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-// 定义 SaveMenuController 类型
+// 管理存档槽位显示、保存、读取与恢复
 public class SaveMenuController : MonoBehaviour
 {
-// 更新当前逻辑
+// 推进 SaveMenuController 的当前步骤
     public static SaveMenuController Instance { get; private set; }
 
     [Header("存档预制体")]
@@ -21,42 +21,42 @@ public class SaveMenuController : MonoBehaviour
 // 保存 saveView 引用
     private GameObject saveView;
     private readonly Dictionary<int, Button> slotButtons = new Dictionary<int, Button>();
-// 更新当前逻辑
+// 在 SaveMenuController 中处理 推进 SaveMenuController 的当前步骤
     private readonly Dictionary<int, TMP_Text> slotSceneTexts = new Dictionary<int, TMP_Text>();
     private readonly Dictionary<int, TMP_Text> slotTimeTexts = new Dictionary<int, TMP_Text>();
 
-// 保存 nowSelectText 数据
+// 同步 SaveMenuController 的相关数据
     private TMP_Text nowSelectText;
     private Button saveButton;
-// 保存 loadButton 数据
+// 同步 SaveMenuController 的相关数据（SaveMenuController 后续步骤）
     private Button loadButton;
     private Button backButton;
-// 保存 firstSelectable 数据
+// 同步 SaveMenuController 的相关数据（SaveMenuController 后续步骤）（33）
     private Selectable firstSelectable;
 
-// 保存 movementLock 数据
+// 同步 SaveMenuController 的相关数据（SaveMenuController 后续步骤）（36）
     private IDisposable movementLock;
     private IDisposable interactionLock;
-// 保存 pendingLoad 数据
+// 同步 SaveMenuController 的相关数据（SaveMenuController 后续步骤）（39）
     private SaveData pendingLoad;
     private int pendingLoadSlot;
-// 配置 selectedSlot 数值
+// 设置 SaveMenuController 的配置数值
     private int selectedSlot;
     private bool isOpen;
-// 记录 loadOnly 状态
+// 记录 SaveMenuController 的当前状态
     private bool loadOnly;
     private bool transitionInProgress;
-// 记录 listenersRegistered 状态
+// 记录 SaveMenuController 的当前状态（SaveMenuController 后续步骤）
     private bool listenersRegistered;
 
-// 记录 IsOpen 状态
+// 记录 SaveMenuController 的当前状态（SaveMenuController 后续步骤）（51）
     public bool IsOpen => isOpen;
 
-// 运行前初始化状态
+// 在场景加载前创建常驻管理器
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void AutoCreate()
     {
-// 空引用时直接退出
+// AutoCreate 缺少引用时提前结束
         if (Instance == null)
         {
 // 添加所需组件
@@ -64,10 +64,10 @@ public class SaveMenuController : MonoBehaviour
         }
     }
 
-// 定义 Awake 方法
+// 初始化组件引用和运行状态
     private void Awake()
     {
-// 判断当前条件
+// 检查 Awake 的前置条件
         if (Instance != null && Instance != this)
         {
 // 清理当前对象
@@ -75,35 +75,35 @@ public class SaveMenuController : MonoBehaviour
             return;
         }
 
-// 更新当前状态
+// 同步 Awake 的状态
         Instance = this;
         DontDestroyOnLoad(gameObject);
-// 执行 CreateSaveView
+// 推进 Awake 中的必要步骤
         CreateSaveView();
         Close();
     }
 
-// 定义 Start 方法
+// 读取初始依赖并同步首帧状态
     private void Start()
     {
-// 执行 RegisterListeners
+// 推进 Start 中的必要步骤
         RegisterListeners();
     }
 
-// 定义 CreateSaveView 方法
+// 创建 CreateSaveView 对应对象
     private void CreateSaveView()
     {
-// 判断当前条件
+// 检查 CreateSaveView 的前置条件
         if (saveView != null) return;
 
-// 空引用时直接退出
+// 缺少必要引用时退出 CreateSaveView
         if (savePrefab == null)
         {
-// 更新当前状态
+// 同步 CreateSaveView 的内部状态
             savePrefab = Resources.Load<GameObject>("Save");
         }
 
-// 空引用时直接退出
+// 缺少必要引用时退出 CreateSaveView（CreateSaveView）
         if (savePrefab == null)
         {
 // 输出调试信息
@@ -111,215 +111,215 @@ public class SaveMenuController : MonoBehaviour
             return;
         }
 
-// 更新当前状态
+// 同步 CreateSaveView 的内部状态（CreateSaveView）
         saveView = Instantiate(savePrefab, transform);
         saveView.name = "SaveView";
 // 更新局部位置
         saveView.transform.localPosition = Vector3.zero;
         saveView.transform.localRotation = Quaternion.identity;
-// 更新当前状态
+// 同步 CreateSaveView 的内部状态（CreateSaveView）（saveView）
         saveView.transform.localScale = Vector3.one;
 
-// 更新当前状态
+// 同步 CreateSaveView 的内部状态（CreateSaveView）（nowSelectText）
         nowSelectText = FindText(saveView.transform, "NowSelect");
         saveButton = FindButton(saveView.transform, "SaveGame");
-// 更新当前状态
+// 同步 CreateSaveView 的内部状态（CreateSaveView）（loadButton）
         loadButton = FindButton(saveView.transform, "LoadGame");
         backButton = FindButton(saveView.transform, "BackGame", "Close", "Back", "Return");
 
 // 循环处理当前集合
         for (int slot = SaveSystem.MinSlot; slot <= SaveSystem.MaxSlot; slot++)
         {
-// 定义 FindTransform 方法
+// 缓存 CreateSaveView 所需引用
             Transform slotRoot = FindTransform(saveView.transform, $"Save{slot}");
             if (slotRoot == null)
             {
-// 输出调试信息
+// 在 CreateSaveView 中继续当前处理
                 Debug.LogWarning($"存档页面：未找到 Save{slot}。");
                 continue;
             }
 
-// 保存 slotButton 数据
+// 同步 CreateSaveView 的相关数据
             Button slotButton = slotRoot.GetComponent<Button>() ?? slotRoot.GetComponentInChildren<Button>(true);
             TMP_Text sceneText = FindText(slotRoot, "SaveWhere");
-// 保存 timeText 数据
+// 同步 CreateSaveView 的相关数据（CreateSaveView 后续步骤）
             TMP_Text timeText = FindText(slotRoot, "SaveTime");
 
-// 更新当前状态
+// 同步 CreateSaveView 的内部状态（CreateSaveView）（slotButtons）
             slotButtons[slot] = slotButton;
             slotSceneTexts[slot] = sceneText;
-// 更新当前状态
+// 同步 CreateSaveView 的内部状态（CreateSaveView）（slotTimeTexts）
             slotTimeTexts[slot] = timeText;
             if (firstSelectable == null && slotButton != null) firstSelectable = slotButton;
 
-// 空引用时直接退出
+// 缺少必要引用时退出 CreateSaveView（CreateSaveView）（if）
             if (slotButton == null) Debug.LogWarning($"存档页面：Save{slot} 未找到 Button。");
             if (sceneText == null) Debug.LogWarning($"存档页面：Save{slot} 未找到 SaveWhere 文本。");
-// 空引用时直接退出
+// 在 CreateSaveView 中继续当前处理（CreateSaveView 后续步骤）
             if (timeText == null) Debug.LogWarning($"存档页面：Save{slot} 未找到 SaveTime 文本。");
         }
 
-// 空引用时直接退出
+// 在 CreateSaveView 中继续当前处理（CreateSaveView 后续步骤）（161）
         if (firstSelectable == null) firstSelectable = loadButton != null ? loadButton : backButton;
     }
 
-// 定义 RegisterListeners 方法
+// 处理 RegisterListeners 对应逻辑
     private void RegisterListeners()
     {
-// 判断当前条件
+// 检查 RegisterListeners 的前置条件
         if (listenersRegistered) return;
         listenersRegistered = true;
 
 // 遍历全部元素
         foreach (KeyValuePair<int, Button> pair in slotButtons)
         {
-// 配置 slot 数值
+// 设置 RegisterListeners 的配置数值
             int slot = pair.Key;
             pair.Value?.onClick.AddListener(() => SelectSlot(slot));
         }
 
-// 调用 AddListener
+// 使用 RegisterListeners 所需功能
         saveButton?.onClick.AddListener(SaveSelectedSlot);
         loadButton?.onClick.AddListener(LoadSelectedSlot);
-// 调用 AddListener
+// 使用 RegisterListeners 所需功能（RegisterListeners）
         backButton?.onClick.AddListener(Close);
     }
 
-// 定义 Open 方法
+// 处理 Open 对应逻辑
     public void Open(bool openedFromMainMenu = false)
     {
-// 判断当前条件
+// 检查 Open 的前置条件
         if (transitionInProgress) return;
         if (saveView == null)
         {
-// 执行 CreateSaveView
+// 推进 Open 中的必要步骤
             CreateSaveView();
             RegisterListeners();
         }
-// 空引用时直接退出
+// 缺少必要引用时退出 Open
         if (saveView == null) return;
 
-// 更新当前状态
+// 同步 Open 的内部状态
         isOpen = true;
         loadOnly = openedFromMainMenu;
-// 更新当前状态
+// 同步 Open 的内部状态（Open）
         selectedSlot = 0;
         pendingLoad = null;
-// 更新当前状态
+// 同步 Open 的内部状态（Open）（pendingLoadSlot）
         pendingLoadSlot = 0;
         UpdateSelectionText();
-// 执行 RefreshSlots
+// 推进 Open 中的必要步骤（Open）
         RefreshSlots();
         if (saveButton != null) saveButton.interactable = !loadOnly;
-// 切换显示状态
+// 切换 Open 的显示状态
         saveView.SetActive(true);
 
-// 更新当前状态
+// 同步 Open 的内部状态（Open）（movementLock）
         movementLock = GameplayInputLock.AcquireMovementLock();
         interactionLock = GameplayInputLock.AcquireInteractionLock();
-// 判断当前条件
+// 检查 Open 的前置条件（Open）
         if (firstSelectable != null && EventSystem.current != null)
         {
-// 调用 SetSelectedGameObject
+// 使用 Open 所需功能
             EventSystem.current.SetSelectedGameObject(firstSelectable.gameObject);
         }
     }
 
-// 定义 Close 方法
+// 处理 Close 对应逻辑
     public void Close()
     {
-// 判断当前条件
+// 检查 Close 的前置条件
         if (transitionInProgress) return;
         isOpen = false;
-// 更新当前状态
+// 同步 Close 的内部状态
         loadOnly = false;
         selectedSlot = 0;
-// 更新当前状态
+// 同步 Close 的内部状态（Close）
         pendingLoad = null;
         pendingLoadSlot = 0;
-// 判断当前条件
+// 检查 Close 的前置条件（Close）
         if (saveView != null) saveView.SetActive(false);
         ReleaseLocks();
     }
 
-// 定义 SelectSlot 方法
+// 处理 SelectSlot 对应逻辑
     public void SelectSlot(int slot)
     {
-// 判断当前条件
+// 检查 SelectSlot 的前置条件
         if (!isOpen || !SaveSystem.IsValidSlot(slot)) return;
         selectedSlot = slot;
-// 执行 UpdateSelectionText
+// 推进 SelectSlot 中的必要步骤
         UpdateSelectionText();
         RefreshSlots();
     }
 
-// 定义 SaveSelectedSlot 方法
+// 把当前运行状态写入选中槽位
     public void SaveSelectedSlot()
     {
-// 判断当前条件
+// 检查 SaveSelectedSlot 的前置条件
         if (!isOpen || loadOnly || transitionInProgress) return;
         if (!SaveSystem.IsValidSlot(selectedSlot))
         {
-// 输出调试信息
+// 在 SaveSelectedSlot 中继续当前处理
             Debug.LogWarning("存档页面：请先选择存档位。");
             return;
         }
 
-// 保存 manager 数据
+// 同步 SaveSelectedSlot 的相关数据
         GameManager manager = GameManager.Instance;
         SaveData data = manager == null ? null : manager.CaptureSaveData();
-// 空引用时直接退出
+// 缺少必要引用时退出 SaveSelectedSlot
         if (data == null)
         {
-// 输出调试信息
+// 在 SaveSelectedSlot 中继续当前处理（SaveSelectedSlot 后续步骤）
             Debug.LogWarning("存档页面：当前场景没有可保存的玩家状态。");
             return;
         }
 
-// 判断当前条件
+// 检查 SaveSelectedSlot 的前置条件（SaveSelectedSlot）
         if (SaveSystem.Save(data, selectedSlot))
         {
-// 执行 RefreshSlots
+// 推进 SaveSelectedSlot 中的必要步骤
             RefreshSlots();
             Close();
         }
     }
 
-// 定义 LoadSelectedSlot 方法
+// 读取选中槽位并切换到对应场景
     public void LoadSelectedSlot()
     {
-// 判断当前条件
+// 检查 LoadSelectedSlot 的前置条件
         if (!isOpen || transitionInProgress) return;
         if (!SaveSystem.IsValidSlot(selectedSlot))
         {
-// 输出调试信息
+// 在 LoadSelectedSlot 中继续当前处理
             Debug.LogWarning("存档页面：请先选择存档位。");
             return;
         }
-// 判断当前条件
+// 检查 LoadSelectedSlot 的前置条件（LoadSelectedSlot）
         if (!SaveSystem.TryLoad(selectedSlot, out SaveData data))
         {
-// 输出调试信息
+// 在 LoadSelectedSlot 中继续当前处理（LoadSelectedSlot 后续步骤）
             Debug.LogWarning("存档页面：当前存档位没有有效记录。");
             RefreshSlots();
-// 返回当前结果
+// 返回 LoadSelectedSlot 的处理结果
             return;
         }
-// 判断当前条件
+// 检查 LoadSelectedSlot 的前置条件（LoadSelectedSlot）（if）
         if (!IsLoadableScene(data.sceneName))
         {
-// 输出调试信息
+// 在 LoadSelectedSlot 中继续当前处理（LoadSelectedSlot 后续步骤）（310）
             Debug.LogWarning($"存档页面：存档场景不可加载 ({data.sceneName})。");
             return;
         }
 
-// 更新当前状态
+// 同步 LoadSelectedSlot 的内部状态
         transitionInProgress = true;
         pendingLoad = data;
-// 更新当前状态
+// 同步 LoadSelectedSlot 的内部状态（LoadSelectedSlot）
         pendingLoadSlot = selectedSlot;
         AcquireLocks();
-// 更新当前状态
+// 同步 LoadSelectedSlot 的内部状态（LoadSelectedSlot）（isOpen）
         isOpen = false;
         if (saveView != null) saveView.SetActive(false);
 
@@ -329,25 +329,25 @@ public class SaveMenuController : MonoBehaviour
 // 执行场景切换
             ScreenFader.Instance.FadeOutThen(() => SceneManager.LoadScene(data.sceneName));
         }
-// 处理其他分支
+// 处理 LoadSelectedSlot 的备用分支
         else
         {
-// 执行场景切换
+// 在 LoadSelectedSlot 中继续当前处理（LoadSelectedSlot 后续步骤）（334）
             SceneManager.LoadScene(data.sceneName);
         }
     }
 
-// 定义 OnSceneLoaded 方法
+// 响应 OnSceneLoaded 生命周期
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-// 空引用时直接退出
+// 缺少必要引用时退出 OnSceneLoaded
         if (!transitionInProgress || pendingLoad == null) return;
         if (!scene.name.Equals(pendingLoad.sceneName, StringComparison.Ordinal)) return;
 // 启动当前协程
         StartCoroutine(RestoreAfterSceneLoad(scene, pendingLoad));
     }
 
-// 定义 RestoreAfterSceneLoad 方法
+// 场景就绪后恢复玩家位置与全局状态
     private IEnumerator RestoreAfterSceneLoad(Scene scene, SaveData data)
     {
 // 保存 player 引用
@@ -356,71 +356,71 @@ public class SaveMenuController : MonoBehaviour
 // 等待条件变化
         while (player == null && timeout > 0f)
         {
-// 更新当前状态
+// 同步 RestoreAfterSceneLoad 的内部状态
             player = FindFirstObjectByType<PlayerMovement2D>();
             timeout -= Time.unscaledDeltaTime;
-// 空引用时直接退出
+// 缺少必要引用时退出 RestoreAfterSceneLoad
             if (player == null) yield return null;
         }
 
-// 判断当前条件
+// 检查 RestoreAfterSceneLoad 的前置条件
         if (GameManager.Instance != null) GameManager.Instance.RestoreSaveData(data);
         if (player != null)
         {
 // 更新当前位置
             player.transform.position = new Vector3(data.playerX, data.playerY, player.transform.position.z);
             Rigidbody2D body = player.GetComponent<Rigidbody2D>();
-// 判断当前条件
+// 检查 RestoreAfterSceneLoad 的前置条件（RestoreAfterSceneLoad）
             if (body != null) body.velocity = Vector2.zero;
         }
-// 处理其他分支
+// 处理 RestoreAfterSceneLoad 的备用分支
         else
         {
-// 输出调试信息
+// 在 RestoreAfterSceneLoad 中继续当前处理
             Debug.LogWarning("存档页面：目标场景加载后未找到玩家，已恢复全局状态但未恢复位置。");
         }
 
-// 更新当前状态
+// 同步 RestoreAfterSceneLoad 的内部状态（RestoreAfterSceneLoad）
         pendingLoad = null;
         pendingLoadSlot = 0;
-// 更新当前状态
+// 同步 RestoreAfterSceneLoad 的内部状态（RestoreAfterSceneLoad）（transitionInProgress）
         transitionInProgress = false;
         isOpen = false;
-// 执行 ReleaseLocks
+// 推进 RestoreAfterSceneLoad 中的必要步骤
         ReleaseLocks();
     }
 
-// 定义 RefreshSlots 方法
+// 刷新存档槽位的场景名称与保存时间
     private void RefreshSlots()
     {
-// 循环处理当前集合
+// 在 RefreshSlots 中继续当前处理
         for (int slot = SaveSystem.MinSlot; slot <= SaveSystem.MaxSlot; slot++)
         {
-// 保存 data 数据
+// 同步 RefreshSlots 的相关数据
             SaveData data;
             bool available = SaveSystem.TryLoad(slot, out data);
-// 判断当前条件
+// 检查 RefreshSlots 的前置条件
             if (slotSceneTexts.TryGetValue(slot, out TMP_Text sceneText) && sceneText != null)
             {
-// 更新界面文本
+// 更新 RefreshSlots 的界面文本
                 sceneText.text = available ? GetDisplaySceneName(data.sceneName) : "Null";
             }
-// 判断当前条件
+// 检查 RefreshSlots 的前置条件（RefreshSlots）
             if (slotTimeTexts.TryGetValue(slot, out TMP_Text timeText) && timeText != null)
             {
-// 更新界面文本
+// 更新 RefreshSlots 的界面文本（RefreshSlots 后续步骤）
                 timeText.text = available && TryFormatSavedTime(data, out string text) ? text : "Null";
             }
-// 判断当前条件
+// 检查 RefreshSlots 的前置条件（RefreshSlots）（if）
             if (slotButtons.TryGetValue(slot, out Button button) && button != null)
             {
-// 更新当前状态
+// 同步 RefreshSlots 的内部状态
                 button.interactable = true;
             }
         }
     }
 
-// 将存档场景编号转换为玩家可见的地点名
+// 获取 GetDisplaySceneName 所需引用
     private static string GetDisplaySceneName(string sceneName)
     {
         if (string.IsNullOrWhiteSpace(sceneName)) return "Null";
@@ -435,127 +435,127 @@ public class SaveMenuController : MonoBehaviour
             default: return sceneName;
         }
     }
-// 定义 TryFormatSavedTime 方法
+// 处理 TryFormatSavedTime 对应逻辑
     private bool TryFormatSavedTime(SaveData data, out string text)
     {
-// 更新当前状态
+// 同步 TryFormatSavedTime 的内部状态
         text = null;
         if (data == null || !DateTime.TryParse(data.savedAtUtc, null, System.Globalization.DateTimeStyles.RoundtripKind, out DateTime utc))
         {
-// 返回当前结果
+// 返回 TryFormatSavedTime 的处理结果
             return false;
         }
-// 保存 local 数据
+// 同步 TryFormatSavedTime 的相关数据
         DateTime local = utc.ToLocalTime();
         text = local.ToString("yyyy年MM月dd日 HH时mm分ss秒");
-// 返回当前结果
+// 返回 TryFormatSavedTime 的处理结果（TryFormatSavedTime）
         return true;
     }
 
-// 定义 UpdateSelectionText 方法
+// 刷新 UpdateSelectionText 对应状态
     private void UpdateSelectionText()
     {
-// 判断当前条件
+// 检查 UpdateSelectionText 的前置条件
         if (nowSelectText != null)
         {
-// 更新界面文本
+// 更新 UpdateSelectionText 的界面文本
             nowSelectText.text = selectedSlot > 0 ? $"当前选择：Save {selectedSlot}" : "当前选择：Null";
         }
     }
 
-// 定义 IsLoadableScene 方法
+// 判断 IsLoadableScene 对应条件
     private bool IsLoadableScene(string sceneName)
     {
-// 判断当前条件
+// 检查 IsLoadableScene 的前置条件
         if (string.IsNullOrWhiteSpace(sceneName) || sceneName.Equals("Menu", StringComparison.OrdinalIgnoreCase) || sceneName.Equals("MainMenu", StringComparison.OrdinalIgnoreCase)) return false;
         for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
         {
-// 定义 GetScenePathByBuildIndex 方法
+// 缓存 IsLoadableScene 所需引用
             string path = SceneUtility.GetScenePathByBuildIndex(i);
             if (Path.GetFileNameWithoutExtension(path).Equals(sceneName, StringComparison.Ordinal)) return true;
         }
-// 返回当前结果
+// 返回 IsLoadableScene 的处理结果
         return false;
     }
 
-// 定义 AcquireLocks 方法
+// 处理 AcquireLocks 对应逻辑
     private void AcquireLocks()
     {
-// 调用 AcquireMovementLock
+// 使用 AcquireLocks 所需功能
         movementLock ??= GameplayInputLock.AcquireMovementLock();
         interactionLock ??= GameplayInputLock.AcquireInteractionLock();
     }
 
-// 定义 ReleaseLocks 方法
+// 处理 ReleaseLocks 对应逻辑
     private void ReleaseLocks()
     {
-// 调用 Dispose
+// 使用 ReleaseLocks 所需功能
         movementLock?.Dispose();
         interactionLock?.Dispose();
-// 更新当前状态
+// 同步 ReleaseLocks 的内部状态
         movementLock = null;
         interactionLock = null;
     }
 
-// 定义 FindTransform 方法
+// 获取 FindTransform 所需引用
     private static Transform FindTransform(Transform root, string name)
     {
-// 遍历全部元素
+// 在 FindTransform 中继续当前处理
         foreach (Transform child in root.GetComponentsInChildren<Transform>(true))
         {
-// 判断当前条件
+// 检查 FindTransform 的前置条件
             if (child.name == name) return child;
         }
-// 返回当前结果
+// 返回 FindTransform 的处理结果
         return null;
     }
 
-// 定义 FindButton 方法
+// 获取 FindButton 所需引用
     private static Button FindButton(Transform root, params string[] names)
     {
-// 遍历全部元素
+// 在 FindButton 中继续当前处理
         foreach (string name in names)
         {
-// 定义 FindTransform 方法
+// 获取 FindTransform 所需引用（FindButton）
             Transform target = FindTransform(root, name);
             Button button = target == null ? null : target.GetComponent<Button>();
-// 判断当前条件
+// 检查 FindButton 的前置条件
             if (button != null) return button;
         }
-// 返回当前结果
+// 返回 FindButton 的处理结果
         return null;
     }
 
-// 定义 FindText 方法
+// 获取 FindText 所需引用
     private static TMP_Text FindText(Transform root, string name)
     {
-// 定义 FindTransform 方法
+// 获取 FindTransform 所需引用（FindText）
         Transform target = FindTransform(root, name);
         return target == null ? null : target.GetComponent<TMP_Text>();
     }
 
-// 定义 OnEnable 方法
+// 启用时订阅事件并恢复状态
     private void OnEnable()
     {
-// 执行场景切换
+// 在 OnEnable 中继续当前处理
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-// 定义 OnDisable 方法
+// 禁用时取消订阅并清理临时状态
     private void OnDisable()
     {
-// 执行场景切换
+// 在 OnDisable 中继续当前处理
         SceneManager.sceneLoaded -= OnSceneLoaded;
         ReleaseLocks();
     }
 
-// 定义 OnDestroy 方法
+// 销毁时释放事件订阅和静态引用
     private void OnDestroy()
     {
-// 执行场景切换
+// 在 OnDestroy 中继续当前处理
         SceneManager.sceneLoaded -= OnSceneLoaded;
         ReleaseLocks();
-// 判断当前条件
+// 检查 OnDestroy 的前置条件
         if (Instance == this) Instance = null;
     }
 }

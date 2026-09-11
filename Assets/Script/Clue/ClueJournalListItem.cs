@@ -3,32 +3,32 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-// 定义 ClueJournalListItem 类型
+// 绑定单条线索日志的标题与点击行为
 public class ClueJournalListItem : MonoBehaviour
 {
-    // 根按钮
+    // 处理 Bind 对应逻辑
     [SerializeField] private Button button;
-    // 标题文本
+    // 在 ClueJournalListItem 中处理 Bind
     [SerializeField] private TMP_Text titleText;
 
-// 定义 Bind 方法
+// 在 ClueJournalListItem 中处理 Bind（ClueJournalListItem 后续步骤）
     public void Bind(string title, UnityAction onClick)
     {
         // 文本引用缺失时跳过显示
         if (titleText != null)
         {
-// 更新界面文本
+// 更新 Bind 的界面文本
             titleText.text = title;
         }
 
-// 判断当前条件
+// 检查 Bind 的前置条件
         if (button != null)
         {
-// 调用 RemoveAllListeners
+// 使用 Bind 所需功能
             button.onClick.RemoveAllListeners();
             if (onClick != null)
             {
-// 调用 AddListener
+// 使用 Bind 所需功能（Bind）
                 button.onClick.AddListener(onClick);
             }
         }

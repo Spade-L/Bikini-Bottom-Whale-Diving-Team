@@ -3,38 +3,38 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// 定义 ClueJournalUI 类型
+// 显示线索日志、详情和结局禁用状态
 public class ClueJournalUI : MonoBehaviour
 {
-// 保存 instances 数据
+// 同步 ClueJournalUI 的相关数据
     private static readonly List<ClueJournalUI> instances = new List<ClueJournalUI>();
     private static bool endingDisabled;
 
-// 记录 IsEndingDisabled 状态
+// 记录 ClueJournalUI 的当前状态
     public static bool IsEndingDisabled => endingDisabled;
 
-// 定义 SetEndingDisabled 方法
+// 设置 SetEndingDisabled 的目标状态
     public static void SetEndingDisabled(bool disabled)
     {
-// 更新当前状态
+// 同步 SetEndingDisabled 的状态
         endingDisabled = disabled;
         if (disabled)
         {
 // 循环处理当前集合
             for (int i = instances.Count - 1; i >= 0; i--)
             {
-// 空引用时直接退出
+// SetEndingDisabled 缺少引用时提前结束
                 if (instances[i] == null) instances.RemoveAt(i);
                 else instances[i].CloseJournal();
             }
         }
     }
 
-// 运行前初始化状态
+// 处理 ResetEndingState 对应逻辑
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetEndingState()
     {
-// 更新当前状态
+// 同步 ResetEndingState 的内部状态
         endingDisabled = false;
         instances.Clear();
     }
@@ -51,76 +51,76 @@ public class ClueJournalUI : MonoBehaviour
 // 配置 详情 分组
     [Header("详情")]
     [SerializeField] private TMP_Text detailTitle;
-// 保存 detailDescription 数据
+// 同步 ResetEndingState 的相关数据
     [SerializeField] private TMP_Text detailDescription;
     [SerializeField] private TMP_Text detailMeaning;
-// 保存 detailIcon 数据
+// 同步 ResetEndingState 的相关数据（ResetEndingState 后续步骤）
     [SerializeField] private Image detailIcon;
 
     // 动态条目只创建一次，之后按列表长度复用
     private readonly List<ClueJournalListItem> spawnedItems = new List<ClueJournalListItem>();
     private readonly List<ClueData> displayedClues = new List<ClueData>();
-// 配置 displayedClueCount 数值
+// 设置 ResetEndingState 的配置数值
     private int displayedClueCount = -1;
     private ClueData selectedClue;
-// 记录 displayTextDirty 状态
+// 记录 ResetEndingState 的当前状态
     private bool displayTextDirty = true;
 
-// 定义 Start 方法
+// 读取初始依赖并同步首帧状态
     private void Start()
     {
-// 判断当前条件
+// 检查 Start 的前置条件
         if (!instances.Contains(this)) instances.Add(this);
         CloseJournal();
 
-// 判断当前条件
+// 在 Start 中处理 检查 Start 的前置条件
         if (GameManager.Instance != null)
         {
-// 更新当前逻辑
+// 推进 Start 的当前步骤
             GameManager.Instance.OnFlagsChanged += HandleFlagsChanged;
         }
     }
 
-// 定义 OnDestroy 方法
+// 销毁时释放事件订阅和静态引用
     private void OnDestroy()
     {
-// 调用 Remove
+// 使用 OnDestroy 所需功能
         instances.Remove(this);
         if (GameManager.Instance != null)
         {
-// 更新当前逻辑
+// 推进 OnDestroy 的当前步骤
             GameManager.Instance.OnFlagsChanged -= HandleFlagsChanged;
         }
     }
 
-// 定义 CloseJournal 方法
+// 处理 CloseJournal 对应逻辑
     public void CloseJournal()
     {
-// 判断当前条件
+// 检查 CloseJournal 的前置条件
         if (journalPanel != null) journalPanel.SetActive(false);
     }
 
-    // 输入轮询只处理按下瞬间，避免按住按键导致面板在连续帧内反复开关
+    // 每帧检查输入与状态变化
     private void Update()
     {
 // 检测按键输入
         if (endingDisabled || !Input.GetKeyDown(toggleKey))
         {
-// 返回当前结果
+// 返回 Update 的处理结果
             return;
         }
 
         // 对话进行中不允许开日志
         if (DialogueUIManager.Instance != null && DialogueUIManager.Instance.IsDialogueOpen)
         {
-// 返回当前结果
+// 在 Update 中处理 返回 Update 的处理结果
             return;
         }
 
-// 空引用时直接退出
+// 缺少必要引用时退出 Update
         if (journalPanel == null)
         {
-// 返回当前结果
+// 返回 Update 的处理结果（Update）
             return;
         }
 
@@ -128,32 +128,32 @@ public class ClueJournalUI : MonoBehaviour
         bool opening = !journalPanel.activeSelf;
         journalPanel.SetActive(opening);
 
-// 判断当前条件
+// 检查 Update 的前置条件
         if (opening)
         {
-// 执行 RebuildList
+// 推进 Update 中的必要步骤
             RebuildList();
         }
     }
 
-// 定义 RebuildList 方法
+// 处理 RebuildList 对应逻辑
     private void RebuildList()
     {
-// 保存 gm 数据
+// 同步 RebuildList 的相关数据
         GameManager gm = GameManager.Instance;
         if (gm == null || gm.ClueDatabase == null || listItemPrefab == null || listContent == null)
         {
-// 返回当前结果
+// 返回 RebuildList 的处理结果
             return;
         }
 
-// 判断当前条件
+// 检查 RebuildList 的前置条件
         if (displayedClueCount == gm.CollectedClueIds.Count && displayedClues.Count == displayedClueCount)
         {
-// 判断当前条件
+// 检查 RebuildList 的前置条件（RebuildList）
             if (displayTextDirty)
             {
-// 循环处理当前集合
+// 在 RebuildList 中继续当前处理
                 for (int i = 0; i < displayedClues.Count && i < spawnedItems.Count; i++)
                 {
 // 保存 clue 引用
@@ -161,53 +161,53 @@ public class ClueJournalUI : MonoBehaviour
                     spawnedItems[i].Bind(TextTokens.Resolve(clue.Title), () => ShowDetail(clue));
                 }
 
-// 更新当前状态
+// 同步 RebuildList 的内部状态
                 displayTextDirty = false;
             }
 
-// 判断当前条件
+// 检查 RebuildList 的前置条件（RebuildList）（if）
             if (selectedClue != null && displayedClues.Contains(selectedClue))
             {
-// 执行 ShowDetail
+// 推进 RebuildList 中的必要步骤
                 ShowDetail(selectedClue);
             }
 // 检查其他条件
             else if (displayedClues.Count > 0)
             {
-// 执行 ShowDetail
+// 推进 RebuildList 中的必要步骤（RebuildList）
                 ShowDetail(displayedClues[0]);
             }
-// 返回当前结果
+// 返回 RebuildList 的处理结果（RebuildList）
             return;
         }
 
-// 执行 ClearDetail
+// 在 RebuildList 中处理 ClearDetail
         ClearDetail();
         displayedClues.Clear();
 // 遍历全部元素
         foreach (string clueId in gm.CollectedClueIds)
         {
-// 定义 FindById 方法
+// 缓存 RebuildList 所需引用
             ClueData clue = gm.ClueDatabase.FindById(clueId);
             if (clue != null)
             {
-// 调用 Add
+// 使用 RebuildList 所需功能
                 displayedClues.Add(clue);
             }
         }
 
-// 循环处理当前集合
+// 在 RebuildList 中继续当前处理（RebuildList 后续步骤）
         for (int i = 0; i < displayedClues.Count; i++)
         {
-// 保存 item 数据
+// 同步 RebuildList 的相关数据（RebuildList 后续步骤）
             ClueJournalListItem item;
             if (i < spawnedItems.Count)
             {
-// 更新当前状态
+// 同步 RebuildList 的内部状态（RebuildList）
                 item = spawnedItems[i];
                 item.gameObject.SetActive(true);
             }
-// 处理其他分支
+// 处理 RebuildList 的备用分支
             else
             {
                 // 创建运行时需要的对象
@@ -215,75 +215,75 @@ public class ClueJournalUI : MonoBehaviour
                 spawnedItems.Add(item);
             }
 
-// 保存 clue 引用
+// 在 RebuildList 中继续当前处理（RebuildList 后续步骤）（217）
             ClueData clue = displayedClues[i];
             item.Bind(TextTokens.Resolve(clue.Title), () => ShowDetail(clue));
         }
 
-// 循环处理当前集合
+// 在 RebuildList 中继续当前处理（RebuildList 后续步骤）（222）
         for (int i = displayedClues.Count; i < spawnedItems.Count; i++)
         {
-// 切换显示状态
+// 切换 RebuildList 的显示状态
             spawnedItems[i].gameObject.SetActive(false);
         }
 
-// 更新当前状态
+// 同步 RebuildList 的内部状态（RebuildList）（displayedClueCount）
         displayedClueCount = gm.CollectedClueIds.Count;
         displayTextDirty = false;
-// 更新当前状态
+// 同步 RebuildList 的内部状态（RebuildList）（selectedClue）
         selectedClue = displayedClues.Count > 0 ? displayedClues[0] : null;
         if (selectedClue != null)
         {
-// 执行 ShowDetail
+// 在 RebuildList 中处理 ShowDetail
             ShowDetail(selectedClue);
         }
     }
 
-    // Flag 变化只标记文本脏状态，打开日志时再更新可见条目
+    // 剧情标记变化后同步当前界面与交互
     private void HandleFlagsChanged()
     {
-// 更新当前状态
+// 同步 HandleFlagsChanged 的内部状态
         displayTextDirty = true;
     }
 
-    // 文本先经令牌解析，使称谓等动态内容按当前剧情状态显示
+    // 显示 ShowDetail 对应界面
     private void ShowDetail(ClueData clue)
     {
-// 空引用时直接退出
+// 缺少必要引用时退出 ShowDetail
         if (clue == null)
         {
-// 执行 ClearDetail
+// 推进 ShowDetail 中的必要步骤
             ClearDetail();
             selectedClue = null;
-// 返回当前结果
+// 返回 ShowDetail 的处理结果
             return;
         }
 
-// 更新当前状态
+// 同步 ShowDetail 的内部状态
         selectedClue = clue;
 
-// 判断当前条件
+// 检查 ShowDetail 的前置条件
         if (detailTitle != null)
         {
-// 更新界面文本
+// 更新 ShowDetail 的界面文本
             detailTitle.text = TextTokens.Resolve(clue.Title);
         }
 
-// 判断当前条件
+// 检查 ShowDetail 的前置条件（ShowDetail）
         if (detailDescription != null)
         {
-// 更新界面文本
+// 更新 ShowDetail 的界面文本（ShowDetail 后续步骤）
             detailDescription.text = TextTokens.Resolve(clue.Description);
         }
 
-// 判断当前条件
+// 检查 ShowDetail 的前置条件（ShowDetail）（if）
         if (detailMeaning != null)
         {
-// 更新界面文本
+// 更新 ShowDetail 的界面文本（ShowDetail 后续步骤）（281）
             detailMeaning.text = TextTokens.Resolve(clue.GetCurrentMeaning());
         }
 
-// 判断当前条件
+// 在 ShowDetail 中继续当前处理
         if (detailIcon != null)
         {
 // 更新显示图像
@@ -292,13 +292,13 @@ public class ClueJournalUI : MonoBehaviour
         }
     }
 
-    // 空列表或重建期间清除旧详情，防止已失效的选择残留在右侧
+    // 处理 ClearDetail 对应逻辑
     private void ClearDetail()
     {
-// 判断当前条件
+// 检查 ClearDetail 的前置条件
         if (detailTitle != null) detailTitle.text = string.Empty;
         if (detailDescription != null) detailDescription.text = string.Empty;
-// 判断当前条件
+// 检查 ClearDetail 的前置条件（ClearDetail）
         if (detailMeaning != null) detailMeaning.text = string.Empty;
         if (detailIcon != null) detailIcon.enabled = false;
     }

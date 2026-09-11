@@ -1,15 +1,15 @@
 using UnityEngine;
 
-// 定义 ResolutionAdapter 类型
+// 在启动时同步分辨率相关显示设置
 public class ResolutionAdapter : MonoBehaviour
 {
-// 定义 Start 方法
+// 读取初始依赖并同步首帧状态
     private void Start()
     {
-// 判断当前条件
+// 检查 Start 的前置条件
         if (SettingsManager.Instance != null)
         {
-// 调用 ApplyDisplaySettings
+// 使用 Start 所需功能
             SettingsManager.Instance.ApplyDisplaySettings();
         }
     }
