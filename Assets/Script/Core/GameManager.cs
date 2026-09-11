@@ -58,12 +58,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         // 消费菜单阶段的临时选择，随后由普通 Flag 和存档机制接管
-        if (PendingFemaleSelection)
-        {
-// 更新剧情标记
-            SetFlag(TextTokens.FemaleFlag);
-            PendingFemaleSelection = false;
-        }
+        ApplyPendingGenderSelection();
     }
 
 // 判断 HasFlag 对应条件
@@ -314,6 +309,7 @@ public class GameManager : MonoBehaviour
 // 处理 ResetRuntimeState 对应逻辑
     public void ResetRuntimeState()
     {
+        EndingGate.ResetSessionState();
 // 使用 ResetRuntimeState 所需功能
         GameplayInputLock.ReleaseAll();
         ClueJournalUI.SetEndingDisabled(false);
@@ -323,11 +319,20 @@ public class GameManager : MonoBehaviour
 // 同步 ResetRuntimeState 的内部状态
         CurrentTimePeriod = 0;
         InvestigationCount = 0;
+        ApplyPendingGenderSelection();
 // 在 ResetRuntimeState 中处理 Invoke
         OnFlagsChanged?.Invoke();
         OnTimeAdvanced?.Invoke(CurrentTimePeriod);
 // 在 ResetRuntimeState 中处理 Invoke（ResetRuntimeState 后续步骤）
         OnInvestigationCountChanged?.Invoke(InvestigationCount);
+    }
+
+    private void ApplyPendingGenderSelection()
+    {
+        if (!PendingFemaleSelection) return;
+
+        flags.Add(TextTokens.FemaleFlag);
+        PendingFemaleSelection = false;
     }
 
 // 恢复 RestoreSaveData 对应状态

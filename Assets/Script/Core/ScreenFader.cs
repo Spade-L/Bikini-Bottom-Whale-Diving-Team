@@ -208,7 +208,7 @@ public class ScreenFader : MonoBehaviour
         var canvas = canvasGo.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
 // 同步 BuildOverlay 的内部状态
-        canvas.sortingOrder = 32760;
+        canvas.sortingOrder = 90;
 
 // 同步 BuildOverlay 的内部状态（BuildOverlay）
         group = canvasGo.AddComponent<CanvasGroup>();

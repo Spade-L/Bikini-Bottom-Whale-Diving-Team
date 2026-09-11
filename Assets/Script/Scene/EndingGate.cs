@@ -38,7 +38,7 @@ public class EndingGate : MonoBehaviour
     [SerializeField] private DialogueData badEnding;
     [SerializeField] private Canvas endingDialogueCanvas;
 // 设置 EndingGate 的配置数值（EndingGate 后续步骤）（39）
-    [SerializeField] private int endingDialogueSortingOrder = 10000;
+    [SerializeField] private int endingDialogueSortingOrder = 100;
 
 // 记录 EndingGate 的当前状态
     private static bool endingTriggeredThisRuntime;
@@ -60,6 +60,11 @@ public class EndingGate : MonoBehaviour
     private static void ResetRuntimeState()
     {
 // 同步 ResetRuntimeState 的状态
+        ResetSessionState();
+    }
+
+    public static void ResetSessionState()
+    {
         endingTriggeredThisRuntime = false;
     }
 
@@ -346,6 +351,7 @@ public class EndingGate : MonoBehaviour
 // 检查 ReturnToMenu 的前置条件
         if (transitionStarted) return;
         transitionStarted = true;
+        endingTriggeredThisRuntime = false;
 // 推进 ReturnToMenu 中的必要步骤
         ReleaseLocks();
         ClueJournalUI.SetEndingDisabled(false);

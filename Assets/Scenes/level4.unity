@@ -426,8 +426,8 @@ MonoBehaviour:
     requiredClues: []
   inspectDialogue: {fileID: 11400000, guid: 9fef7452e28a2bd49a0f31ca501372cb, type: 2}
   clueToGrant: {fileID: 11400000, guid: 086bf5874b6065e4c9d224346a4256af, type: 2}
-  disappearAfterPickup: 1
-  onlyInteractOnce: 0
+  disappearAfterPickup: 0
+  onlyInteractOnce: 1
   interactionId: 
   countsAsInvestigation: 1
   lockedByFlag: 
@@ -688,7 +688,7 @@ MonoBehaviour:
   inspectDialogue: {fileID: 11400000, guid: a4a246abc9a07a747937718a9c376f21, type: 2}
   clueToGrant: {fileID: 11400000, guid: d4454252bc21d21459758485c5a42ca2, type: 2}
   disappearAfterPickup: 0
-  onlyInteractOnce: 0
+  onlyInteractOnce: 1
   interactionId: 
   countsAsInvestigation: 1
   lockedByFlag: 
@@ -2240,6 +2240,92 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 718101116}
   m_CullTransparentMesh: 1
+--- !u!1 &762392489
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 762392491}
+  - component: {fileID: 762392490}
+  m_Layer: 0
+  m_Name: Square
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &762392490
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 762392489}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: -10
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &762392491
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 762392489}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.0118, y: 0.05, z: 0}
+  m_LocalScale: {x: 21.3836, y: 13.3594, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &768978244
 GameObject:
   m_ObjectHideFlags: 0
@@ -2639,8 +2725,8 @@ MonoBehaviour:
     requiredClues: []
   inspectDialogue: {fileID: 11400000, guid: e100ba324478ddf48887c5d53ece1ecd, type: 2}
   clueToGrant: {fileID: 11400000, guid: 891f7cea8cfc5fa4fa9cb12fedbb25ba, type: 2}
-  disappearAfterPickup: 1
-  onlyInteractOnce: 0
+  disappearAfterPickup: 0
+  onlyInteractOnce: 1
   interactionId: 
   countsAsInvestigation: 1
   lockedByFlag: 
@@ -2935,8 +3021,8 @@ MonoBehaviour:
     requiredClues: []
   inspectDialogue: {fileID: 11400000, guid: c2a072ef5ef661d4083b91ba4208acc1, type: 2}
   clueToGrant: {fileID: 11400000, guid: 514ec07d332317740a4195694e833a84, type: 2}
-  disappearAfterPickup: 1
-  onlyInteractOnce: 0
+  disappearAfterPickup: 0
+  onlyInteractOnce: 1
   interactionId: 
   countsAsInvestigation: 1
   lockedByFlag: 
@@ -3098,7 +3184,7 @@ MonoBehaviour:
   inspectDialogue: {fileID: 11400000, guid: 4c4823980d571a7469ed53c5abc7ed6d, type: 2}
   clueToGrant: {fileID: 11400000, guid: 2a1a20d2aa71a2f4998dcdf5f7ff82ce, type: 2}
   disappearAfterPickup: 0
-  onlyInteractOnce: 0
+  onlyInteractOnce: 1
   interactionId: 
   countsAsInvestigation: 1
   lockedByFlag: 
@@ -3297,7 +3383,7 @@ MonoBehaviour:
   inspectDialogue: {fileID: 11400000, guid: 77f8e77f6966aaa4e85801bfcde19fdf, type: 2}
   clueToGrant: {fileID: 11400000, guid: 1fe09a48895a06b46909351c9ad51141, type: 2}
   disappearAfterPickup: 0
-  onlyInteractOnce: 0
+  onlyInteractOnce: 1
   interactionId: 
   countsAsInvestigation: 1
   lockedByFlag: 
@@ -5009,3 +5095,4 @@ SceneRoots:
   - {fileID: 2005408949}
   - {fileID: 543714413}
   - {fileID: 491411828}
+  - {fileID: 762392491}
