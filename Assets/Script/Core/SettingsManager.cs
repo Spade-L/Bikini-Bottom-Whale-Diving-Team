@@ -156,7 +156,9 @@ public class SettingsManager : MonoBehaviour
         if (DisplayMode == GameDisplayMode.Fullscreen) mode = FullScreenMode.ExclusiveFullScreen;
 // 检查其他条件
         else if (DisplayMode == GameDisplayMode.Borderless) mode = FullScreenMode.FullScreenWindow;
+#if !UNITY_WEBGL || UNITY_EDITOR
         Screen.SetResolution(WindowWidth, WindowHeight, mode);
+#endif
     }
 
 // 响应 OnApplicationPause 生命周期

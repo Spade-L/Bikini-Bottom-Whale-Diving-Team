@@ -22,20 +22,28 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Button startButton;
 // 保存 startBImage 引用
     [SerializeField] private GameObject startBImage;
+    [SerializeField] private Texture2D startBTexture;
     [SerializeField] private Button saveButton;
 // 保存 saveBImage 引用
     [SerializeField] private GameObject saveBImage;
+    [SerializeField] private Texture2D saveBTexture;
     [SerializeField] private Button settingsButton;
 // 保存 settingsBImage 引用
     [SerializeField] private GameObject settingsBImage;
+    [SerializeField] private Texture2D settingsBTexture;
     [SerializeField] private SettingsOverlayController settingsOverlay;
 
 // 记录 MainMenu 的当前状态
     private bool transitionInProgress;
+    private GameObject startBFeedback;
+    private GameObject saveBFeedback;
+    private GameObject settingsBFeedback;
 
 // 读取初始依赖并同步首帧状态
     private void Start()
     {
+        InitializeButtonFeedbackImages();
+
 // 检查 Start 的前置条件
         if (genderSelectPanel != null)
         {
@@ -51,14 +59,14 @@ public class MainMenu : MonoBehaviour
     public void StartGame()
     {
 // 推进 StartGame 中的必要步骤
-        BeginButtonFeedback(startBImage, StartGameAfterFeedback);
+        BeginButtonFeedback(startBFeedback, StartGameAfterFeedback);
     }
 
     // 处理 OpenSave 对应逻辑
     public void OpenSave()
     {
 // 推进 OpenSave 中的必要步骤
-        BeginButtonFeedback(saveBImage, () =>
+        BeginButtonFeedback(saveBFeedback, () =>
         {
 // 同步 OpenSave 的相关数据
             SaveMenuController target = SaveMenuController.Instance;
@@ -81,7 +89,7 @@ public class MainMenu : MonoBehaviour
     public void OpenSettings()
     {
 // 推进 OpenSettings 中的必要步骤
-        BeginButtonFeedback(settingsBImage, () =>
+        BeginButtonFeedback(settingsBFeedback, () =>
         {
 // 同步 OpenSettings 的相关数据
             SettingsOverlayController target = settingsOverlay != null
@@ -107,26 +115,126 @@ public class MainMenu : MonoBehaviour
     private void HideButtonFeedbackImages()
     {
 // 检查 HideButtonFeedbackImages 的前置条件
-        if (startBImage != null)
+        if (startBFeedback != null)
         {
 // 切换 HideButtonFeedbackImages 的显示状态
-            startBImage.SetActive(false);
+            startBFeedback.SetActive(false);
         }
 
 // 检查 HideButtonFeedbackImages 的前置条件（HideButtonFeedbackImages）
-        if (saveBImage != null)
+        if (saveBFeedback != null)
         {
 // 切换 HideButtonFeedbackImages 的显示状态（HideButtonFeedbackImages 后续步骤）
-            saveBImage.SetActive(false);
+            saveBFeedback.SetActive(false);
         }
 
 // 检查 HideButtonFeedbackImages 的前置条件（HideButtonFeedbackImages）（if）
-        if (settingsBImage != null)
+        if (settingsBFeedback != null)
         {
 // 切换 HideButtonFeedbackImages 的显示状态（HideButtonFeedbackImages 后续步骤）（125）
-            settingsBImage.SetActive(false);
+            settingsBFeedback.SetActive(false);
         }
     }
+
+    private void InitializeButtonFeedbackImages()
+    {
+        startBFeedback = CreateButtonFeedback(startBTexture, startBImage, "Start B Feedback");
+        saveBFeedback = CreateButtonFeedback(saveBTexture, saveBImage, "Save B Feedback");
+        settingsBFeedback = CreateButtonFeedback(settingsBTexture, settingsBImage, "Settings B Feedback");
+
+        if (startBImage != null) startBImage.SetActive(false);
+        if (saveBImage != null) saveBImage.SetActive(false);
+        if (settingsBImage != null) settingsBImage.SetActive(false);
+    }
+
+    private GameObject CreateButtonFeedback(Texture2D texture, GameObject source, string objectName)
+    {
+        if (texture == null)
+        {
+            return null;
+        }
+
+        GameObject feedbackObject = new GameObject(objectName, typeof(RectTransform));
+        RectTransform rect = feedbackObject.GetComponent<RectTransform>();
+        rect.SetParent(transform, false);
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.anchoredPosition = Vector2.zero;
+        rect.sizeDelta = Vector2.zero;
+        rect.pivot = new Vector2(0.5f, 0.5f);
+        rect.SetAsLastSibling();
+
+        CreateIllustrationImages(rect, source);
+
+        GameObject overlayObject = new GameObject(
+            "B Overlay",
+            typeof(RectTransform),
+            typeof(CanvasRenderer),
+            typeof(RawImage));
+        RectTransform overlayRect = overlayObject.GetComponent<RectTransform>();
+        overlayRect.SetParent(rect, false);
+        overlayRect.anchorMin = Vector2.zero;
+        overlayRect.anchorMax = Vector2.one;
+        overlayRect.anchoredPosition = Vector2.zero;
+        overlayRect.sizeDelta = Vector2.zero;
+        overlayRect.pivot = new Vector2(0.5f, 0.5f);
+
+        RawImage image = overlayObject.GetComponent<RawImage>();
+        image.texture = texture;
+        image.uvRect = new Rect(0f, 0f, 1f, 1f);
+        image.color = Color.white;
+        image.raycastTarget = false;
+
+        feedbackObject.SetActive(false);
+        return feedbackObject;
+    }
+
+    private void CreateIllustrationImages(RectTransform parent, GameObject source)
+    {
+        if (source == null)
+        {
+            return;
+        }
+
+        float sourceScale = source.transform.localScale.x;
+        SpriteRenderer[] renderers = source.GetComponentsInChildren<SpriteRenderer>(true);
+        foreach (SpriteRenderer renderer in renderers)
+        {
+            if (renderer.transform == source.transform || renderer.sprite == null)
+            {
+                continue;
+            }
+
+            CreateIllustrationImage(parent, renderer, sourceScale);
+        }
+    }
+
+    private void CreateIllustrationImage(RectTransform parent, SpriteRenderer source, float sourceScale)
+    {
+        GameObject illustrationObject = new GameObject(
+            source.name,
+            typeof(RectTransform),
+            typeof(CanvasRenderer),
+            typeof(Image));
+        RectTransform rect = illustrationObject.GetComponent<RectTransform>();
+        rect.SetParent(parent, false);
+        rect.anchorMin = new Vector2(0.5f, 0.5f);
+        rect.anchorMax = new Vector2(0.5f, 0.5f);
+        rect.pivot = new Vector2(0.5f, 0.5f);
+
+        Vector3 localPosition = source.transform.localPosition;
+        rect.anchoredPosition = new Vector2(localPosition.x, localPosition.y) * sourceScale;
+
+        Vector3 spriteSize = source.sprite.bounds.size;
+        rect.sizeDelta = new Vector2(spriteSize.x, spriteSize.y) * sourceScale;
+
+        Image image = illustrationObject.GetComponent<Image>();
+        image.sprite = source.sprite;
+        image.color = source.color;
+        image.preserveAspect = false;
+        image.raycastTarget = false;
+    }
+
 
     private void StartGameAfterFeedback()
     {
