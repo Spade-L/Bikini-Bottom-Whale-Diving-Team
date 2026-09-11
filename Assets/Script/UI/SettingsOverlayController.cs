@@ -44,6 +44,12 @@ public class SettingsOverlayController : MonoBehaviour
 // 记录 SettingsOverlayController 的当前状态（SettingsOverlayController 后续步骤）
     public bool IsOpen => isOpen;
 
+// 当前场景是否允许打开设置或存档页面
+    public bool CanToggleInCurrentScene => IsGameplayScene();
+
+// 供存档页面复用相同的打开音效
+    public AudioClip OpenSound => openSound;
+
 // 在场景加载前创建常驻管理器
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void AutoCreate()
@@ -87,6 +93,15 @@ public class SettingsOverlayController : MonoBehaviour
     {
 // 检测按键输入
         if (!IsGameplayScene() || !Input.GetKeyDown(KeyCode.X)) return;
+// 从存档页面切换到设置页面
+        SaveMenuController saveMenu = SaveMenuController.Instance;
+        if (saveMenu != null && saveMenu.IsOpen)
+        {
+            saveMenu.Close();
+            if (saveMenu.IsOpen) return;
+            OpenWithSound();
+            return;
+        }
         if (isOpen) Close();
 // X 键打开设置时先播放专用音效
         else OpenWithSound();
@@ -192,6 +207,7 @@ public class SettingsOverlayController : MonoBehaviour
     {
 // 缺少必要引用时退出 Open
         if (isOpen || SettingsManager.Instance == null) return;
+        if (SaveMenuController.Instance != null && SaveMenuController.Instance.IsOpen) return;
         if (settingsView == null)
         {
 // 推进 Open 中的必要步骤

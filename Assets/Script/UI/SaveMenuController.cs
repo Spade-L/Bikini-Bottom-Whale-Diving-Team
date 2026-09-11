@@ -18,6 +18,10 @@ public class SaveMenuController : MonoBehaviour
 // 保存 savePrefab 引用
     [SerializeField] private GameObject savePrefab;
 
+// 配置 快捷打开 分组
+    [Header("快捷打开")]
+    [SerializeField] private KeyCode toggleKey = KeyCode.H;
+
 // 保存 saveView 引用
     private GameObject saveView;
     private readonly Dictionary<int, Button> slotButtons = new Dictionary<int, Button>();
@@ -30,6 +34,7 @@ public class SaveMenuController : MonoBehaviour
     private Button saveButton;
 // 同步 SaveMenuController 的相关数据（SaveMenuController 后续步骤）
     private Button loadButton;
+    private Button deleteButton;
     private Button backButton;
 // 同步 SaveMenuController 的相关数据（SaveMenuController 后续步骤）（33）
     private Selectable firstSelectable;
@@ -125,6 +130,7 @@ public class SaveMenuController : MonoBehaviour
         saveButton = FindButton(saveView.transform, "SaveGame");
 // 同步 CreateSaveView 的内部状态（CreateSaveView）（loadButton）
         loadButton = FindButton(saveView.transform, "LoadGame");
+        deleteButton = FindButton(saveView.transform, "Delete");
         backButton = FindButton(saveView.transform, "BackGame", "Close", "Back", "Return");
 
 // 循环处理当前集合
@@ -181,8 +187,33 @@ public class SaveMenuController : MonoBehaviour
 // 使用 RegisterListeners 所需功能
         saveButton?.onClick.AddListener(SaveSelectedSlot);
         loadButton?.onClick.AddListener(LoadSelectedSlot);
+        deleteButton?.onClick.AddListener(DeleteSelectedSlot);
 // 使用 RegisterListeners 所需功能（RegisterListeners）
         backButton?.onClick.AddListener(Close);
+    }
+
+// H 键在允许的场景中切换存档页面
+    private void Update()
+    {
+        if (transitionInProgress || !Input.GetKeyDown(toggleKey)) return;
+        SettingsOverlayController settings = SettingsOverlayController.Instance;
+        if (settings == null || !settings.CanToggleInCurrentScene) return;
+// 从设置页面切换到存档页面
+        if (settings.IsOpen)
+        {
+            settings.Close();
+            if (settings.IsOpen) return;
+            if (settings.OpenSound != null && SfxManager.Instance != null) SfxManager.Instance.Play(settings.OpenSound);
+            Open(false);
+            return;
+        }
+        if (isOpen)
+        {
+            Close();
+            return;
+        }
+        if (settings.OpenSound != null && SfxManager.Instance != null) SfxManager.Instance.Play(settings.OpenSound);
+        Open(false);
     }
 
 // 处理 Open 对应逻辑
@@ -190,6 +221,7 @@ public class SaveMenuController : MonoBehaviour
     {
 // 检查 Open 的前置条件
         if (transitionInProgress) return;
+        if (SettingsOverlayController.Instance != null && SettingsOverlayController.Instance.IsOpen) return;
         if (saveView == null)
         {
 // 推进 Open 中的必要步骤
@@ -283,6 +315,20 @@ public class SaveMenuController : MonoBehaviour
             RefreshSlots();
             Close();
         }
+    }
+
+// 删除当前选中的存档槽位
+    public void DeleteSelectedSlot()
+    {
+        if (!isOpen || transitionInProgress) return;
+        if (!SaveSystem.IsValidSlot(selectedSlot))
+        {
+            Debug.LogWarning("存档页面：请先选择要删除的存档位。");
+            return;
+        }
+        SaveSystem.Delete(selectedSlot);
+        RefreshSlots();
+        UpdateSelectionText();
     }
 
 // 读取选中槽位并切换到对应场景
