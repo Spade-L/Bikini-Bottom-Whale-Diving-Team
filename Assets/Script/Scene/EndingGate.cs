@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 // 判定天台结局并播放真假结局流程
 public class EndingGate : MonoBehaviour
 {
+    public const string TrueEndingCompletedPlayerPrefsKey = "trace_me_true_ending_completed";
+
     [Header("触发")]
 // 同步 EndingGate 的相关数据
     [SerializeField] private string finalClueId = "roof_diary_final";
@@ -173,7 +175,16 @@ public class EndingGate : MonoBehaviour
             endingDialogueFailed = false;
             yield return PlayDialogue(trueEndingBranch ? trueEnding : badEnding);
 // 检查 PlayEnding 的前置条件（PlayEnding）
-            if (!endingDialogueFailed) ReturnToMenu(trueEndingBranch);
+            if (!endingDialogueFailed)
+            {
+                if (trueEndingBranch)
+                {
+                    PlayerPrefs.SetInt(TrueEndingCompletedPlayerPrefsKey, 1);
+                    PlayerPrefs.Save();
+                }
+
+                ReturnToMenu(trueEndingBranch);
+            }
         }
 // 推进 PlayEnding 的当前步骤
         finally

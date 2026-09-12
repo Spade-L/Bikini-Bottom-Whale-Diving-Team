@@ -33,8 +33,17 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Texture2D settingsBTexture;
     [SerializeField] private SettingsOverlayController settingsOverlay;
 
+// 配置 真结局主菜单 分组
+    [Header("真结局主菜单")]
+    [SerializeField] private GameObject[] normalEndingMenuObjects;
+    [SerializeField] private GameObject[] trueEndingMenuObjects;
+    [SerializeField] private Button trueEndingStartButton;
+    [SerializeField] private Button trueEndingSaveButton;
+    [SerializeField] private Button trueEndingSettingsButton;
+
 // 记录 MainMenu 的当前状态
     private bool transitionInProgress;
+    private bool trueEndingMenuActive;
     private GameObject startBFeedback;
     private GameObject saveBFeedback;
     private GameObject settingsBFeedback;
@@ -42,6 +51,7 @@ public class MainMenu : MonoBehaviour
 // 读取初始依赖并同步首帧状态
     private void Start()
     {
+        ApplyEndingMenuState();
         InitializeButtonFeedbackImages();
 
 // 检查 Start 的前置条件
@@ -58,6 +68,12 @@ public class MainMenu : MonoBehaviour
     // 处理 StartGame 对应逻辑
     public void StartGame()
     {
+        if (trueEndingMenuActive)
+        {
+            StartGameAfterFeedback();
+            return;
+        }
+
 // 推进 StartGame 中的必要步骤
         BeginButtonFeedback(startBFeedback, StartGameAfterFeedback);
     }
@@ -65,50 +81,55 @@ public class MainMenu : MonoBehaviour
     // 处理 OpenSave 对应逻辑
     public void OpenSave()
     {
-// 推进 OpenSave 中的必要步骤
-        BeginButtonFeedback(saveBFeedback, () =>
+        if (trueEndingMenuActive)
         {
-// 同步 OpenSave 的相关数据
-            SaveMenuController target = SaveMenuController.Instance;
-            if (target != null)
-            {
-// 使用 OpenSave 所需功能
-                target.Open(true);
-            }
-// 处理 OpenSave 的备用分支
-            else
-            {
-// 输出调试信息
-                Debug.LogWarning("主菜单：未找到存档页面控制器。");
-            }
-// 推进 OpenSave 的当前步骤
-        });
+            OpenSaveDirect();
+            return;
+        }
+
+// 推进 OpenSave 中的必要步骤
+        BeginButtonFeedback(saveBFeedback, OpenSaveDirect);
+    }
+
+    private void OpenSaveDirect()
+    {
+        SaveMenuController target = SaveMenuController.Instance;
+        if (target != null)
+        {
+            target.Open(true);
+        }
+        else
+        {
+            Debug.LogWarning("主菜单：未找到存档页面控制器。");
+        }
     }
 
     // 处理 OpenSettings 对应逻辑
     public void OpenSettings()
     {
-// 推进 OpenSettings 中的必要步骤
-        BeginButtonFeedback(settingsBFeedback, () =>
+        if (trueEndingMenuActive)
         {
-// 同步 OpenSettings 的相关数据
-            SettingsOverlayController target = settingsOverlay != null
-                ? settingsOverlay
-// 推进 OpenSettings 的当前步骤
-                : SettingsOverlayController.Instance;
-            if (target != null)
-            {
-// 使用 OpenSettings 所需功能
-                target.Open();
-            }
-// 处理 OpenSettings 的备用分支
-            else
-            {
-// 在 OpenSettings 中继续当前处理
-                Debug.LogWarning("主菜单：未找到设置页面控制器。");
-            }
-// 推进 OpenSettings 的当前步骤（OpenSettings）
-        });
+            OpenSettingsDirect();
+            return;
+        }
+
+// 推进 OpenSettings 中的必要步骤
+        BeginButtonFeedback(settingsBFeedback, OpenSettingsDirect);
+    }
+
+    private void OpenSettingsDirect()
+    {
+        SettingsOverlayController target = settingsOverlay != null
+            ? settingsOverlay
+            : SettingsOverlayController.Instance;
+        if (target != null)
+        {
+            target.Open();
+        }
+        else
+        {
+            Debug.LogWarning("主菜单：未找到设置页面控制器。");
+        }
     }
 
 // 隐藏 HideButtonFeedbackImages 对应界面
@@ -134,6 +155,121 @@ public class MainMenu : MonoBehaviour
 // 切换 HideButtonFeedbackImages 的显示状态（HideButtonFeedbackImages 后续步骤）（125）
             settingsBFeedback.SetActive(false);
         }
+    }
+
+    private void ApplyEndingMenuState()
+    {
+        bool trueEndingUnlocked = PlayerPrefs.GetInt(EndingGate.TrueEndingCompletedPlayerPrefsKey, 0) == 1
+            || (GameManager.Instance != null && GameManager.Instance.HasFlag("truth_revealed"));
+        trueEndingMenuActive = trueEndingUnlocked;
+
+        if (normalEndingMenuObjects == null || normalEndingMenuObjects.Length == 0)
+        {
+            normalEndingMenuObjects = ResolveMenuObjects(
+                "Menu-Adjusted",
+                "start",
+                "setting",
+                "save");
+        }
+
+        if (trueEndingMenuObjects == null || trueEndingMenuObjects.Length == 0)
+        {
+            trueEndingMenuObjects = ResolveMenuObjects(
+                "Menu-Adjusted (1)",
+                "start (1)",
+                "setting (1)",
+                "save (1)");
+        }
+
+        SetMenuObjectsActive(normalEndingMenuObjects, !trueEndingUnlocked);
+        SetMenuObjectsActive(trueEndingMenuObjects, trueEndingUnlocked);
+
+        if (trueEndingStartButton == null) trueEndingStartButton = ResolveMenuButton("start (1)");
+        if (trueEndingSaveButton == null) trueEndingSaveButton = ResolveMenuButton("save (1)");
+        if (trueEndingSettingsButton == null) trueEndingSettingsButton = ResolveMenuButton("setting (1)");
+    }
+
+    private static GameObject[] ResolveMenuObjects(params string[] objectNames)
+    {
+        GameObject[] result = new GameObject[objectNames.Length];
+        for (int i = 0; i < objectNames.Length; i++)
+        {
+            result[i] = FindInActiveScene(objectNames[i]);
+        }
+
+        return result;
+    }
+
+    private static Button ResolveMenuButton(string objectName)
+    {
+        GameObject target = FindInActiveScene(objectName);
+        if (target == null)
+        {
+            return null;
+        }
+
+        Button button = target.GetComponent<Button>();
+        return button != null ? button : target.GetComponentInChildren<Button>(true);
+    }
+
+    private static void SetMenuObjectsActive(GameObject[] objects, bool active)
+    {
+        if (objects == null)
+        {
+            return;
+        }
+
+        foreach (GameObject target in objects)
+        {
+            if (target != null)
+            {
+                target.SetActive(active);
+            }
+        }
+    }
+
+    private static GameObject FindInActiveScene(string objectName)
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        if (!scene.IsValid() || !scene.isLoaded)
+        {
+            return null;
+        }
+
+        foreach (GameObject root in scene.GetRootGameObjects())
+        {
+            GameObject found = FindChild(root.transform, objectName);
+            if (found != null)
+            {
+                return found;
+            }
+        }
+
+        return null;
+    }
+
+    private static GameObject FindChild(Transform root, string objectName)
+    {
+        if (root == null)
+        {
+            return null;
+        }
+
+        if (root.name == objectName)
+        {
+            return root.gameObject;
+        }
+
+        for (int i = 0; i < root.childCount; i++)
+        {
+            GameObject found = FindChild(root.GetChild(i), objectName);
+            if (found != null)
+            {
+                return found;
+            }
+        }
+
+        return null;
     }
 
     private void InitializeButtonFeedbackImages()
@@ -342,6 +478,21 @@ public class MainMenu : MonoBehaviour
         {
 // 同步 SetTopLevelButtonsInteractable 的内部状态（SetTopLevelButtonsInteractable）（settingsButton）
             settingsButton.interactable = interactable;
+        }
+
+        if (trueEndingStartButton != null)
+        {
+            trueEndingStartButton.interactable = interactable;
+        }
+
+        if (trueEndingSaveButton != null)
+        {
+            trueEndingSaveButton.interactable = interactable;
+        }
+
+        if (trueEndingSettingsButton != null)
+        {
+            trueEndingSettingsButton.interactable = interactable;
         }
     }
 
