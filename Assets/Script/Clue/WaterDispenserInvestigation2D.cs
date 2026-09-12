@@ -108,16 +108,24 @@ public class WaterDispenserInvestigation2D : MonoBehaviour, IInteractionPromptSo
         }
 
 // 检测按键输入
-        if (!playerInRange || dialoguePlaying || !Input.GetKeyDown(KeyCode.F))
+        if (!playerInRange || !Input.GetKeyDown(KeyCode.F))
         {
 // 返回 Update 的处理结果（Update）
             return;
         }
 
-// Update 缺少引用时提前结束
+        TriggerInteraction();
+    }
+
+    public void TriggerInteraction()
+    {
+        if (GameplayInputLock.IsInteractionLocked || !IsInteractionPromptEligible)
+        {
+            return;
+        }
+
         if (DialogueUIManager.Instance == null || !DialogueUIManager.Instance.CanOpenDialogue)
         {
-// 返回 Update 的处理结果（Update）（return）
             return;
         }
 

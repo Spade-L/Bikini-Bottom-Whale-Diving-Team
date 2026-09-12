@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 // 定义可交互对象向提示系统暴露的状态
 public interface IInteractionPromptSource
 {
 // 推进 当前脚本 的当前步骤
     bool IsInteractionPromptEligible { get; }
+    void TriggerInteraction();
 }
 
 public class PlayerInteractionPromptController : MonoBehaviour
@@ -22,6 +25,7 @@ public class PlayerInteractionPromptController : MonoBehaviour
 // 保存 promptCanvas 引用
     private Canvas promptCanvas;
     private RectTransform promptContentRect;
+    private Button promptButton;
 // 保存 gameplayCamera 引用
     private Camera gameplayCamera;
     private bool promptPositionValid;
@@ -49,6 +53,16 @@ public class PlayerInteractionPromptController : MonoBehaviour
     }
 
 // 在显示前同步界面位置
+    private void Update()
+    {
+        if (!Input.GetMouseButtonDown(0) || !IsPointerOverActivePrompt(Input.mousePosition))
+        {
+            return;
+        }
+
+        HandlePromptClicked();
+    }
+
     private void LateUpdate()
     {
 // 推进 LateUpdate 中的必要步骤
@@ -169,6 +183,83 @@ public class PlayerInteractionPromptController : MonoBehaviour
             promptCanvas.renderMode = RenderMode.ScreenSpaceCamera;
             promptCanvas.worldCamera = GetGameplayCamera();
         }
+
+        EnsurePromptClickTarget();
+    }
+
+    private void EnsurePromptClickTarget()
+    {
+        if (promptInstance == null || promptCanvas == null || promptContentRect == null)
+        {
+            return;
+        }
+
+        if (promptCanvas.GetComponent<GraphicRaycaster>() == null)
+        {
+            promptCanvas.gameObject.AddComponent<GraphicRaycaster>();
+        }
+
+        if (promptButton == null)
+        {
+            promptButton = promptContentRect.GetComponent<Button>();
+            if (promptButton == null)
+            {
+                promptButton = promptContentRect.gameObject.AddComponent<Button>();
+            }
+
+            promptButton.transition = Selectable.Transition.None;
+        }
+
+        promptButton.onClick.RemoveListener(HandlePromptClicked);
+        promptButton.onClick.AddListener(HandlePromptClicked);
+    }
+
+    public static bool IsPointerOverActivePrompt(Vector2 screenPosition)
+    {
+        PlayerInteractionPromptController instance = Instance;
+        if (instance == null || instance.promptInstance == null || !instance.promptInstance.activeInHierarchy)
+        {
+            return false;
+        }
+
+        Camera eventCamera = instance.promptCanvas != null
+            && instance.promptCanvas.renderMode != RenderMode.ScreenSpaceOverlay
+            ? instance.promptCanvas.worldCamera
+            : null;
+
+        Graphic[] graphics = instance.promptInstance.GetComponentsInChildren<Graphic>(true);
+        foreach (Graphic graphic in graphics)
+        {
+            if (graphic != null && graphic.raycastTarget
+                && RectTransformUtility.RectangleContainsScreenPoint(graphic.rectTransform, screenPosition, eventCamera))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void HandlePromptClicked()
+    {
+        if (promptInstance == null || !promptInstance.activeInHierarchy)
+        {
+            return;
+        }
+
+        if (DialogueUIManager.Instance != null && !DialogueUIManager.Instance.CanOpenDialogue)
+        {
+            return;
+        }
+
+        foreach (IInteractionPromptSource source in sources)
+        {
+            if (source != null && source.IsInteractionPromptEligible)
+            {
+                source.TriggerInteraction();
+                return;
+            }
+        }
     }
 
 // 处理 RemoveInvalidSources 对应逻辑
@@ -261,6 +352,10 @@ public class PlayerInteractionPromptController : MonoBehaviour
             && (DialogueUIManager.Instance == null || DialogueUIManager.Instance.CanOpenDialogue);
 // 判断 HasEligibleSource 对应条件
         bool sourceUsable = globallyUsable && HasEligibleSource();
+        if (promptButton != null)
+        {
+            promptButton.interactable = sourceUsable;
+        }
         promptInstance.SetActive(sourceUsable);
     }
 

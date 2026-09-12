@@ -220,10 +220,24 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
         }
 
 // 检测按键输入
-        if (!playerInRange || sequenceCoroutine != null || !Input.GetKeyDown(interactionKey)
-            || (DialogueUIManager.Instance != null && !DialogueUIManager.Instance.CanOpenDialogue))
+        if (!playerInRange || !Input.GetKeyDown(interactionKey))
         {
 // 返回 Update 的处理结果（Update）
+            return;
+        }
+
+        TriggerInteraction();
+    }
+
+    public void TriggerInteraction()
+    {
+        if (GameplayInputLock.IsInteractionLocked || !IsInteractionPromptEligible)
+        {
+            return;
+        }
+
+        if (DialogueUIManager.Instance != null && !DialogueUIManager.Instance.CanOpenDialogue)
+        {
             return;
         }
 

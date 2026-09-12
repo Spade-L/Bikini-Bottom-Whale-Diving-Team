@@ -225,10 +225,18 @@ public class TimedNPC : MonoBehaviour, IInteractionPromptSource
             return;
         }
 
-// 缺少必要引用时退出 Update
+        TriggerInteraction();
+    }
+
+    public void TriggerInteraction()
+    {
+        if (GameplayInputLock.IsInteractionLocked || !IsInteractionPromptEligible)
+        {
+            return;
+        }
+
         if (DialogueUIManager.Instance == null || !DialogueUIManager.Instance.CanOpenDialogue)
         {
-// 返回 Update 的处理结果（Update）（return）
             return;
         }
 

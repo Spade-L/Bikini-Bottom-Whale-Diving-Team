@@ -238,12 +238,22 @@ public class CluePickup2D : MonoBehaviour, IInteractionPromptSource
             return;
         }
 
-// 检查对话状态
-        if (DialogueUIManager.Instance != null && DialogueUIManager.Instance.CanOpenDialogue)
+        TriggerInteraction();
+    }
+
+    public void TriggerInteraction()
+    {
+        if (GameplayInputLock.IsInteractionLocked || !IsInteractionPromptEligible)
         {
-// 推进 Update 中的必要步骤（Update）
-            Inspect();
+            return;
         }
+
+        if (DialogueUIManager.Instance == null || !DialogueUIManager.Instance.CanOpenDialogue)
+        {
+            return;
+        }
+
+        Inspect();
     }
 
 // 处理 Inspect 对应逻辑

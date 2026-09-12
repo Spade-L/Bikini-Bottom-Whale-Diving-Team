@@ -96,8 +96,17 @@ public class SceneDoor : MonoBehaviour, IInteractionPromptSource
             PlayerInteractionPromptController.RefreshSource(this);
         }
 
-        // 需同时满足范围内、未转场和按下 F 才继续
-        if (!playerInRange || isTransitioning || !Input.GetKeyDown(KeyCode.F))
+        if (!Input.GetKeyDown(KeyCode.F))
+        {
+            return;
+        }
+
+        TriggerInteraction();
+    }
+
+    public void TriggerInteraction()
+    {
+        if (GameplayInputLock.IsInteractionLocked || !IsInteractionPromptEligible)
         {
             return;
         }

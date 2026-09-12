@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 // 管理对话显示、逐字播放和完成回调
 public class DialogueUIManager : MonoBehaviour
@@ -58,6 +60,7 @@ public class DialogueUIManager : MonoBehaviour
 // 同步 DialogueUIManager 的相关数据（DialogueUIManager 后续步骤）（57）
     private Coroutine typingCoroutine;
     private bool isTyping;
+    private Button clickAdvanceButton;
 // 同步 DialogueUIManager 的相关数据（DialogueUIManager 后续步骤）（60）
     private Action onDialogueComplete;
 
@@ -80,7 +83,126 @@ public class DialogueUIManager : MonoBehaviour
 
         // 重复实例自毁，不覆盖已有 Instance，避免场景切换时调用目标不稳定
         Instance = this;
+        ResolveMissingReferences();
+        EnsureClickAdvancer();
         HidePanel();
+    }
+
+    private void ResolveMissingReferences()
+    {
+        if (dialoguePanel == null)
+        {
+            Transform panel = FindInActiveScene("Dialogue");
+            if (panel != null)
+            {
+                dialoguePanel = panel.gameObject;
+            }
+        }
+
+        if (dialoguePanel == null)
+        {
+            return;
+        }
+
+        if (dialogueText == null)
+        {
+            dialogueText = FindChildComponent<TMP_Text>(dialoguePanel.transform, "Content");
+        }
+
+        if (speakerNameText == null)
+        {
+            speakerNameText = FindChildComponent<TMP_Text>(dialoguePanel.transform, "Name");
+        }
+
+        if (continueIndicator == null)
+        {
+            Transform indicator = FindChild(dialoguePanel.transform, "Triangle");
+            if (indicator != null)
+            {
+                continueIndicator = indicator.gameObject;
+            }
+        }
+    }
+
+    private static Transform FindInActiveScene(string objectName)
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        if (!scene.IsValid() || !scene.isLoaded)
+        {
+            return null;
+        }
+
+        foreach (GameObject root in scene.GetRootGameObjects())
+        {
+            Transform found = FindChild(root.transform, objectName);
+            if (found != null)
+            {
+                return found;
+            }
+        }
+
+        return null;
+    }
+
+    private static Transform FindChild(Transform root, string objectName)
+    {
+        if (root == null)
+        {
+            return null;
+        }
+
+        if (root.name == objectName)
+        {
+            return root;
+        }
+
+        for (int i = 0; i < root.childCount; i++)
+        {
+            Transform found = FindChild(root.GetChild(i), objectName);
+            if (found != null)
+            {
+                return found;
+            }
+        }
+
+        return null;
+    }
+
+    private static T FindChildComponent<T>(Transform root, string objectName) where T : Component
+    {
+        Transform target = FindChild(root, objectName);
+        return target != null ? target.GetComponent<T>() : null;
+    }
+
+    private void OnDestroy()
+    {
+        if (clickAdvanceButton != null)
+        {
+            clickAdvanceButton.onClick.RemoveListener(HandleAdvanceInput);
+        }
+
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
+
+    private void EnsureClickAdvancer()
+    {
+        if (dialoguePanel == null)
+        {
+            return;
+        }
+
+        clickAdvanceButton = dialoguePanel.GetComponent<Button>();
+        if (clickAdvanceButton == null)
+        {
+            clickAdvanceButton = dialoguePanel.AddComponent<Button>();
+        }
+
+        clickAdvanceButton.transition = Selectable.Transition.None;
+        clickAdvanceButton.onClick.RemoveListener(HandleAdvanceInput);
+        clickAdvanceButton.onClick.AddListener(HandleAdvanceInput);
     }
 
     // 每帧检查输入与状态变化
@@ -94,15 +216,22 @@ public class DialogueUIManager : MonoBehaviour
         }
 
 // 检查 Update 的前置条件
+        HandleAdvanceInput();
+    }
+
+    private void HandleAdvanceInput()
+    {
+        if (!IsDialogueOpen)
+        {
+            return;
+        }
+
         if (isTyping)
         {
-// 推进 Update 中的必要步骤
             SkipTyping();
         }
-// 处理 Update 的备用分支
         else
         {
-// 推进 Update 中的必要步骤（Update）
             AdvanceLine();
         }
     }

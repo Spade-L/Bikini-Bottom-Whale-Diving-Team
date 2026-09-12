@@ -1,5 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 // 使用 当前脚本 所需功能
 [RequireComponent(typeof(Rigidbody2D))]
@@ -10,6 +13,10 @@ public class PlayerMovement2D : MonoBehaviour
     [SerializeField] private float moveSpeed = 4f;
 // 记录 PlayerMovement2D 的当前状态
     [SerializeField] private bool allowDiagonalMovement = false;
+    [Header("点击移动")]
+    [SerializeField] private bool enableClickToMove = true;
+    [SerializeField] private LayerMask clickMoveObstacleMask = ~0;
+    [SerializeField] private float clickMoveStopDistance = 0.05f;
     [Header("动画设置（可选）")]
 // 同步 PlayerMovement2D 的相关数据
     [SerializeField] private Animator animator;
@@ -50,6 +57,11 @@ public class PlayerMovement2D : MonoBehaviour
 // 记录 PlayerMovement2D 的当前状态（PlayerMovement2D 后续步骤）（49）
     private bool endingMovementFinished;
     private Collider2D[] endingMovementColliders;
+    private bool clickMoveActive;
+    private Vector2 clickMoveTarget;
+    private ContactFilter2D clickMoveFilter;
+    private readonly RaycastHit2D[] clickMoveHits = new RaycastHit2D[8];
+    private static readonly List<RaycastResult> uiRaycastResults = new List<RaycastResult>();
 
 // 初始化组件引用和运行状态
     private void Awake()
@@ -57,6 +69,12 @@ public class PlayerMovement2D : MonoBehaviour
 // 同步 Awake 的状态
         rb = GetComponent<Rigidbody2D>();
         endingMovementColliders = GetComponentsInChildren<Collider2D>(true);
+        clickMoveFilter = new ContactFilter2D
+        {
+            useTriggers = false,
+            useLayerMask = true,
+            layerMask = clickMoveObstacleMask
+        };
 // 同步 Awake 的内部状态
         rb.gravityScale = 0f;
         rb.freezeRotation = true;
@@ -95,6 +113,7 @@ public class PlayerMovement2D : MonoBehaviour
         }
 
 // 推进 Update 中的必要步骤
+        ReadClickToMoveInput();
         ReadMovementInput();
         UpdateAnimator();
 // 推进 Update 中的必要步骤（Update）
@@ -124,6 +143,17 @@ public class PlayerMovement2D : MonoBehaviour
             }
 // 返回 FixedUpdate 的处理结果
             return;
+        }
+
+        if (clickMoveActive && moveInput != Vector2.zero)
+        {
+            Vector2 step = moveInput * moveSpeed * Time.fixedDeltaTime;
+            if (IsClickMoveBlocked(step))
+            {
+                CancelClickToMove();
+                moveInput = Vector2.zero;
+                return;
+            }
         }
 
 // 使用 FixedUpdate 所需功能（FixedUpdate）
@@ -248,11 +278,45 @@ public class PlayerMovement2D : MonoBehaviour
         return ScreenFader.IsFading;
     }
 
+    private void ReadClickToMoveInput()
+    {
+        if (!enableClickToMove || endingMovementActive || IsMovementLocked())
+        {
+            return;
+        }
+
+        if (IsPointerOverInteractiveUI())
+        {
+            return;
+        }
+
+        if (!Input.GetMouseButtonDown(0))
+        {
+            return;
+        }
+
+        Camera targetCamera = Camera.main;
+        if (targetCamera == null)
+        {
+            return;
+        }
+
+        Vector3 world = targetCamera.ScreenToWorldPoint(Input.mousePosition);
+        clickMoveTarget = new Vector2(world.x, world.y);
+        clickMoveActive = true;
+    }
+
 // 处理 ReadMovementInput 对应逻辑
     private void ReadMovementInput()
     {
 // 检查 ReadMovementInput 的前置条件
-        if (IsMovementLocked()) { moveInput = Vector2.zero; return; }
+        if (IsMovementLocked())
+        {
+            CancelClickToMove();
+            moveInput = Vector2.zero;
+            return;
+        }
+
         float horizontal = Input.GetAxisRaw("Horizontal");
 // 缓存 ReadMovementInput 所需引用
         float vertical = Input.GetAxisRaw("Vertical");
@@ -262,9 +326,87 @@ public class PlayerMovement2D : MonoBehaviour
             if (Mathf.Abs(horizontal) > 0f) vertical = 0f;
             else if (Mathf.Abs(vertical) > 0f) horizontal = 0f;
         }
-// 同步 ReadMovementInput 的内部状态
-        moveInput = new Vector2(horizontal, vertical).normalized;
-        if (moveInput != Vector2.zero) lastMoveDirection = moveInput;
+
+        Vector2 manualInput = new Vector2(horizontal, vertical).normalized;
+        if (manualInput != Vector2.zero)
+        {
+            CancelClickToMove();
+            moveInput = manualInput;
+            lastMoveDirection = manualInput;
+            return;
+        }
+
+        if (clickMoveActive)
+        {
+            Vector2 toTarget = clickMoveTarget - rb.position;
+            if (toTarget.sqrMagnitude <= clickMoveStopDistance * clickMoveStopDistance)
+            {
+                CancelClickToMove();
+                moveInput = Vector2.zero;
+                return;
+            }
+
+            moveInput = toTarget.normalized;
+            lastMoveDirection = moveInput;
+            return;
+        }
+
+        moveInput = Vector2.zero;
+    }
+
+    private static bool IsPointerOverInteractiveUI()
+    {
+        if (PlayerInteractionPromptController.IsPointerOverActivePrompt(Input.mousePosition))
+        {
+            return true;
+        }
+
+        EventSystem eventSystem = EventSystem.current;
+        if (eventSystem == null)
+        {
+            return false;
+        }
+
+        PointerEventData pointerData = new PointerEventData(eventSystem)
+        {
+            position = Input.mousePosition
+        };
+
+        uiRaycastResults.Clear();
+        eventSystem.RaycastAll(pointerData, uiRaycastResults);
+        foreach (RaycastResult result in uiRaycastResults)
+        {
+            GameObject target = result.gameObject;
+            if (target == null)
+            {
+                continue;
+            }
+
+            if (target.GetComponentInParent<Selectable>() != null
+                || ExecuteEvents.GetEventHandler<IPointerClickHandler>(target) != null)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private bool IsClickMoveBlocked(Vector2 step)
+    {
+        if (step.sqrMagnitude <= 0.000001f)
+        {
+            return false;
+        }
+
+        clickMoveFilter.layerMask = clickMoveObstacleMask;
+        return rb.Cast(step.normalized, clickMoveFilter, clickMoveHits, step.magnitude) > 0;
+    }
+
+    private void CancelClickToMove()
+    {
+        clickMoveActive = false;
+        clickMoveTarget = Vector2.zero;
     }
 
 // 刷新 UpdateAnimator 对应状态

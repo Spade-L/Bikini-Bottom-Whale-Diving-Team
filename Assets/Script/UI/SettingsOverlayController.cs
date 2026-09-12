@@ -92,7 +92,13 @@ public class SettingsOverlayController : MonoBehaviour
     private void Update()
     {
 // 检测按键输入
-        if (!IsGameplayScene() || !Input.GetKeyDown(KeyCode.X)) return;
+        if (!Input.GetKeyDown(KeyCode.X)) return;
+        ToggleFromShortcut();
+    }
+
+    public void ToggleFromShortcut()
+    {
+        if (!CanToggleInCurrentScene) return;
 // 从存档页面切换到设置页面
         SaveMenuController saveMenu = SaveMenuController.Instance;
         if (saveMenu != null && saveMenu.IsOpen)

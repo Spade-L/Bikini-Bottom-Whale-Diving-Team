@@ -195,7 +195,13 @@ public class SaveMenuController : MonoBehaviour
 // H 键在允许的场景中切换存档页面
     private void Update()
     {
-        if (transitionInProgress || !Input.GetKeyDown(toggleKey)) return;
+        if (!Input.GetKeyDown(toggleKey)) return;
+        ToggleFromShortcut();
+    }
+
+    public void ToggleFromShortcut()
+    {
+        if (transitionInProgress) return;
         SettingsOverlayController settings = SettingsOverlayController.Instance;
         if (settings == null || !settings.CanToggleInCurrentScene) return;
 // 从设置页面切换到存档页面
