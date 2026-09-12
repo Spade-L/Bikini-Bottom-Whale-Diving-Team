@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 // 判定天台结局并播放真假结局流程
 public class EndingGate : MonoBehaviour
 {
-    public const string TrueEndingCompletedPlayerPrefsKey = "trace_me_true_ending_completed";
+    public const string LastEndingWasTruePlayerPrefsKey = "trace_me_true_ending_completed";
 
     [Header("触发")]
 // 同步 EndingGate 的相关数据
@@ -177,12 +177,8 @@ public class EndingGate : MonoBehaviour
 // 检查 PlayEnding 的前置条件（PlayEnding）
             if (!endingDialogueFailed)
             {
-                if (trueEndingBranch)
-                {
-                    PlayerPrefs.SetInt(TrueEndingCompletedPlayerPrefsKey, 1);
-                    PlayerPrefs.Save();
-                }
-
+                PlayerPrefs.SetInt(LastEndingWasTruePlayerPrefsKey, trueEndingBranch ? 1 : 0);
+                PlayerPrefs.Save();
                 ReturnToMenu(trueEndingBranch);
             }
         }

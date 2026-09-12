@@ -401,7 +401,6 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
 
 // 在 PlaySequence 中继续当前处理（PlaySequence 后续步骤）（387）
         yield return StartDialogueAndWait(revealDialogue);
-        StopRedFigureBgm();
 
 // 在 PlaySequence 中处理 ReleaseLocks
         ReleaseLocks();
@@ -441,6 +440,7 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
 // 在 DeliverToy 中继续当前处理
         yield return StartDialogueAndWait(deliveryDialogue);
         GameManager.Instance?.SetFlag(toyDeliveredFlag);
+        StopRedFigureBgm();
 // 在 DeliverToy 中继续当前处理（DeliverToy 后续步骤）
         yield return StartDialogueAndWait(disappearanceDialogue);
 
@@ -570,6 +570,15 @@ public class Level3DoorSequence : MonoBehaviour, IInteractionPromptSource
         SetStepRootVisible(0, false);
 // 在 ApplySavedState 中处理 SetStepRootVisible
         SetStepRootVisible(1, completed && !resolved);
+        if (completed && !resolved)
+        {
+            StartRedFigureBgm();
+        }
+        else
+        {
+            StopRedFigureBgm();
+        }
+
         RefreshPrompt();
     }
 

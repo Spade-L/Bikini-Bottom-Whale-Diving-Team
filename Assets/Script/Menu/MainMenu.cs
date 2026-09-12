@@ -159,8 +159,7 @@ public class MainMenu : MonoBehaviour
 
     private void ApplyEndingMenuState()
     {
-        bool trueEndingUnlocked = PlayerPrefs.GetInt(EndingGate.TrueEndingCompletedPlayerPrefsKey, 0) == 1
-            || (GameManager.Instance != null && GameManager.Instance.HasFlag("truth_revealed"));
+        bool trueEndingUnlocked = PlayerPrefs.GetInt(EndingGate.LastEndingWasTruePlayerPrefsKey, 0) == 1;
         trueEndingMenuActive = trueEndingUnlocked;
 
         if (normalEndingMenuObjects == null || normalEndingMenuObjects.Length == 0)

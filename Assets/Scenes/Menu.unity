@@ -2150,7 +2150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc6d5bdae46c91f4e9c4072f9e47375d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickClip: {fileID: 8300000, guid: 6805241ac0931b3438b7b1f5c663506d, type: 3}
+  clickClip: {fileID: 8300000, guid: bca9458f2464c7642a86fa3e004ae11e, type: 3}
   volume: 1
 --- !u!114 &991149907
 MonoBehaviour:
@@ -2344,7 +2344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc6d5bdae46c91f4e9c4072f9e47375d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickClip: {fileID: 8300000, guid: 6805241ac0931b3438b7b1f5c663506d, type: 3}
+  clickClip: {fileID: 8300000, guid: bca9458f2464c7642a86fa3e004ae11e, type: 3}
   volume: 1
 --- !u!114 &1031248388
 MonoBehaviour:
@@ -3479,7 +3479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc6d5bdae46c91f4e9c4072f9e47375d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clickClip: {fileID: 8300000, guid: 6805241ac0931b3438b7b1f5c663506d, type: 3}
+  clickClip: {fileID: 8300000, guid: bca9458f2464c7642a86fa3e004ae11e, type: 3}
   volume: 1
 --- !u!114 &1459368462
 MonoBehaviour:

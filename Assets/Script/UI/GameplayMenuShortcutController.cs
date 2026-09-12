@@ -105,6 +105,16 @@ public class GameplayMenuShortcutController : MonoBehaviour
             return false;
         }
 
+        if (GameplayInputLock.IsInteractionLocked)
+        {
+            return false;
+        }
+
+        if (DialogueUIManager.Instance != null && !DialogueUIManager.Instance.CanOpenDialogue)
+        {
+            return false;
+        }
+
         bool settingsOpen = SettingsOverlayController.Instance != null
             && SettingsOverlayController.Instance.IsOpen;
         bool saveMenuOpen = SaveMenuController.Instance != null
