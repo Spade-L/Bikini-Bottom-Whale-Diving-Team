@@ -7,6 +7,9 @@ public class SceneMusic : MonoBehaviour
     // 在 SceneMusic 中处理 Start
     [SerializeField] private AudioClip[] musicClips;
 
+    [Header("真结局主菜单背景音乐列表（随机循环播放）")]
+    [SerializeField] private AudioClip[] trueEndingMusicClips;
+
     // 在 SceneMusic 中处理 Start（SceneMusic 后续步骤）
     [Header("播放设置")]
     // 在 SceneMusic 中处理 Start（SceneMusic 后续步骤）（后续处理 2）
@@ -29,8 +32,13 @@ public class SceneMusic : MonoBehaviour
             return;
         }
 
+        bool useTrueEndingMusic = PlayerPrefs.GetInt(EndingGate.LastEndingWasTruePlayerPrefsKey, 0) == 1
+            && trueEndingMusicClips != null
+            && trueEndingMusicClips.Length > 0;
+        AudioClip[] selectedMusicClips = useTrueEndingMusic ? trueEndingMusicClips : musicClips;
+
         // 静音或未配置曲目时，淡出当前正在播放的音乐
-        if (silence || musicClips == null || musicClips.Length == 0)
+        if (silence || selectedMusicClips == null || selectedMusicClips.Length == 0)
         {
             MusicManager.Instance.StopMusic(fadeDuration);
         }
@@ -38,7 +46,7 @@ public class SceneMusic : MonoBehaviour
         else
         {
             // 将本场景曲目列表及播放参数交给全局管理器
-            MusicManager.Instance.PlayPlaylist(musicClips, volume, fadeDuration);
+            MusicManager.Instance.PlayPlaylist(selectedMusicClips, volume, fadeDuration);
         }
     }
 }

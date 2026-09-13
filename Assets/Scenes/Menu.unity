@@ -1474,6 +1474,9 @@ MonoBehaviour:
   musicClips:
   - {fileID: 8300000, guid: e44beae314d03af478a5b2647e2bda44, type: 3}
   - {fileID: 8300000, guid: 9d1d85a082adace46ba381d1f05d30f5, type: 3}
+  trueEndingMusicClips:
+  - {fileID: 8300000, guid: 11d55cac596ccc748a2de8d19a868945, type: 3}
+  - {fileID: 8300000, guid: 88d3e083ae1bf2546aca5bf0566c89da, type: 3}
   volume: 0.8
   fadeDuration: 1
   silence: 0
